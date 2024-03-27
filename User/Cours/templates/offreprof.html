@@ -1,0 +1,590 @@
+{% extends "base.html" %}
+
+{% block style %}
+<head><script async="" src="https://www.clarity.ms/s/0.7.10/clarity.js"></script><script async="" src="https://www.clarity.ms/tag/uet/52000718"></script><script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script><script async="true" type="text/javascript" src="https://bat.bing.com/bat.js"></script><script data-loader="RS_JS_SDK" async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-NNGLTPL"></script><script src="https://cdn.rudderlabs.com/v1.1/js-integrations/GoogleTagManager.min.js" async="" type="text/javascript" id="GoogleTagManager_RS" data-loader="RS_JS_SDK" data-isnonnativesdk="true"></script>
+    <meta charset="utf-8">
+    <meta name="fragment" content="!">
+      <title>Offres de cours</title>
+
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+
+
+    
+
+    <meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="zapv0WhjRjp/2MiuenjnPoO+RDPbgycfarrrHWg9C8464sDhIGcG8nQbx95LMuZrk6HmNtMxwscNenNN3SJ1qQ==">
+
+    <script>
+/*
+* Shared methods to include functions that allows to set and get client side cookie:
+* available both on the frontend and the backend
+* 
+*/
+
+(function(){
+
+  if (typeof getCookie !== 'function') {
+    // From http://stackoverflow.com/a/17966374
+    window.getCookie = function(name) {
+      var search = name + "=";
+      if (document.cookie.length > 0) { // if there are any cookies
+        var offset = document.cookie.indexOf(search);
+        if (offset != -1) { // if cookie exists
+          offset += search.length;
+          // set index of beginning of value
+          var end = document.cookie.indexOf(";", offset);
+          // set index of end of cookie value
+          if (end == -1) end = document.cookie.length;
+          return unescape(document.cookie.substring(offset, end));
+        }
+      }
+    }
+  }
+
+  if (typeof setCookie !== 'function') {
+    // From http://stackoverflow.com/a/17966374
+    window.setCookie = function(name, value, expires, path, theDomain, secure) {
+      var today = new Date();
+      var defaultExpire = new Date(today.getTime() + (365 * 86400000)); // a year
+
+      value = escape(value);
+      expires = expires || defaultExpire;
+      var theCookie = name + "=" + value +
+              ((expires) ? "; expires=" + expires.toGMTString() : "") +
+              ((path) ? "; path=" + path : "") +
+              ((theDomain) ? "; domain=" + theDomain : "") +
+              ((secure) ? "; secure" : "");
+      document.cookie = theCookie;
+    }
+  }
+
+  /* !! Soon DEPRECATED : 
+  *  This method will be removed when the legacy consent banner will be removed
+  */
+  if (typeof setCookieClassName !== 'function') {
+    window.setCookieClassName = function() {
+      var bodyElement = document.getElementsByTagName("body")[0];
+      var cookie_classname = "has-cookie-law-consented";
+      if (bodyElement.classList) {
+        bodyElement.classList.add(cookie_classname);
+      } else {
+        bodyElement.className = cookie_classname; // For IE9 and earlier
+      }
+    }
+  }
+
+})();
+</script>
+    
+
+      <style>
+/** **** **/
+/** Material Icons available weight : 400 **/
+/** **** **/
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://d2mp1cia79qmhd.cloudfront.net/ui-jobteaser/materialicons-v88-d72aa1b50fdf33cf3641-v2.woff2) format('woff2');
+}
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -moz-font-feature-settings: 'liga';
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/** **** **/
+/** Mulish Icons available weight : 300, 400, 500, 600, 700, 800, 900 **/
+/** Mulish Icons available style : 400, 700, 800, 900 **/
+/** **** **/
+@font-face {
+  font-family: 'Mulish';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://d2mp1cia79qmhd.cloudfront.net/ui-jobteaser/mulish-400italic-c5aac268dff23dfa2186-v2.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Mulish';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://d2mp1cia79qmhd.cloudfront.net/ui-jobteaser/mulish-700italic-f4b3f85574cc531222b0-v2.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Mulish';
+  font-style: italic;
+  font-weight: 800;
+  font-display: swap;
+  src: url(https://d2mp1cia79qmhd.cloudfront.net/ui-jobteaser/mulish-800italic-794ae76257b049eda71a-v2.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Mulish';
+  font-style: italic;
+  font-weight: 900;
+  font-display: swap;
+  src: url(https://d2mp1cia79qmhd.cloudfront.net/ui-jobteaser/mulish-900italic-3de672806ec875fb0a2d-v2.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(https://d2mp1cia79qmhd.cloudfront.net/ui-jobteaser/mulish-300-b6a33742d9866e48915c-v2.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://d2mp1cia79qmhd.cloudfront.net/ui-jobteaser/mulish-400-3bcdf22026c5692de165-v2.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://d2mp1cia79qmhd.cloudfront.net/ui-jobteaser/mulish-500-33d856f040e1d8d0cb35-v2.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://d2mp1cia79qmhd.cloudfront.net/ui-jobteaser/mulish-600-834f4d5c9c35d1db7560-v2.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://d2mp1cia79qmhd.cloudfront.net/ui-jobteaser/mulish-700-881d872894ba12d0046f-v2.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url(https://d2mp1cia79qmhd.cloudfront.net/ui-jobteaser/mulish-800-58f54279e4791ba53067-v2.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url(https://d2mp1cia79qmhd.cloudfront.net/ui-jobteaser/mulish-900-c90fccfecaed56fb2135-v2.woff2) format('woff2');
+}
+</style>
+
+<!-- Need for legacy -->
+<!-- Media type (print) doesn't match the current environment, so browser decides it's not that important and loads the stylesheet asynchronously (without delaying page rendering). On load, we change media type so that the stylesheet gets applied to screens! -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" media="all" onload="this.media='all'">
+
+
+      <link data-ui-jobteaser="" href="https://d2mp1cia79qmhd.cloudfront.net/ui-jobteaser/header_footer-77812d80282daec688eb.css" rel="stylesheet" media="screen">
+      
+      <link data-ui-jobteaser="" href="https://d2mp1cia79qmhd.cloudfront.net/ui-jobteaser/fo_feature_cmp-3124ffd9d6c078490152.css" rel="stylesheet" media="screen">
+<link data-ui-jobteaser="" rel="stylesheet" media="screen">
+
+    <link rel="stylesheet" media="screen" href="https://d2mp1cia79qmhd.cloudfront.net/prod/assets/frontoffice/spa-3553012e05e0de181f325448ed0438b67ab03754dfaa8ffed41e7e5e8a7d4884.css">
+
+
+
+    
+
+
+    
+
+  <style type="text/css">
+    body{
+        background-color: #f5f5f5;
+    }
+  .react-horizontal-scrolling-menu--scroll-container {
+  display: flex;
+  height: max-content;
+  overflow-y: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.react-horizontal-scrolling-menu--scroll-container.rtl {
+  direction: rtl;
+}
+
+.react-horizontal-scrolling-menu--inner-wrapper {
+  display: flex;
+  overflow-y: hidden;
+}
+
+.react-horizontal-scrolling-menu--wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.react-horizontal-scrolling-menu--header,
+.react-horizontal-scrolling-menu--footer {
+  width: 100%;
+}
+
+.react-horizontal-scrolling-menu--arrow-left,
+.react-horizontal-scrolling-menu--arrow-right {
+  display: flex;
+}
+</style><style>
+  /*
+    a CSS rule to highlight UI-Kit components,
+    in order to be able to visually identify on a page
+    which components are coming from the UI-Kit.
+
+    The `dbg-` prefix is the namespace of the debug panel,
+    provided by the monolith.
+  */
+
+  .dbg-highlightUiKit [class*="jds-"] {
+    outline: 1px solid pink;
+  }
+
+  /*
+    We distinguish overriden ui-kit component.
+  */
+  .dbg-highlightUiKit [class*="jds-"][class*="jo-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="jab-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="pfl-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="ins-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="dis-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="obg-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="cdt-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="sho-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="crs-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="das-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="evb-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="asc-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="ast-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="csa-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="cgc-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="jsc-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="sha-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="sch-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="adv-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="jor-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="jrb-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="plg-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="hbf-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="dhp-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="trp-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="cof-"], 
+.dbg-highlightUiKit [class*="jds-"][class*="com-"] {
+    outline: 1px solid blue;
+  }
+  /* Style pour la barre de recherche */
+/* Styles pour la barre de recherche personnalisée */
+.custom-search-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.custom-select {
+    margin-right: 10px;
+    width: 200px;
+}
+
+.custom-input {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    background-color: #f0f0f0;
+    border-radius: 30px;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.custom-input:hover {
+    background-color: #e0e0e0;
+}
+
+.custom-input input[type="text"] {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    padding: 10px;
+    border-radius: 30px;
+    font-size: 16px;
+}
+
+.custom-input .btn {
+    background-color: #007bff;
+    color: #fff;
+    scale: 0.7;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.custom-input .btn:hover {
+    background-color: #0056b3;
+}
+
+/* Style personnalisé pour le select */
+.custom-input select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("path/to/your-icon.png"); /* Remplacez par votre propre icône de flèche vers le bas */
+    background-repeat: no-repeat;
+    background-position: right center;
+    padding-right: 30px; /* Ajustez selon la largeur de l'icône */
+    border: none;
+    border-radius: 30px;
+    height: 38px; /* Ajustez selon la hauteur souhaitée */
+    width: 100%;
+    font-size: 16px;
+    color: #333;
+    outline: none;
+}
+
+/* Style pour la flèche de sélection */
+.custom-input select::-ms-expand {
+    display: none;
+}
+
+/* Style pour le bouton */
+.custom-btn {
+    min-width: 120px; /* Ajustez selon la largeur souhaitée */
+    height: 38px; /* Ajustez selon la hauteur souhaitée */
+    font-size: 16px;
+    padding: 0 20px;
+    margin-left: -1px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.custom-btn:hover {
+    background-color: #0056b3;
+    color: #fff;
+}
+
+.navigation-buttons {
+            text-align: center;
+            margin-top: 20px;
+            bottom: 10px;
+            left: 0;
+            right: 0; /* Ajustez la largeur ici */
+            margin: 0 auto; /* Centrer horizontalement */
+            background-color: rgba(255, 255, 255, 0);
+            padding: 5px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0);
+        }
+
+        .navigation-buttons button {
+            border: none;
+            background-color: rgb(255, 255, 255);
+            font-size: 16px;
+            margin: 0 5px;
+            padding: 3px 6px;
+        }
+
+    
+        @media (max-width: 768px) {
+
+            .navigation-buttons {
+                position: static;
+                margin-top: 10px;
+                padding: 5px 10px; /* Ajustez le rembourrage ici */
+            }
+        }
+        
+/* Couleur par défaut */
+.btn.custom-button {
+    display: none;
+    /* Autres styles personnalisés */
+}
+
+/* Couleur après soumission */
+.btn.custom-cancel-button-submitted {
+    background-color: red;
+    display: block;
+    /* Autres styles personnalisés */
+}
+.plus-button {
+    background-color: rgb(34, 34, 34);
+    color: #ffffff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 30px;
+    cursor: pointer;
+    opacity: 0.8;
+  }
+  </style>
+
+
+  <meta property="og:locale" content="fr_FR" data-react-helmet="true">
+  <meta property="og:type" content="website" data-react-helmet="true">
+  <meta name="twitter:card" content="summary" data-react-helmet="true">
+  <script src="https://bat.bing.com/p/action/52000718.js" type="text/javascript" async="" data-ueto="ueto_a4f6845d8f"></script>
+</head>
+  {% endblock %}
+
+  {% block content %}
+  {% if user_type!='professeur' %}
+
+<style>
+
+  .plus-button{
+    visibility: hidden;
+  }
+ 
+  
+ /* Styles pour la barre de recherche */
+
+</style>
+{% endif %}
+  <div class="container mt-5">
+
+    <button class="plus-button"  onclick="window.location.href = '/ajoutoffre'" data-toggle="tooltip" data-placement="top" title="Ajouter un évenement" style="z-index: 10000000000;font-family: 'Kanit';">
+      <div style="color: rgb(255, 255, 255); font-family: 'Kanit';"><i class="fa fa-plus-circle"></i> Ajouter une offre</div>
+    </button>
+    
+  </div>
+  <form method="POST" class="custom-search-form" style="margin-top: 50px;">
+    <div class="form-group custom-select">
+        <select name="criteria" id="criteria" class="form-control">
+            <option value="matiere">Matière</option>
+            <option value="nom_offre">Nom de l'offre</option>
+        </select>
+    </div>
+    <div class="form-group custom-input">
+        <input type="text" name="search" id="search" class="form-control" placeholder="Rechercher...">
+        <button type="submit" class="btn custom-btn"><i class="fa fa-search"></i></button>
+        <a href="{{ url_for('Cours.offreprof') }}" class="btn custom-button{% if form_submitted %} custom-cancel-button-submitted{% endif %}">
+          Annuler
+      </a>
+    </div>
+</form>
+
+
+
+
+  <div class="container mt-5">
+  <ul class="jsc-List--inline__e6hpY jsc-List--columnMarginFix__34Niv d-flex justify-content-center">
+  {% for offre in offres %}
+  <li class="jsc-List__item__FBZ-u jsc-List__item--column__AdzqN jsc-List__item--tripleColumn__uJwNz">
+    <article class="jsc-CompanyCard__3iXZ5 jsc-CompanyCard--company__5szkD" style="width:max-content;"><a class="jsc-CompanyCardLink__CeUT+" href="{{ url_for('Cours.detailsoffre',idoffre=offre.id) }}" >
+        <header class="jsc-CompanyCard__header__-0p6T" style="background-image: url('{{offre.image_2}}');background-color: #ffffff;">
+            <div class="jsc-CompanyCard__headerContent__AyHzb">
+                <div class="jsc-CompanyCard__headerFollow__DQsWP">
+                    <button type="button" class="jsc-ButtonFollow__-YxAG jsc-ButtonFollow--smallSize__d01YQ">
+                        
+                            <span class="jsc-ButtonFollow__statusText__MOyBr" style="background-color: blue;padding: 5px;color: white;border-radius: 3px;"><i class="fa fa-building"></i>  {{offre.organisation}}</span>
+                        
+                    </button>
+                </div>
+            </div>
+        </header>
+        <section class="jsc-CompanyCard__content__IjPrS">
+            <div class="jsc-CompanyCard__contentAside__CfCf-">
+                <div class="jsc-CompanyCard__contentLogo__2DAZm">
+                    <img src={{offre.image_1}} alt="">
+                </div>
+            </div>
+            <div class="jsc-CompanyCard__contentMain__KcXh5" >
+                <div class="jsc-CompanyCard__button__9nGew" data-show="mobile-inline-block|tablet-inline-block">
+                </div>
+                <h1 class="jsc-CompanyCard__title__FABdw" style="word-wrap: break-word;">{{offre.nom_offre}}</h1>
+                <div class="jsc-CompanyCard__meta__30tFH"  style="word-wrap: break-word;">{{offre.matiere}}</div>
+                <div class="jsc-CompanyCard__meta__30tFH"  style="word-wrap: break-word;">{{offre.duree}} hrs/seance</div>
+                <div class="jsc-CompanyCard__description__uOSiy"  style="word-wrap: break-word;">{{offre.horaire}}</div>
+                <div class="jsc-CompanyCard__description__uOSiy"  style="word-wrap: break-word;">Du {{ offre.date_debut.strftime('%Y-%m-%d') }} au {{ offre.date_fin.strftime('%Y-%m-%d') }}</div>
+                <div class="jsc-CompanyCard__description__uOSiy"  style="word-wrap: break-word;">Nombre de places occupe:{{offre.nombre_place_occupe}}/{{offre.nombre_place_total}}</div>
+                <div class="jsc-CompanyCard__description__uOSiy"  style="word-wrap: break-word;">{{offre.type}}</div>
+                <br>
+                <div class="jsc-CompanyCard__description__uOSiy"  style="word-wrap: break-word;"><h4>{{offre.prix}} DHS</h4></div>
+            </div>
+        </section>
+    </a><footer class="jsc-CompanyCard__footer__qrEG9">
+        <div class="jsc-CompanyCard__footerIcon__uB7Ji jsc-CompanyCard__footerIcon--activeOffers__SCb0p" >
+            <a  class="jsc-CompanyCard__footerLink__nh+bQ" href="{{ url_for('Cours.detailsoffre',idoffre=offre.id) }}" style="color: blue;">Voir details</a>
+        </div>
+    </footer>
+</article>
+</li>
+{% endfor %}
+</ul>
+</div>
+<div class="navigation-buttons" style="text-align: center; margin-top: 20px;">
+  <button class="btn btn-navigation" onclick="scrollPanels(-1)">Précédent</button>
+  <span id="pageNumber" style="margin: 0 10px;color: blue;"></span>
+  <button class="btn btn-navigation" onclick="scrollPanels(1)">Suivant</button>
+</div>
+
+<script>
+  let currentPage = 0;
+  const panels = document.querySelectorAll('.jsc-List__item__FBZ-u');
+  const panelsPerPage = 9;
+  const totalPages = Math.ceil(panels.length / panelsPerPage);
+  const pageNumberElement = document.getElementById('pageNumber');
+
+  const panelsContainer = document.querySelector('.jsc-List--inline__e6hpY'); // Ajoutez cette ligne
+
+  function updatePageNumber() {
+      pageNumberElement.textContent = (currentPage + 1) + ' / ' + totalPages;
+  }
+
+  function scrollPanels(direction) {
+  currentPage += direction;
+  if (currentPage < 0) currentPage = 0;
+  if (currentPage >= totalPages) currentPage = totalPages - 1;
+
+  const startIndex = currentPage * panelsPerPage;
+  const endIndex = startIndex + panelsPerPage;
+
+  panels.forEach((panel, index) => {
+          if (index >= startIndex && index < endIndex) {
+              if (direction === -1) {
+                  panel.classList.remove('animate-right');
+                  panel.classList.add('animate-left');
+              } else if (direction === 1) {
+                  panel.classList.remove('animate-left');
+                  panel.classList.add('animate-right');
+              }
+              panel.style.display = 'block';
+          } else {
+              panel.style.display = 'none';
+          }
+      });
+
+
+
+  updatePageNumber();
+}
+
+
+  // Afficher la première page de panels
+  scrollPanels(0);
+  
+</script>
+{% endblock %}

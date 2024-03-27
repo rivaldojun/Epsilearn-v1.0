@@ -1,0 +1,852 @@
+{% extends "base.html" %}
+{% block style %}
+
+  <!-- Add Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  <!-- Add your other CSS files if needed -->
+
+  <style>
+  
+    /* Add your custom CSS styles here */
+    .containers {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      background-color: #ffffff;
+
+    }
+
+    .profile-picture-preview {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto;
+      position: relative;
+      border: 3px solid #ffffff;
+    }
+
+    .profile-picture-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .profile-picture-preview:hover img {
+      transform: scale(1.1);
+    }
+
+    .upload-profile-picture {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .upload-profile-picture a {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    #age,
+    #education-level {
+      appearance: none;
+      background-color: #f9f9f9;
+      border-radius: 5px;
+      padding: 8px;
+      width: 100%;
+      margin-bottom: 10px;
+      border: none;
+    }
+
+    #bio {
+      resize: none;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+      padding: 10px;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+    body{
+    background-color: #f5f5f5;
+   }
+  </style>
+{% endblock %}
+
+{% block content %}
+  {% if user_type=="etudiant" %}
+  <style>
+    .form-container {
+      display: flex;
+      justify-content: space-between;
+      background-color: #f9f9f9;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  
+    .form-container .left-div,
+    .form-container .right-div {
+      width: 48%;
+    }
+  
+    .form-container .left-div {
+      background-color: #fff;
+      padding: 20px;
+    }
+  
+    .form-container .right-div {
+      background-color: #fff;
+      padding: 20px;
+    }
+  
+    .profile-picture-preview {
+      text-align: center;
+    }
+  
+    img#profile-picture-preview-img {
+      max-width: 200px;
+      border-radius: 50%;
+      box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+    }
+  
+    .upload-profile-picture {
+      text-align: center;
+      margin-top: 10px;
+    }
+  
+    .upload-profile-picture a {
+      display: block;
+      color: #337ab7;
+      text-decoration: none;
+    }
+  
+    label {
+      font-weight: bold;
+      font-size: 16px;
+    }
+  
+    select,
+    input[type="text"],
+    textarea {
+      width: 100%;
+      height: 40px;
+      text-align: center;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+      margin-top: 5px;
+      padding: 5px;
+    }
+  
+    textarea {
+      resize: none;
+      height: 100px;
+    }
+  
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #337ab7;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  
+    button:hover {
+      background-color: #23527c;
+    }
+  
+    /* Mobile Devices */
+    @media (max-width: 767px) {
+      .form-container {
+        flex-direction: column;
+        margin-top: 50px;
+      }
+  
+      .form-container .left-div,
+      .form-container .right-div {
+        width: 100%;
+      }
+  
+      .form-container .right-div {
+        margin-top: 20px;
+      }
+    }
+    #upload-link:hover{
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  </style>
+  <div class="container">
+  <h3 class="avg" style="margin-top: 70px;">MON PROFIL (ETUDIANT)</h3>
+  <div class="form-container">
+    <div class="left-div">
+      <div class="profile-picture-preview">
+        <img id="profile-picture-preview-img" src="{{ profile_picture_path }}" alt="Photo de profil">
+      </div>
+      <form id="profile-form" method="post" enctype="multipart/form-data">
+      <div class="upload-profile-picture">
+        <input type="file" id="profile-picture" name="profile-picture" style="display: none;">
+        <label for="profile-picture" id="upload-link" style="font-weight: bolder;color: #007bff;">Modifier photo</label>
+      </div>
+      <label for="education-level">Niveau d'étude:</label>
+      <select id="education-level" name="education-level">
+        <option value="{{ etudiant.Nvdetud }}">{{ etudiant.Nvdetud }}</option>
+        <!-- Options pour le niveau d'étude seront générées en JavaScript -->
+      </select>
+    </div>
+  
+    <div class="right-div">
+      <label for="ecole">Ecole:</label>
+      <input type="text" id="ecole" name="ecole" placeholder="Votre ecole" value="{{ etudiant.ecole }}">
+  
+      <label for="filiere">Filiere:</label>
+      <input type="text" id="filiere" name="filiere" placeholder="Votre filiere" value="{{ etudiant.filiere }}">
+  
+      <button type="submit" class="btn btn" style="background-color: blue;color: white;">Enregistrer</button>
+    </form>
+    <button type="button" class="btn btn" style="background-color: red;color: white;" onclick="window.location.href='/profil'">Annuler</button>
+    </div>
+  </div>
+</div>
+  <script>
+    
+    const ageSelect = document.getElementById("age");
+    const educationLevelSelects = document.getElementById("education-level");
+
+      for (let i = 12; i <= 100; i++) {
+        const option = document.createElement("option");
+        option.value = i;
+        option.textContent = i;
+        ageSelect.appendChild(option);
+      }
+
+      var optionsLMD = ["1ERE ANNEE", "2EME ANNEE", "3EME ANNEE", "4EME ANNEE", "5EME ANNEE", "6EME ANNEE", "7EME ANNEE", "8EME ANNEE"];
+        for (const optionText of optionsLMD) {
+          var option = document.createElement("option");
+          option.value = optionText.toLowerCase();
+          option.text = optionText.toLowerCase();
+          educationLevelSelects.appendChild(option);
+        }
+  // Show the file input when the link is clicked
+  document.getElementById('upload-link').addEventListener('click', function(event) {
+    event.preventDefault();
+    document.getElementById('profile-picture').click();
+  });
+
+  // Update the profile picture preview when a new file is selected
+  document.getElementById('profile-picture').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function() {
+      document.getElementById('profile-picture-preview-img').src = reader.result;
+    }
+    reader.readAsDataURL(file);
+  });
+
+  // Prevent form submission on Enter key press
+  document.getElementById('profile-form').addEventListener('keypress', function(event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+    }
+  });
+  
+  </script>
+  {% endif %}
+
+  {% if user_type=="professeur" %}
+  <style>
+    .form-container {
+      display: flex;
+      justify-content: space-between;
+    }
+  
+    .form-container .left-div {
+      width: 45%;
+    }
+  
+    .form-container .right-div {
+      width: 45%;
+    }
+    #upload-link:hover{
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  </style>
+  <div class="container mt-5">
+  <h3 class="avg">MON PROFIL (PROF)</h3>
+  <div class="form-container mt-5">
+    <div class="left-div">
+      <div class="profile-picture-preview">
+        <img id="profile-picture-preview-img" src="{{ profile_picture_path }}" alt="Photo de profil">
+      </div>
+      <form id="profile-form" method="post" enctype="multipart/form-data">
+        <div class="upload-profile-picture">
+          <input type="file" id="profile-picture" name="profile-picture" style="display: none;">
+          <a href="#" id="upload-link" style="font-weight: bolder;color: #007bff;">Modifier photo</a>
+        </div>
+        <br>
+        <label for="formation">Formation:</label>
+        <br>
+        <select id="formation" name="formation" style="width: 100%;height: 40px;;text-align: center;border-radius: 3px;">
+          <option value="{{ prof.formation }}">{{ prof.formation }}</option>
+          <!-- Options pour l'âge seront générées en JavaScript -->
+        </select>
+  
+        <label for="education-level">Niveau d'étude:</label>
+        <select id="education-level" name="education-level" style="width: 100%;height: 40px;;text-align: center;border-radius: 3px;background-color: white;">
+          <option value="{{ prof.Nvdetud }}">{{ prof.Nvdetud }}</option>
+          <!-- Options pour le niveau d'étude seront générées en JavaScript -->
+        </select>
+  
+      </div>
+  
+      <div class="right-div">
+        <label for="diplome">Diplome:</label>
+        <br>
+        <select id="diplome" name="diplome" style="width: 100%;height: 40px;text-align: center;border-radius: 3px;">
+          <option value="{{ prof.Diplome }}">{{ prof.Diplome }}</option>
+          <!-- Options pour l'âge seront générées en JavaScript -->
+        </select>
+        <br>
+  
+        <label for="ecole">Ecole:</label><br>
+        <input type="text" id="ecole" name="ecole" placeholder="Votre ecole" value="{{ prof.ecole }}"style="width: 100%;height: 40px;;text-align: center;border-radius: 3px;">
+        <br>
+  
+        <label for="filiere">Filiere:</label><br>
+        <input type="text" id="filiere" name="filiere" placeholder="Votre filiere" value="{{ prof.filiere }}" style="width: 100%;height: 40px;;text-align: center;border-radius: 3px;">
+        <br>
+  
+        <label for="bio">Bio:</label>
+        <textarea id="bio" name="bio" placeholder="Vendez vous" style="resize: none;height: 100px;" value="{{ prof.vendervous }}">{{ prof.vendervous }}</textarea>
+  
+        <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Enregistrer</button>
+      </form>
+      <button type="button" class="btn btn-primary" style="background-color: red;color: white;margin-top: 20px;" onclick="window.location.href='/profil'">Annuler</button>
+    </div>
+  </div>
+</div>
+  <script>
+    
+     // Show the file input when the link is clicked
+  document.getElementById('upload-link').addEventListener('click', function(event) {
+    event.preventDefault();
+    document.getElementById('profile-picture').click();
+  });
+
+  // Update the profile picture preview when a new file is selected
+  document.getElementById('profile-picture').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function() {
+      document.getElementById('profile-picture-preview-img').src = reader.result;
+    }
+    reader.readAsDataURL(file);
+  });
+
+  // Prevent form submission on Enter key press
+  document.getElementById('profile-form').addEventListener('keypress', function(event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+    }
+  });
+      const educationLevelSelect = document.getElementById("education-level");
+      const formationSelect = document.getElementById("formation");
+      const diplomeSelect = document.getElementById("diplome");
+      const Options = ["Cycle ingenieur","L-M-D","Parcours/Prepa"];
+      for (const optionText of Options) {
+        const option = document.createElement("option");
+        option.value = optionText;
+        option.textContent = optionText;
+        formationSelect.appendChild(option);
+      }
+      const DipOptions = ["DEUST","LICENCE","MASTER","DOCTORAT","INGENIEUR","BAC"];
+      for (const optionText of DipOptions) {
+        const option = document.createElement("option");
+        option.value = optionText;
+        option.textContent = optionText;
+        diplomeSelect.appendChild(option);
+      }
+
+      // Fonction pour mettre à jour les options du niveau d'étude en fonction de la formation sélectionnée
+      function updateEducationLevelOptions() {
+        // Supprimer toutes les options actuelles du niveau d'étude
+        educationLevelSelect.innerHTML = "";
+
+        // Obtenir la valeur sélectionnée de la formation
+        const selectedFormation = formationSelect.value;
+
+        // Ajouter les options appropriées en fonction de la formation sélectionnée
+        if (selectedFormation === "Cycle ingenieur") {
+          for (let level = 1; level <= 3; level++) {
+            const option = document.createElement("option");
+            option.value = level;
+            option.textContent = level + "ère(ème) année";
+            educationLevelSelect.appendChild(option);
+          }
+        } else if (selectedFormation === "L-M-D") {
+          const lmdOptions = ["1ERE ANNEE", "2EME ANNEE", "3EME ANNEE", "4EME ANNEE", "5EME ANNEE", "6EME ANNEE", "7EME ANNEE", "8EME ANNEE"];
+          for (const optionText of lmdOptions) {
+            const option = document.createElement("option");
+            option.value = optionText.toLowerCase();
+            option.textContent = optionText.toLowerCase();
+            educationLevelSelect.appendChild(option);
+          }
+        } else if (selectedFormation === "Parcours/Prepa") {
+          for (let level = 1; level <= 2; level++) {
+            const option = document.createElement("option");
+            option.value = level;
+            option.textContent = level + "ère(ème) année";
+            educationLevelSelect.appendChild(option);
+          }
+        }
+      }
+
+      // Écouter les changements de sélection de la formation
+      formationSelect.addEventListener("change", updateEducationLevelOptions);
+
+      // Appeler la fonction pour mettre à jour les options du niveau d'étude au chargement de la page
+      updateEducationLevelOptions();
+  </script>
+  {% endif %}
+
+
+  {% if user_type=="autre" %}
+  <style>
+    .form-container {
+      display: flex;
+      justify-content: space-between;
+      background-color: #f9f9f9;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  
+    .form-container .left-div,
+    .form-container .right-div {
+      width: 48%;
+    }
+  
+    .form-container .left-div {
+      background-color: #fff;
+      padding: 20px;
+    }
+  
+    .form-container .right-div {
+      background-color: #fff;
+      padding: 20px;
+    }
+  
+    .profile-picture-preview {
+      text-align: center;
+    }
+  
+    img#profile-picture-preview-img {
+      max-width: 200px;
+      border-radius: 50%;
+      box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+    }
+  
+    .upload-profile-picture {
+      text-align: center;
+      margin-top: 10px;
+    }
+  
+    .upload-profile-picture a {
+      display: block;
+      color: #337ab7;
+      text-decoration: none;
+    }
+  
+    label {
+      font-weight: bold;
+      font-size: 16px;
+    }
+  
+    select,
+    input[type="text"],
+    textarea {
+      width: 100%;
+      height: 40px;
+      text-align: center;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+      margin-top: 5px;
+      padding: 5px;
+    }
+  
+    textarea {
+      resize: none;
+      height: 100px;
+    }
+  
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #337ab7;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  
+    button:hover {
+      background-color: #23527c;
+    }
+  
+    /* Mobile Devices */
+    @media (max-width: 767px) {
+      .form-container {
+        flex-direction: column;
+        margin-top: 50px;
+      }
+  
+      .form-container .left-div,
+      .form-container .right-div {
+        width: 100%;
+      }
+  
+      .form-container .right-div {
+        margin-top: 20px;
+      }
+    }
+    #upload-link:hover{
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  </style>
+  <div class="container">
+  <h3 class="avg" style="margin-top: 70px;">MON PROFIL (Autre)</h3>
+  <div class="form-container">
+    <div class="left-div">
+      <div class="profile-picture-preview">
+        <img id="profile-picture-preview-img" src="{{ profile_picture_path }}" alt="Photo de profil">
+      </div>
+      <form id="profile-form" method="post" enctype="multipart/form-data">
+      <div class="upload-profile-picture">
+        <input type="file" id="profile-picture" name="profile-picture" style="display: none;">
+        <label for="profile-picture" id="upload-link" style="font-weight: bolder;color: #007bff;">Modifier photo</label>
+      </div>
+      <div class="mb-3">
+        <label for="age" class="form-label">Date de naissance :</label>
+        <input type="date" id="age" name="age" class="form-control" value="{{current_user.date_naiss}}">
+      </div>
+      <div class="mb-3">
+        <label for="vendervous" class="form-label">Vendez-vous (500 mots max.) :</label>
+        <textarea id="vendervous" name="vendervous" class="form-control" style="resize: none;" required></textarea>
+        <p id="wordCount">0 /500 mots</p>
+      </div>
+      <label for="education-level">Choisir un role</label>
+      <select id="education-level" name="role" onchange="afficherrole()">
+        <option value="Autre">Autre</option>
+        <option value="Etudiant">Etudiant</option>
+        <option value="Professeur">Professeur</option>
+      </select>
+      <button type="submit" class="btn btn" style="background-color: blue;color: white;">Enregistrer</button>
+      <a  class="btn btn" style="background-color: red;color: white;margin-top: 20px;" onclick="window.location.href='/profil'">Annuler</a>
+    </form>
+    
+   
+    </div>
+<!-- Form prof -->
+<div id="formProfesseur" style="display: none;" class="mt-4 form-container">
+  <h2>Formulaire d'inscription Professeur</h2>
+  <form id="profForm" method="post" action="/enregistrerprof" enctype="multipart/form-data">
+    <!-- Ajoutez ici les champs spécifiques pour le formulaire Professeur -->
+    <div class="mb-3">
+      <label for="formation" class="form-label">Formation :</label>
+      <select id="formation" name="formation" class="form-select" onchange="afficherNiveauProf()" required>
+        <option value="" disabled selected>Choisir une formation</option>
+        <option value="Cycle ingenieur">Cycle ingenieur</option>
+        <option value="Parcours/Prepa">Parcours/Prepa</option>
+        <option value="L-M-D">L-M-D</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="Nvdetud" class="form-label">Niveau d'études :</label>
+      <select id="Nvdetud" name="Nvdetud" class="form-select" required>
+        <option value="" disabled selected>Choisir un niveau d'études</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="diplome" class="form-label">Dernier diplôme :</label>
+      <select id="diplome" name="diplome" class="form-select" required>
+        <option value="" disabled selected>Choisir un diplôme</option>
+        <option value="Ingénieur">LICENCE</option>
+        <option value="DEUST">DEUST</option>
+        <option value="Master">MASTER</option>
+        <option value="Doctorat">DOCTORAT</option>
+        <option value="Doctorat">INGENIEUR</option>
+        <option value="Doctorat">BAC</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Discipline :</label>
+      <div class="row">
+          <div class="col-md-12">
+              <div class="d-flex flex-wrap" id="disciplineGrid">
+                  <!-- Les disciplines seront générées dynamiquement ici -->
+              </div>
+          </div>
+      </div>
+  </div>
+  
+  
+    <div class="mb-3">
+      <label for="filiere" class="form-label">Filière :</label>
+      <input type="text" id="filiere" name="filiere" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label for="ecole" class="form-label">École :</label>
+      <input type="text" id="ecole" name="ecole" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label for="age" class="form-label">Date de naissance :</label>
+      <input type="date" id="age" name="age" class="form-control" >
+    </div>
+    <div class="mb-3">
+      <label for="vendervous" class="form-label">Vendez-vous (500 mots max.) :</label>
+      <textarea id="vendervous" name="vendervous" class="form-control" style="resize: none;" required></textarea>
+      <p id="wordCount">0 /500 mots</p>
+    </div>
+  <div class="mb-3">
+    <label for="cv" class="form-label">Importez votre CV:</label>
+    <input id="cv" name="cv" class="form-control" type="file" accept=".pdf" required>
+</div>
+    <button type="submit" class="btn btn-primary">Terminer l'inscription</button>
+  </form>
+</div>
+<!-- Form etudiant -->
+    <div id="formEtudiant" style="display: none;" class="mt-4 form-container">
+      <h2>Formulaire d'inscription Étudiant</h2>
+      <form id="etudiantForm" method="post" action="/enregistreretudiant">
+        <!-- Ajoutez ici les champs spécifiques pour le formulaire Étudiant -->
+        <div class="mb-3">
+          <label for="formation" class="form-label">Formation :</label>
+          <select id="formationetud" name="formationetud" class="form-select" onchange="afficherNiveauEtud()" required>
+            <option value="" disabled selected>Choisir une formation</option>
+            <option value="Cycle ingenieur">Cycle ingenieur</option>
+            <option value="Parcours/Prepa">Parcours/Prepa</option>
+            <option value="L-M-D">LMD</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="niveauEtudiant" class="form-label">Niveau d'études :</label>
+          <select id="niveauEtudiant" name="niveauEtudiant" class="form-select" required>
+            <option value="" disabled selected>Choisir un niveau d'études</option>
+            <option value="1">1ère année</option>
+            <option value="2">2ème année</option>
+            <option value="3">3ème année</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="filiereEtudiant" class="form-label">Filière :</label>
+          <input type="text" id="filiereEtudiant" name="filiereEtudiant" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="ecoleEtudiant" class="form-label">École :</label>
+          <input type="text" id="ecoleEtudiant" name="ecoleEtudiant" class="form-control" required>
+        </div>
+        
+        <div class="mb-3">
+          <label for="ageEtudiant" class="form-label">Date de naissance :</label>
+          <input type="date" id="ageEtudiant" name="ageEtudiant" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Terminer l'inscription</button>
+      </form>
+    </div>
+    </div>
+  </div>
+     
+  </div>
+</div>
+  <script>
+    function afficherrole() {
+      var select = document.getElementById("education-level");
+        var selectedValue = select.options[select.selectedIndex].value;
+
+        if (selectedValue === "Etudiant") {
+          document.getElementById("formProfesseur").style.display = "none";
+          document.getElementById("formEtudiant").style.display = "block";
+        } else if (selectedValue === "Professeur") {
+          document.getElementById("formProfesseur").style.display = "block";
+          document.getElementById("formEtudiant").style.display = "none";
+            
+        }
+        else{
+          document.getElementById("formProfesseur").style.display = "none";
+          document.getElementById("formEtudiant").style.display = "none";
+        }
+    }
+  // Show the file input when the link is clicked
+  document.getElementById('upload-link').addEventListener('click', function(event) {
+    event.preventDefault();
+    document.getElementById('profile-picture').click();
+  });
+
+  // Update the profile picture preview when a new file is selected
+  document.getElementById('profile-picture').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function() {
+      document.getElementById('profile-picture-preview-img').src = reader.result;
+    }
+    reader.readAsDataURL(file);
+  });
+
+  // Prevent form submission on Enter key press
+  document.getElementById('profile-form').addEventListener('keypress', function(event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+    }
+  });
+  function afficherNiveauProf() {
+      var formationSelected = document.getElementById("formation").value;
+      var niveauSelect = document.getElementById("Nvdetud");
+      niveauSelect.innerHTML = ""; // Réinitialiser les options
+
+      if (formationSelected === "Cycle ingenieur") {
+        var optionsCycle = ["1ERE ANNEE", "2EME ANNEE", "3EME ANNEE"];
+        for (var i = 0; i < optionsCycle.length; i++) {
+          var option = document.createElement("option");
+          option.value = optionsCycle[i].toLowerCase();
+          option.text = optionsCycle[i].toLowerCase();
+          niveauSelect.appendChild(option);
+        }
+      } else if (formationSelected === "Parcours/Prepa") {
+        var optionsParcours = ["1ERE ANNEE", "2EME ANNEE"];
+        for (var j = 0; j < optionsParcours.length; j++) {
+          var option = document.createElement("option");
+          option.value = optionsParcours[j].toLowerCase();
+          option.text = optionsParcours[j].toLowerCase();
+          niveauSelect.appendChild(option);
+        }
+      } else if (formationSelected === "L-M-D") {
+        var optionsLMD = ["1ERE ANNEE", "2EME ANNEE", "3EME ANNEE", "4EME ANNEE", "5EME ANNEE", "6EME ANNEE", "7EME ANNEE", "8EME ANNEE"];
+        for (var k = 0; k < optionsLMD.length; k++) {
+          var option = document.createElement("option");
+          option.value = optionsLMD[k].toLowerCase();
+          option.text = optionsLMD[k].toLowerCase();
+          niveauSelect.appendChild(option);
+        }
+      }
+    }
+    function afficherNiveauEtud() {
+      var formationSelected = document.getElementById("formationetud").value;
+      var niveauSelect = document.getElementById("niveauEtudiant");
+      niveauSelect.innerHTML = ""; // Réinitialiser les options
+
+      if (formationSelected === "Cycle ingenieur") {
+        var optionsCycle = ["1ERE ANNEE", "2EME ANNEE", "3EME ANNEE"];
+        for (var i = 0; i < optionsCycle.length; i++) {
+          var option = document.createElement("option");
+          option.value = optionsCycle[i].toLowerCase();
+          option.text = optionsCycle[i].toLowerCase();
+          niveauSelect.appendChild(option);
+        }
+      } else if (formationSelected === "Parcours/Prepa") {
+        var optionsParcours = ["1ERE ANNEE", "2EME ANNEE"];
+        for (var j = 0; j < optionsParcours.length; j++) {
+          var option = document.createElement("option");
+          option.value = optionsParcours[j].toLowerCase();
+          option.text = optionsParcours[j].toLowerCase();
+          niveauSelect.appendChild(option);
+        }
+      } else if (formationSelected === "L-M-D") {
+        var optionsLMD = ["1ERE ANNEE", "2EME ANNEE", "3EME ANNEE", "4EME ANNEE", "5EME ANNEE", "6EME ANNEE", "7EME ANNEE", "8EME ANNEE"];
+        for (const optionText of optionsLMD) {
+          var option = document.createElement("option");
+          option.value = optionText.toLowerCase();
+          option.text = optionText.toLowerCase();
+          niveauSelect.appendChild(option);
+        }
+      }
+    }
+
+    function genererListeAge() {
+      var ageSelect = document.getElementById("age");
+      ageSelect.innerHTML = ""; // Réinitialiser les options
+
+      var ageMin = 12;
+      var ageMax = 40;
+      for (var i = ageMin; i <= ageMax; i++) {
+        var option = document.createElement("option");
+        option.value = i;
+        option.text = i + " ans";
+        ageSelect.appendChild(option);
+      }
+    }
+
+    // Appeler la fonction pour générer la liste déroulante de l'âge lors du chargement de la page
+    genererListeAge();
+
+    function terminerInscription(type) {
+      // Ici, vous pouvez ajouter le code pour traiter les données du formulaire et les soumettre à un serveur, une base de données, etc.
+      // Dans cet exemple, nous affichons simplement un message indiquant que l'inscription est terminée.
+      document.getElementById("formProfesseur").style.display = "none";
+      document.getElementById("formEtudiant").style.display = "none";
+      document.getElementById("inscriptionComplete").style.display = "block";
+      document.getElementById("typeInscription").innerText = (type === 'prof') ? 'Professeur' : 'Étudiant';
+      return false; // Pour empêcher le formulaire de se soumettre normalement
+    }
+
+    const textarea = document.getElementById("vendervous");
+    const wordCount = document.getElementById("wordCount");
+
+    textarea.addEventListener("input", function () {
+        const text = textarea.value;
+        const words = text.split(/\s+/).filter(word => word.length > 0);
+        const wordCountValue = words.length;
+
+        if (wordCountValue > 500) {
+            textarea.value = words.slice(0, 500).join(" ");
+        }
+
+        wordCount.textContent = wordCountValue +"/500"+ " mot(s)";
+    });
+
+    const textareaautre = document.getElementById("vendervousautre");
+    const wordCountautre = document.getElementById("wordCountautre");
+
+    textareaautre.addEventListener("input", function () {
+        const text = textareaautre.value;
+        const words = text.split(/\s+/).filter(word => word.length > 0);
+        const wordCountValue = words.length;
+
+        if (wordCountValue > 500) {
+            textarea.value = words.slice(0, 500).join(" ");
+        }
+
+        wordCountautre.textContent = wordCountValue +"/500"+ " mot(s)";
+    });
+    var disciplines = ["Mathématiques", "Physique", "Chimie", "Informatique",  "Biologie",  "Économie", "Autres"];
+
+    var disciplineGrid = document.getElementById("disciplineGrid");
+
+    for (var i = 0; i < disciplines.length; i++) {
+    var disciplineLabel = document.createElement("label");
+    disciplineLabel.classList.add("btn", "btn-secondary", "mb-2", "me-2"); // Ajoutez des classes de marge et de remplissage ici
+    disciplineLabel.innerHTML = '<input type="checkbox" name="discipline[]" value="' + disciplines[i] + '"> ' + disciplines[i];
+    disciplineGrid.appendChild(disciplineLabel);
+}
+  </script>
+  {% endif %}
+
+ 
+{% endblock %}

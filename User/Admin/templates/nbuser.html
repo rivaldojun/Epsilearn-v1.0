@@ -1,0 +1,51 @@
+{% extends 'index.html'%}
+
+{% block content %}
+<style>
+    .ml-auto-custom {
+            margin-left: auto !important;
+        }
+        .body{
+            overflow: visible;
+        }
+        .card:hover{
+            cursor: pointer;
+        }
+</style>
+<div class="container mt-4">
+<div class="row" style="margin-top: 20px;">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                Nombre de prof
+            </div>
+            <div  class="card-body" onclick="window.location.href='/listeprofs'">
+                <h3 class="card-title" style="text-align: center;font-size:50px;font-weight: bold;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">{{nbprof}}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                Nombre d'etudiant
+            </div>
+            <div class="card-body" onclick="window.location.href='/listeetudiant'">
+                <h3 class="card-title" style="text-align: center;font-size:50px;font-weight: bold;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">{{nbetud}}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12" style="margin-top: 20px;">
+        <div class="card">
+            <div class="card-header">
+                User partiels
+            </div>
+            <div class="card-body" onclick="window.location.href='/other'">
+                <h3 class="card-title" style="text-align: center;font-size:50px;font-weight: bold;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">{{other}}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+{% block script %}
+{% endblock %}

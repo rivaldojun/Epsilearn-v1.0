@@ -1,0 +1,93 @@
+{% extends 'index.html'%}
+<head>
+    <title>Ajouter des sujets</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        h1 {
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        select, input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        hr {
+            margin: 40px 0;
+            border: none;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        h2 {
+            color: #343a40;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+{% block content %}
+    <div class="container">
+        <h1>Ajouter des sujets pour les samedis</h1>
+        <form method="POST">
+            <div class="form-group">
+                <label for="date">Date</label>
+                <select id="date" name="date" class="form-control" required>
+                    {% for date in available_saturdays %}
+                        <option value="{{ date }}">{{ date }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="sujet">Sujet</label>
+                <input type="text" id="sujet" name="sujet" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Ajouter Sujet</button>
+        </form>
+        
+        <hr>
+        <h2>Sujets existants :</h2>
+        <ul>
+            {% for item in sujets %}
+                <li>{{ item.date }} - {{ item.sujet }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

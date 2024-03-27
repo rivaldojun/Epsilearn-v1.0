@@ -1,0 +1,38 @@
+{% extends "index.html" %}
+<head>
+    <title>Ajouter un nouvel étudiant</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+{% block content %}
+
+<div class="grand mb-4" style="height: 100px; width: 100%; background-color: white; border-radius: 10px; border-top: 3px solid blue;padding: 20px;">
+    <form method="post" action="{{ url_for('Admin.epsilearn_post') }}" enctype="multipart/form-data">
+        <div class="row">
+        <div class="">
+        <div class="modal-body">
+            <div class="form-group">
+                <textarea name="post_content" id="post_content" class="form-control" rows="2" placeholder="Enter your post..." style="height: 200px;resize: none;" required></textarea>
+                <input type="text" name="tags" placeholder="Hashtags...." class="form-control" style="height: 40px;" required>   
+            </div>
+            
+        </div>
+    </div>
+    <div >
+        <div class="form-group mt-2">
+            <label for="profile-pictures">
+                <div class="row">
+                    <i class="fas fa-camera add-photo-icon"></i>
+                    </div>
+            </label>
+            <input type="file" id="profile-pictures" name="profile-pictures[]" class="form-control d-none" multiple>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn" style="background-color: transparent;color: blue;"><i class="fa fa-paper-plane" ></i></button>
+        </div>
+    </div>
+    </div>
+    </form>      
+</div>
+
+{% endblock %}

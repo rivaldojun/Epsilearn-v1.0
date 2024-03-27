@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block title %}À Propos de Epsilearn{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #f5f5f5;
+    }
+
+    .jumbotron {
+        background-color: #007bff;
+        color: #ffffff;
+        padding: 60px;
+        border-radius: 0;
+        margin-bottom: 0;
+    }
+
+    .jumbotron h1 {
+        font-size: 48px;
+    }
+
+    .jumbotron p {
+        font-size: 18px;
+        margin-bottom: 30px;
+    }
+
+    .feature-icon {
+        font-size: 48px;
+        color: #007bff;
+    }
+
+    .feature-heading {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .feature-description {
+        font-size: 16px;
+        color: #555;
+    }
+
+    .animation-section {
+        background-color: #f8f9fa;
+        padding: 60px 0;
+        width: 100%;
+    }
+
+    @keyframes fadeInUp {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animated-item {
+        animation: fadeInUp 1s ease-in-out;
+    }
+
+    .mission-section {
+        background-color: #e9ecef;
+        padding: 60px 0;
+        width: 100%;
+    }
+
+    .mission-icon {
+        font-size: 64px;
+        color: #007bff;
+    }
+
+    .mission-heading {
+        font-size: 36px;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .mission-description {
+        font-size: 18px;
+        color: #555;
+    }
+
+    .functionality-section {
+        background-color: #f8f9fa;
+        padding: 60px 0;
+        width: 100%;
+    }
+
+    .functionality-heading {
+        font-size: 36px;
+        color: #333;
+        margin-bottom: 40px;
+    }
+
+    .functionality-item {
+        background-color: #e9ecef;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+        transition: background-color 0.3s, transform 0.3s;
+        cursor: pointer;
+    }
+
+    .functionality-item:hover {
+        background-color: #007bff;
+        transform: scale(1.05);
+    }
+
+    .functionality-icon {
+        font-size: 48px;
+        color: #007bff;
+    }
+
+    .functionality-title {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .functionality-description {
+        font-size: 16px;
+        color: #555;
+    }
+</style>
+
+<div class="jumbotron text-center">
+    <h1 class="display-4">Epsilearn , QUI SOMMES NOUS ?</h1>
+    <p class="lead">Apprenez et amusez-vous avec notre plateforme d'apprentissage en ligne interactive.</p>
+</div>
+
+<div class="container animation-section">
+    <div class="row">
+        <div class="col-md-4 text-center animated-item">
+            <i class="fas fa-book feature-icon"></i>
+            <h2 class="feature-heading">Cours Variés</h2>
+            <p class="feature-description">Explorez une grande variété de cours dans divers domaines pour enrichir vos connaissances.</p>
+        </div>
+        <div class="col-md-4 text-center animated-item">
+            <i class="fas fa-chalkboard-teacher feature-icon"></i>
+            <h2 class="feature-heading">Enseignants Qualifiés</h2>
+            <p class="feature-description">Bénéficiez de l'expertise d'enseignants qualifiés et passionnés pour vous guider dans votre apprentissage.</p>
+        </div>
+        <div class="col-md-4 text-center animated-item">
+            <i class="fas fa-gamepad feature-icon"></i>
+            <h2 class="feature-heading">Apprentissage Amusant</h2>
+            <p class="feature-description">Apprenez tout en vous amusant grâce à nos activités interactives et ludiques.</p>
+        </div>
+    </div>
+</div>
+
+<div class="container mission-section">
+    <div class="row">
+        <div class="col-md-8 text-center mx-auto">
+            <i class="fas fa-bullseye mission-icon"></i>
+            <h2 class="mission-heading">Notre Mission</h2>
+            <p class="mission-description">Nous avons pour mission de fournir une plateforme d'apprentissage en ligne innovante qui permet aux étudiants d'apprendre efficacement tout en s'amusant. Notre objectif est de rendre l'apprentissage accessible, engageant et stimulant pour tous.</p>
+        </div>
+    </div>
+</div>
+
+<div class="container functionality-section">
+    <h2 class="functionality-heading text-center">Nos Fonctionnalités en Détail</h2>
+    <div class="row">
+        <div class="col-md-5 mx-md-auto text-center functionality-item">
+            <i class="fas fa-language functionality-icon"></i>
+            <h3 class="functionality-title">Apprentissage de l'Anglais</h3>
+            <p class="functionality-description">Explorez nos cours interactifs et pratiques pour améliorer vos compétences en anglais et communiquer avec confiance.</p>
+        </div>
+        <div class="col-md-5 mx-md-auto text-center functionality-item">
+            <i class="fas fa-clock functionality-icon"></i>
+            <h3 class="functionality-title">Technique Pomodoro</h3>
+            <p class="functionality-description">Utilisez la technique Pomodoro pour optimiser votre temps d'étude, améliorer votre concentration et booster votre productivité.</p>
+        </div>
+        <div class="col-md-5 mx-md-auto text-center functionality-item">
+            <i class="fas fa-chalkboard functionality-icon"></i>
+            <h3 class="functionality-title">Cours en Session Individuelle</h3>
+            <p class="functionality-description">Réservez des cours particuliers avec nos enseignants qualifiés pour un apprentissage personnalisé et efficace.</p>
+        </div>
+        <div class="col-md-5 mx-md-auto text-center functionality-item">
+            <i class="fas fa-calendar-check functionality-icon"></i>
+            <h3 class="functionality-title">Organisation d'Événements</h3>
+            <p class="functionality-description">Participez à des événements éducatifs et interactifs pour élargir vos horizons et enrichir votre expérience d'apprentissage.</p>
+        </div>
+        <div class="col-md-5 mx-md-auto text-center functionality-item">
+            <i class="fas fa-gamepad functionality-icon"></i>
+            <h3 class="functionality-title">Divertissements</h3>
+            <p class="functionality-description">Détendez-vous et stimulez votre créativité avec nos activités de divertissement ludiques et captivantes.</p>
+        </div>
+        <div class="col-md-5 mx-md-auto text-center functionality-item">
+            <i class="fas fa-gamepad functionality-icon"></i>
+            <h3 class="functionality-title">Divertissements</h3>
+            <p class="functionality-description">Détendez-vous et stimulez votre créativité avec nos activités de divertissement ludiques et captivantes.</p>
+        </div>
+    </div>
+</div>
+
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+{% endblock %}

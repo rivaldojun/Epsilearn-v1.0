@@ -1,0 +1,255 @@
+
+{% extends "base.html" %}
+
+<!-- ZINEDINE -->
+<!-- STENG2484 -->
+<!-- cest carre -->
+{% block content %}
+<!-- Inclure jQuery (avant Bootstrap) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Inclure Bootstrap JavaScript (après jQuery) -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!--For Page-->
+<div class="page">
+    <!--Card-->
+    <div class="card container">
+        <!--Card Header-->
+        <div class="card-header">
+            <p> <i class="fa fa-tasks"></i> <span class="float-right"> <span class="mr-4 navTask">Liste des taches</span> </span> </p>
+        </div>
+        <!--Card Body-->
+        <div class="card-body">
+            <p class="heading1"> <span class="today">A faire</span><br> <span class="float-right headingright">{{heuredeb}} - {{heurefin}}</span> </p>
+            <div id="taskList">
+            </div>
+            <button id="openModalBtn" class="btn btn" style="border-radius: 50px;background-color: aliceblue;color: black;padding: 10px;font-family: 'Raleway';">
+<i class="fa fa-plus mr-2" aria-hidden="true" style="background-color: transparent;"><span style="font-family: 'Raleway';">Ajouter un tache</span></i> 
+</button>
+<br>
+<br>
+<form method="post" action="/addtasksave/{{ id_group }}" >
+<input type="hidden" id="hiddenTasksInput" name="taches" value="">
+<button class="btn btn"  style="border-radius: 50px;background-color: green;color: rgb(255, 255, 255);padding: 10px;font-family: 'Raleway';">
+    <i class="fa fa-check mr-2" aria-hidden="true" style="background-color: transparent;color: white;"><span style="font-family: 'Raleway';color: white;">Terminer</span></i> 
+    </button>
+</form>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true" style="margin-top: 200px;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="taskModalLabel">Add Task</h5>
+                <button type="button" id="cl" class="close" data-dismiss="modal" aria-label="Close" style="border: none ;background-color: transparent;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="taskInput" class="form-control" placeholder="Enter your task">
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="cls" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 50px;color: white;background-color: black;">Close</button>
+                <button type="button" class="btn btn" id="saveTaskBtn" style="border-radius: 50px;background-color: rgb(158, 209, 253);">Save Task</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body{
+    background-color:#f5f5f5;
+}
+
+.card {
+    width: 90%;
+    margin: auto
+}
+
+.page {
+    
+    margin-top:50px;
+    margin-bottom:50px;
+}
+
+.float-right.headingright {
+    color: #153063;
+    font-weight: 500;
+    margin-top: 10px
+}
+
+.float-right {
+    color: #7a7a7a;
+    font-weight: 450
+}
+
+.today,
+.tomorrow {
+    color: #153063;
+    font-size: 25px;
+    font-weight: 600
+}
+
+.heading2 {
+    margin-top: 6%
+}
+
+.fa-calendar,
+.fa-circle-thin,
+.fa-star {
+    color: #7a7a7a
+}
+
+.time {
+    color: #7a7a7a;
+    font-size: 12px
+}
+
+.fa-plus {
+    display: inline-block;
+    border-radius: 25px;
+    background-color: #e3e1e1;
+    color: #7a7a7a;
+    size: 10px;
+    padding: 2px
+}
+
+.task {
+    color: #153063;
+    font-weight: 500
+}
+
+.task2 {
+    opacity: 0.5
+}
+
+.fa-thumb-tack,
+.fa-exchange,
+.fa-user {
+    background-color: #7a7a7a;
+    color: white;
+    display: inline-block;
+    border-radius: 25px;
+    padding: 3px
+}
+
+.card-body {
+    margin: 2%
+}
+
+.card-header {
+    margin-left: 5%;
+    margin-right: 5%;
+    background-color: white !important;
+    padding: 0px;
+    margin-top: 2%
+}
+
+.navTask {
+    color: #136fe8;
+    border-bottom: solid 1px #136fe8
+}
+
+.fa-bars {
+    color: #136fe8
+}
+
+@media only screen and (max-width: 600px) {
+    .card {
+        font-size: 11px
+    }
+
+    .time {
+        font-size: 6px
+    }
+}
+
+</style>
+
+<script>
+
+document.querySelector('form').addEventListener('submit', function (event) {
+  event.preventDefault(); // Empêche la soumission par défaut du formulaire
+
+  // Récupérez les tâches depuis le localStorage
+  const tasks = JSON.parse(localStorage.getItem('tasks1')) || [];
+
+  // Mettez à jour la valeur du champ "taches"
+  const hiddenInput = document.getElementById('hiddenTasksInput');
+  hiddenInput.value = JSON.stringify(tasks);
+  
+  // Soumettez le formulaire
+  this.submit();
+});
+
+
+
+document.getElementById('saveTaskBtn').addEventListener('click', function () {
+    const taskInput = document.getElementById('taskInput').value;
+    if (taskInput.trim() !== '') {
+        // Enregistrez la tâche dans le localStorage
+        const tasks = JSON.parse(localStorage.getItem('tasks1')) || [];
+        tasks.push(taskInput);
+        localStorage.setItem('tasks1', JSON.stringify(tasks));
+
+        // Ajoutez la tâche à la liste des tâches
+        const taskList = document.getElementById('taskList');
+        const taskItem = document.createElement('p');
+        taskItem.style.backgroundColor="#f5f5f5";
+        taskItem.style.padding="10px";
+        taskItem.style.borderRadius="10px";
+        document.getElementById('taskInput').value='';
+       // ...
+taskItem.innerHTML = '<i class="fa fa-calendar mr-2" style="padding:10px;margin-right:10px;scale:2;color:#153063" aria-hidden="true"></i><span class="task mt-4 mr-4">' + taskInput + '</span><button class="deleteTask btn btn-danger btn-sm" style="float:right"><i class="fa fa-trash" aria-hidden="true"></i></button>';
+// ...
+
+        taskList.appendChild(taskItem);
+
+        // Fermez le modal
+        $('#taskModal').modal('hide');
+    }
+});
+
+
+
+window.onload = function () {
+    const tasks = JSON.parse(localStorage.getItem('tasks1')) || [];
+    const taskList = document.getElementById('taskList');
+
+    tasks.forEach(function (taskText) {
+        const taskItem = document.createElement('p');
+        taskItem.style.backgroundColor="#f5f5f5";
+        taskItem.style.padding="10px";
+        taskItem.style.borderRadius="10px";
+        taskItem.innerHTML = '<i class="fa fa-calendar mr-2 " style="padding:10px;margin-right:10px;scale:2;color:#153063" aria-hidden="true"></i><span class="task mt-4 mr-4">' + taskText + '</span> <button class="deleteTask btn btn-danger btn-sm" style="float:right"><i class="fa fa-trash" aria-hidden="true"></i></button>';
+        taskList.appendChild(taskItem);
+            // Ajoutez un écouteur d'événements pour le bouton "trash"
+const deleteButton = taskItem.querySelector('.deleteTask');
+deleteButton.addEventListener('click', function () {
+    // Supprimez la tâche de la liste des tâches et du localStorage
+    const taskText = taskItem.querySelector('.task').textContent;
+    tasks.splice(tasks.indexOf(taskText), 1);
+    localStorage.setItem('tasks1', JSON.stringify(tasks));
+
+    // Supprimez l'élément de la liste des tâches
+    taskList.removeChild(taskItem);
+});
+    });
+
+};
+document.getElementById('openModalBtn').addEventListener('click', function () {
+    $('#taskModal').modal('show');
+});
+document.getElementById('cls').addEventListener('click', function () {
+    $('#taskModal').modal('hide');
+});
+
+document.getElementById('cl').addEventListener('click', function () {
+    $('#taskModal').modal('hide');
+});
+
+</script>
+{% endblock %}

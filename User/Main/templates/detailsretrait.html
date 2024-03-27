@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block style %}
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Details de la Demande | Lernender</title>
+  <!-- Inclure le fichier Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+{% endblock %}
+
+{% block content %}
+
+<button id="ret" class="btn btn-primary" style="margin-top: -30px; margin-left: 0px; height: 40px;">Revenir en arrière</button> 
+<div class="h1" style="margin-top: 10px;">
+  <h1>Details</h1>
+</div>   
+<div class="container" style="display: flex;justify-content: center;">
+  
+  <div class="demande-details" style="background-color: rgb(218, 216, 216);padding: 10px;border-radius: 15px;text-align: center;width: 400px;">
+    <p><strong>ID Demande :</strong> {{demand.id}} <span id="idDemande"></span></p>
+    <p><strong>Nom demandeur:</strong> {{demand.nom}}<span id="date1"></span></p>
+    <p><strong>Numero de carte : </strong>{{demand.numero_carte}}<span id="date1"></span></p>
+    <p><strong>Montant:</strong> {{demand.montant_retrait}}<span id="date2"></span></p>
+    <p><strong>Nom prof :</strong> {{user.nom}}  {{user.prenom}}</strong> <span id="date2"></span></p>
+    <p><strong>Date : </strong>{{demand.date}} <span id="matiere"></span></p>
+  </div>
+</div>
+
+<!-- Inclure le fichier Bootstrap JavaScript -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+     document.addEventListener('DOMContentLoaded', function () {
+    var ret = document.getElementById('ret');
+
+    ret.addEventListener('click', function () {
+        history.back();
+    });
+});
+
+</script>
+{% endblock %}

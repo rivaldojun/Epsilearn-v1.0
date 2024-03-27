@@ -1,0 +1,2520 @@
+{% extends "base.html" %}
+
+{% block title %}Pomodoro|Epsilearn{% endblock %}
+
+{% block content %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minuteur et Vidéo</title>
+  <!-- Include Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+body {
+  background-color: #f5f5f5;
+  overflow-x: hidden;
+
+}
+#gameModalLabel:hover{
+  cursor: pointer;
+}
+.container1 {
+  background-color: white;
+  text-align: center;
+  padding-top: 25px;
+  height: 30vh;
+  border-radius: 10px;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+  transform: perspective(2000px) rotateX(0deg);
+  animation: openBook 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) 1 forwards;
+  background-color: #D04643;
+  
+}
+
+@keyframes openBook {
+  from {
+    transform: perspective(2000px) rotateX(90deg);
+    opacity: 0;
+  }
+  to {
+    transform: perspective(2000px) rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+.h1 {
+  font-size:10px;
+  color: rgb(255, 255, 255);
+  transition: color 0.3s ease-in-out;
+}
+
+.btn-primary {
+  animation: fadeIn 1s ease;
+}
+
+.btn-primary:hover {
+  background-color: blue;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.timer {
+  font-size: 3rem;
+  color: blue;
+  display: inline-block;
+  transform: scaleY(1);
+  transition: transform 0.3s ease-in-out;
+}
+.timer-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+.timer-transition {
+  animation: scaleUp 0.3s forwards;
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scaleY(1);
+  }
+  to {
+    transform: scaleY(1.2);
+  }
+}
+
+/* Ajoutez cette partie dans votre feuille de style CSS */
+
+@keyframes moveText {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+#workroom{
+    text-decoration: overline ;
+    color: rgb(0, 0, 0)
+  }
+.motivation-text {
+  font-size: 2rem;
+  color: blue;
+  animation: moveText 10s infinite;
+
+}
+
+.motivation-paragraph {
+  animation: fadeIn 10s infinite;
+  color: rgb(0, 0, 0);
+  animation-delay: 1s;
+  opacity: 0;
+  font-family: 'Kanit';
+}
+
+@keyframes fadeIn {
+  0%, 100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.task {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .task input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .task.completed {
+            color: green;
+        }
+        .task.completed::after {
+    content: "\2713"; /* Code Unicode pour une coche (checkmark) */
+    margin-right: 5px; /* Espace entre la coche et le texte */
+    color: green; /* Couleur de la coche */
+    font-weight: bold;
+}
+.task.completed .fa-trash {
+    display: none;
+}
+
+  .delete-task:hover{
+    cursor: pointer;
+  }
+#pass{
+  display: none;
+}
+#cacher{
+  display: none;
+}
+#montrer{
+  display: none;
+}
+#cmt{
+  display: block;
+}
+.animated-btn {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    line-height: 80px;
+    display: inline-block;
+    text-align: center;
+    background: #000000;
+    position: relative;
+}
+
+.animated-btn::before, .animated-btn::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.8);
+    animation: ripple-1 2s infinite ease-in-out;
+    z-index: -1;
+}
+
+.animated-btn::after {
+    background: rgba(0, 0, 0, 0.6);
+    animation: ripple-2 2s infinite ease-in-out;
+    animation-delay: 0.5s;
+}
+
+@keyframes ripple-1 {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+@keyframes ripple-2 {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.7);
+        opacity: 0;
+    }
+}
+.border-2 {
+    border-width: 2px!important;
+    border-style: solid!important;
+    border-color: transparent;
+}
+.bgc-white {
+    background-color: #fff!important;
+}
+
+
+.text-green-d1 {
+    color: #ffffff!important;
+}
+.letter-spacing {
+    letter-spacing: .5px!important;
+}
+.font-bolder, .text-600 {
+    font-weight: 600!important;
+}
+
+
+.text-purple-d1 {
+    color: #ffffff!important;
+}
+
+.text-primary-d1 {
+    color: #ffffff!important;
+}
+.text-secondary-d1 {
+    color: #5f718b!important;
+}
+
+.text-danger-m3 {
+    color: #e05858!important;
+}
+.rotate-45 {
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+.position-l {
+    left: 0;
+}
+.position-b, .position-bc, .position-bl, .position-br, .position-center, .position-l, .position-lc, .position-r, .position-rc, .position-t, .position-tc, .position-tl, .position-tr {
+    position: absolute!important;
+    display: block;
+}
+.mt-n475, .my-n475 {
+    margin-top: -2.5rem!important;
+}
+.ml-35, .mx-35 {
+    margin-left: 1.25rem!important;
+}
+
+.text-dark-l1 {
+    color: #56585e!important;
+}
+
+.text-left {
+    text-align: left!important;
+}
+
+.mt-25, .my-25 {
+    margin-top: .75rem!important;
+}
+
+
+
+.deleted-text{
+text-decoration:line-through;;    
+}
+
+
+#emailList {
+    list-style: none; /* Masque le point avant les éléments de la liste */
+    max-height: 200px; /* Définissez la hauteur maximale de la liste avec une barre de défilement */
+    overflow-y: auto; /* Ajoute une barre de défilement vertical si nécessaire */
+    padding-left: 0; /* Supprimez le padding gauche par défaut pour la liste */
+}
+#ml{
+  padding: 5px;
+}
+#ml:hover{
+  cursor: pointer;
+  background-color:rgb(215, 224, 250);
+  border-radius: 5px;
+}
+/* styles.css */
+.mascotte {
+    width: 200px;
+    height: 100px;
+    background-image: url('/static/image/mascot1.gif'); /* Ajoutez l'image de votre mascotte */
+    background-size: cover;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(20%, 60%);
+    z-index: 9999;
+    padding-right: 10%;
+}
+#motivation {
+            background-color: #ffffff;
+            border-radius: 20px;
+            padding: 10px;
+            width: 80px;
+            display: inline-block;
+            opacity: 1;
+            font-size: 8px;
+            color: black;
+        }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 5px;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+        }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<div class="mascotte" id="mascotte"><span id="motivation"></span></div>
+<div class="container" style="margin-top: 50px;">
+  <div style="justify-content: center;display: flex;margin-bottom: 10px;scale: 0.8;">
+  <a href="/groupelist"  class="btn btn mb-2 mr-1" style="background-color: rgb(135, 135, 135);color: white;border-radius: 50px;align-items: center;">Invitation<i class="fas fa-door-open ml-2"></i>{% if nbrinvit  !=0 %}<span style="background-color: #ff0400;width: 20px;height: 20px;border-radius: 50%;float: right;text-align: center;display: flex;justify-content: center;"><p style="margin-top: -2px;">{{nbrinvit}}</p></span>{% endif %}</a>
+  <a href="/sallelist"  class="btn btn mb-2 mr-1" style="background-color: rgb(135, 135, 135);color: white;border-radius: 50px;align-items: center;">Salles d'etudes<i class="fas fa-chair ml-2"></i>{% if nbrsalle  !=0 %}<span style="background-color: #ff0400;width: 20px;height: 20px;border-radius: 50%;float: right;text-align: center;display: flex;justify-content: center;"><p style="margin-top: -2px;">{{nbrsalle}}</p></span>{% endif %}</a>
+  <a href="#" id="open-game-modal"  class="btn btn mb-2" style="background-color: rgb(135, 135, 135);color: white;border-radius: 50px;align-items: center;">Jeux<i class="fas fa-gamepad ml-2"></i></a>
+</div>
+    <div class="row" >
+      <div class="col-md-6" >
+        <div class="container1 mb-4" id="ct1" >
+          <div class="col" id="montrer">
+            <button id="recommencer"  class="btn btn" style="color: white;float: left;scale: 0.9;"><i class="fa fa-redo"></i></button>
+            <button id="ajouter"  class="btn btn" style="color: white;float: right;scale: 0.9;"><i class="fa fa-plus-circle"></i></button>
+            </div>
+            <div class="col" id="cacher">
+              <button id="recommencer1"  class="btn btn" style="color: rgb(0, 0, 0);float: left;scale: 0.9;"><i class="fa fa-redo"></i></button>
+              <button id="ajouter1"  class="btn btn" style="color: rgb(0, 0, 0);float: right;scale: 0.9;"><i class="fa fa-plus-circle"></i></button>
+              </div>
+          <div class="text-center ">
+            <h5 style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;font-size: 26px;">Minuteur</h5>
+          </div>
+          <div class="timer-container mt-3">
+            <div id="timer" class="h1" style="font-size: 30px;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">25:00</div>
+          </div>
+          <div id="bt" class="text-center" style="margin-top: -5px;">
+            <!-- Animated button -->
+            <a id="buttontimer" onclick="startTimer()" data-toggle="tooltip" data-placement="top" class="animated-btn text-white" href="#"><i class="fa fa-play"></i></a>
+        </div>
+          <div class="col mt-3" id="pass">
+            <button id="passer"  class="btn btn" style="border: 2px solid black;background-color: transparent;">Passer</button>
+            <button id="arreter"  class="btn btn" style="border: 2px solid black;background-color: transparent;">Arreter</button>            
+          </div>
+          <div style="margin-top: -6%;display: block;visibility: visible;">
+            <button id="playButton" class="btn btn" style="border-radius: 60%; background-color: white; float: right;display: block;visibility: visible;">
+              <i id="musicIcon" class="fa fa-volume-mute"></i>
+          </button>
+          </div>
+          <br>
+        </div>
+        <div class="container1 mb-4" style="background-color: white;justify-content: center;height: fit-content;padding-top: 0px;display: flexbox;background-color: #cbcaf1;border-radius: 50px;">
+          <div class="row" style="text-align: center;display: flex;justify-content: center;background-color: #ffffff;width: fit-content;scale: 0.93;border-radius: 50px;">
+            <div class="col-md-4" style="margin-top: 30px;"><i class="fa fa-user mb-4" style="color: black;padding: 10px;background-color: #f5f5f5;border-radius: 50%;scale: 2;"></i><br><p>Creez un groupe d'etude</p></div>
+            <div class="col-md-4" style="margin-top: 30px;"><i class="fa fa-plus mb-4" style="color: black;padding: 10px;background-color: #f5f5f5;border-radius: 50%;scale: 2;"></i><br><p>Ajoutez des membres au groupe</p></div>
+            <div class="col-md-4" style="margin-top: 30px;"><i class="fa fa-tasks mb-4" style="color: black;padding: 10px;background-color:#f5f5f5;border-radius: 50%;scale: 2;"></i> <br><p>Definissez de taches pour le groupe</p></div>
+          </div>
+        <div><a href="/groupestudform" class="btn btn mb-1" style="background-color: rgb(255, 255, 255);opacity: 0.7;border-radius: 50px;color: rgb(0, 0, 0);font-family: 'Kanit';">Essayer</a></div>
+        </div>
+      </div>
+
+      
+      <div class="col-md-6" style="background-color: #cbcaf1;border-radius: 10px;padding: 10px;">
+        <div class="container" style="min-height:fit-content;">
+          <h1 class="mb-3 text-center" style="background-color: white;border-radius: 50px;">TO DO </h1>
+          <div class="input-group mb-3" style="background-color: #ffffff;padding: 10px;border-radius: 50px;">
+              <input type="text" class="form-control" id="new-task" placeholder="Ajouter une tâche..." style="border-radius: 50px;border: 2px solid rgb(245, 245, 253);">
+              <div class="input-group-append">
+                  <button class="btn btn" style="color: rgb(255, 255, 255);background-color: rgb(50, 35, 255);border-radius: 50px ;margin-left: 5px;" id="add-task"><i class="fa fa-plus"></i></button>
+              </div>
+          </div>
+          <div id="task-list" style="padding: 10px;border-radius: 10px;margin-bottom: 20px;"></div>
+       </div>
+       {% if pomodoro.time!=0 %}
+       <div id="cmt" class="container" style="background-color: white;border-radius: 20px;">
+        <h4 style="text-align: center;"> Comment ca marche ?</h4>
+                <p class="text-muted small text-center">
+        1. Identifier les tâches que vous avez à accomplir et inscrivez les dans "Ma Liste de Tâches" .<br>
+        2. Pour commencer à travailler, activez le minuteur du work room. Ce minuteur fonction suivant la technique de pomodoro.<br><br>
+        3. Une fois le minuteur en marche, vous avez 25 minute pour vous concentrez-vous pleinement sur la tâche en cours jusqu'à ce que le minuteur sonne, marquant la fin de la période de travail.<br><br>
+        4. À la sonnerie du minuteur, accordez-vous une courte pause 5 minutes. Profitez de ce temps pour vous détendre, vous étirer ou vous rafraîchir.<br><br>
+        5. Répétez ces cycles Pomodoro autant de fois que nécessaire pour accomplir la tâche en cours. Cette méthode vous permettra de rester concentré, productif et de maintenir un équilibre entre le travail et les pauses.<br><br>
+                </p>
+      </div>
+      {% endif %}
+      <div class="container " style="background-color: #ffffff;color: white;padding: 10px;border-radius: 30px;">
+        <p id="tt1" class="mt-2" style="text-align: center;color: rgb(0, 0, 0);font-size: 15px;font-weight: bolder;font-family: 'Kanit';scale: 1;"></p>
+        <h5 style="text-align: center;color: #D04643;" id="tempstotal">Votre temps total passe sur le pomodoro<br><span style="font-size: 30px;font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;color: black;">{{pomodoro.time}} min</span><br>
+          <a href="/classementpomodoro" class="btn btn" style="text-align: center;background-color: rgb(45, 45, 45);color: white;opacity: 0.7;border-radius: 20px;margin-top: 20px;">voir classement</a>
+        </h5>
+      </div>
+      </div>
+    </div>
+    <audio id="audio-alert">
+      <source src="/static/audio/beep.wav" type="audio/mpeg">
+      <!-- Ajoutez ici d'autres sources audio au format WAV, OGG, etc., au besoin -->
+      Votre navigateur ne supporte pas l'élément audio.
+    </audio>
+    <audio id="audio-alert1">
+      <source src="/static/audio/debuter.wav" type="audio/mpeg">
+      <!-- Ajoutez ici d'autres sources audio au format WAV, OGG, etc., au besoin -->
+      Votre navigateur ne supporte pas l'élément audio.
+    </audio>
+    <audio id="musicPlayer" loop controls style="display: none;">
+      <source src="" type="audio/mpeg">
+      Votre navigateur ne supporte pas l'audio HTML.
+    </audio>
+  </div>
+  <div class="modal fade" id="musicModal" tabindex="-1" role="dialog" aria-labelledby="musicModalLabel" aria-hidden="true" style="margin-top: 150px;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="background-color: #ffffff;">
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Partie gauche avec l'image -->
+                    <div class="col-md-6" >
+                        <img src="/static/image/lofi.jpg" alt="Image de la musique" class="img-fluid" style="height: 100%;border-radius: 10px;">
+                    </div>
+                    <!-- Partie droite avec la barre de recherche et la liste de musique -->
+                    <div class="col-md-6" style="background-color: transparent;">
+                        <div class="modal-header" style="background-color:transparent">
+                            <div class="input-group">
+                                <input type="text" id="searchMusic" placeholder="Rechercher une musique" aria-describedby="button-addon1" class="form-control border-0 bg-light" style="border-radius: 50px;">
+                                <div class="input-group-append">
+                                    <button id="button-addon1" type="button" class="btn btn-link text-primary" style="background-color: transparent;border-radius: 50px;"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <ul id="musicList" class="list-group">
+                                <!-- Les options de musique seront générées ici -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+  <!-- Include Bootstrap JS and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
+ 
+
+<!-- ... (le reste de votre code HTML) ... -->
+<!-- ... (le reste de votre code HTML) ... -->
+
+
+<style>
+  .checkbox-wrapper-2 #ikxBAC {
+    appearance: none;
+    background-color: #dfe1e4;
+    border-radius: 72px;
+    border-style: none;
+    flex-shrink: 0;
+    height: 20px;
+    margin: 0;
+    position: relative;
+    width: 30px;
+  }
+
+  .checkbox-wrapper-2 #ikxBAC::before {
+    bottom: -6px;
+    content: "";
+    left: -6px;
+    position: absolute;
+    right: -6px;
+    top: -6px;
+  }
+
+  .checkbox-wrapper-2 #ikxBAC,
+  .checkbox-wrapper-2 #ikxBAC::after {
+    transition: all 100ms ease-out;
+  }
+
+  .checkbox-wrapper-2 #ikxBAC::after {
+    background-color: #fff;
+    border-radius: 50%;
+    content: "";
+    height: 14px;
+    left: 3px;
+    position: absolute;
+    top: 3px;
+    width: 14px;
+  }
+
+  .checkbox-wrapper-2 input[type=checkbox] {
+    cursor: default;
+  }
+
+ #ikxBAC:hover {
+    background-color: #c9cbcd;
+    transition-duration: 0s;
+  }
+
+  #ikxBAC:checked {
+    background-color: #6e79d6;
+  }
+
+#ikxBAC:checked::after {
+    background-color: #fff;
+    left: 13px;
+  }
+
+  .checkbox-wrapper-2 :focus:not(.focus-visible) {
+    outline: 0;
+  }
+
+ #ikxBAC:checked:hover {
+    background-color: #535db3;
+  }
+</style>
+
+<script>
+  const taskList = document.getElementById('task-list');
+  const newTaskInput = document.getElementById('new-task');
+  const ct1 = document.getElementById('ct1');
+  const addTaskButton = document.getElementById('add-task');
+  const arreter = document.getElementById("arreter");
+  const passer = document.getElementById("passer");
+  const pass = document.getElementById("pass");
+  const recommencer = document.getElementById("recommencer");
+  const ajouter = document.getElementById("ajouter");
+  const recommencer1 = document.getElementById("recommencer1");
+  const ajouter1 = document.getElementById("ajouter1");
+  const cacher = document.getElementById("cacher");
+  const montrer = document.getElementById("montrer");
+  const tt1 = document.getElementById("tt1");
+  const cmt = document.getElementById("cmt");
+
+// Fonction pour effacer le localStorage à minuit
+function clearLocalStorageAtMidnight() {
+  const now = new Date();
+  const midnight = new Date(now);
+  midnight.setHours(0, 0, 0, 0); // Réglez l'heure à minuit
+
+  const timeUntilMidnight = midnight - now;
+  // Définissez un délai pour effacer le localStorage à minuit
+  setTimeout(function() {
+    localStorage.removeItem('nbr');
+    // Appelez à nouveau la fonction pour programmer la prochaine suppression
+    clearLocalStorageAtMidnight();
+  }, timeUntilMidnight);
+}
+
+// Appelez la fonction pour la première fois
+clearLocalStorageAtMidnight();
+
+
+  // tt1.textContent=`Votre temps pendant cette session est: 0 minutes`
+  
+    $(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+    
+    
+  });
+
+
+  tt1.textContent=`Vous avez travaille  ${localStorage.getItem('nbr')*25} minutes aujourd'hui`
+  function addTask(taskText, completed = false) {
+    const taskElement = document.createElement('div');
+    taskElement.classList.add('task');
+    if (completed) {
+      taskElement.classList.add('completed');
+    }
+    
+
+
+    taskElement.innerHTML = `
+    <div class="checkbox-wrapper-2" style="background-color:white;padding:10px;border-radius:20px;">
+        <input type="checkbox" id="ikxBAC" class="task-checkbox" ${completed ? 'checked' : ''}>
+    </div>
+        <span class="task-text" style="background-color:white;padding:10px;border-radius:20px;width:70%;word-wrap: break-word;">${taskText}</span>
+      <i class="fas fa-trash delete-task" style="color:#D04643"></i>
+    `;
+    taskList.appendChild(taskElement);
+
+    newTaskInput.value = '';
+    saveTasksToLocalStorage();
+  }
+
+  function deleteTask(taskElement) {
+    taskList.removeChild(taskElement);
+    saveTasksToLocalStorage();
+  }
+
+  function toggleCompleted(taskElement) {
+    taskElement.classList.toggle('completed');
+    saveTasksToLocalStorage();
+  }
+  function incrementNbrInLocalStorage() {
+  // Récupérez la valeur actuelle du localStorage pour la clé "nbr"
+  let nbr = localStorage.getItem('nbr');
+  // Assurez-vous que nbr est un nombre (si c'est la première fois, cela peut être null)
+  nbr = parseInt(nbr) || 0;
+  // Ajoutez 1 à la valeur actuelle de nbr
+  nbr += 1;
+  // Enregistrez la nouvelle valeur dans le localStorage
+  localStorage.setItem('nbr', nbr);
+  // Retournez la nouvelle valeur de nbr
+  return nbr;
+}
+function decrementNbrInLocalStorage() {
+  // Récupérez la valeur actuelle du localStorage pour la clé "nbr"
+  let nbr = localStorage.getItem('nbr');
+  // Assurez-vous que nbr est un nombre (si c'est la première fois, cela peut être null)
+  nbr = parseInt(nbr) || 0;
+  // Ajoutez 1 à la valeur actuelle de nbr
+  nbr -= 1;
+  if (nbr<0){nbr=0}
+  // Enregistrez la nouvelle valeur dans le localStorage
+  localStorage.setItem('nbr', nbr);
+  // Retournez la nouvelle valeur de nbr
+  return nbr;
+}
+
+
+
+
+// Appeler la fonction pour calculer l'heure de fin si elle n'est pas définie
+
+
+// Vous pouvez maintenant utiliser localStorage.getItem('heureFinFormatee') pour obtenir l'heure de fin.
+
+
+
+  addTaskButton.addEventListener('click', () => {
+    const taskText = newTaskInput.value.trim();
+    if (taskText !== '') {
+      addTask(taskText);
+      // Obtenir l'heure actuelle
+      cmt.style.display='none'
+
+          }
+  });
+  
+  taskList.addEventListener('click', (event) => {
+    const taskElement = event.target.closest('.task');
+    if (event.target.classList.contains('delete-task')) {
+      
+      deleteTask(taskElement);
+
+      
+    } else if (event.target.classList.contains('task-checkbox')) {
+      toggleCompleted(taskElement);
+    }
+  });
+
+  // Charger les tâches depuis le local storage lors du chargement de la page
+  window.addEventListener('load', () => {
+    loadTasksFromLocalStorage();
+  });
+
+  // Enregistrer les tâches dans le local storage
+  function saveTasksToLocalStorage() {
+    const tasks = Array.from(taskList.querySelectorAll('.task')).map(task => ({
+      text: task.querySelector('.task-text').textContent,
+      completed: task.classList.contains('completed')
+    }));
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+
+  function areAllTasksCompleted() {
+  const tasks = JSON.parse(localStorage.getItem('tasks')) || []; // Obtenir la liste des tâches depuis le localStorage
+  // Vérifier si toutes les tâches ont la propriété "completed" à true
+  return tasks.every(task => task.completed);
+}
+  // Charger les tâches depuis le local storage
+  function loadTasksFromLocalStorage() {
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.forEach(task => {
+      addTask(task.text, task.completed);
+    });
+    
+  }
+
+  const time = document.getElementById("timer");
+  const btn = document.getElementById("bt");
+
+
+  function startTimer() {
+    let isPaused = false;
+    arreter.style.backgroundColor="transparent"
+    pass.style.display='block'
+    ct1.style.backgroundColor='#56bd56'
+    time.textContent="25:00"
+    const twentyMinutesInSeconds = 25 * 60; // Change this to 20 * 60 for 20 minutes
+    const display = document.querySelector("#timer");
+    btn.style.display = "none";
+    let isPassClicked = false; // Variable pour vérifier si le bouton "passer" est cliqué
+
+    
+    // Ajoutez un événement au bouton "passer"
+    passer.addEventListener("click", function () {
+      isPassClicked = true; // Définir la variable à true lorsque le bouton est cliqué
+    });
+    
+    let timer = twentyMinutesInSeconds, minutes, seconds;
+
+    const intervalId = setInterval(function () {
+      montrer.style.display="block"
+      if(isPaused && isPassClicked){isPaused=false}
+      passer.addEventListener("click", function () {
+      isPassClicked = true; // Définir la variable à true lorsque le bouton est cliqué
+    });
+      if (!isPaused) {
+        
+      minutes = parseInt(timer / 60, 10);
+      seconds = parseInt(timer % 60, 10);
+
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+
+      display.textContent = minutes + ":" + seconds;
+
+      if (isPassClicked ||--timer < 0) {
+        if(!isPassClicked){
+          var audioAlert = document.getElementById("audio-alert");
+          audioAlert.play();
+          nombrederound=incrementNbrInLocalStorage()
+          tt1.textContent=`Votre temps pendant cette session est ${nombrederound*25} minutes`
+          fetch('/update_pomodoro', {
+        method: 'POST',
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Traitez la réponse si nécessaire
+        })
+        .catch(error => {
+          console.error('Erreur lors de la mise à jour de la base de données :', error);
+        });
+        }
+        clearInterval(intervalId);
+        pass.style.display='none'
+        btn.style.display = "block";
+        ct1.style.backgroundColor='#D04643'
+        completeFirstTask();
+        showModalWithCountdown(); // Affichez le modal avec le décompte
+
+      }
+    }
+    }, 1000);
+     // Ajoutez un gestionnaire d'événements au bouton "arrêter"
+  arreter.addEventListener("click", function () {
+    isPaused = !isPaused; // Inverser l'état de la pause lorsque le bouton est cliqué
+    if(isPaused){
+      arreter.style.backgroundColor="white"
+      ct1.style.backgroundColor='#D04643'
+    }
+    else{
+      arreter.style.backgroundColor="transparent"
+      ct1.style.backgroundColor='#56bd56'
+    }
+    
+  });
+  function resetTimer() {
+    timer = twentyMinutesInSeconds;
+// Mettez à jour l'affichage du timer
+minutes = parseInt(timer / 60, 10);
+  seconds = parseInt(timer % 60, 10);
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  seconds = seconds < 10 ? "0" + seconds : seconds;
+  display.textContent = minutes + ":" + seconds;
+}
+function ajouterTimer() {
+timer+=60
+// Mettez à jour l'affichage du timer
+minutes = parseInt(timer / 60, 10);
+  seconds = parseInt(timer % 60, 10);
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  seconds = seconds < 10 ? "0" + seconds : seconds;
+  display.textContent = minutes + ":" + seconds;
+}
+  recommencer.addEventListener("click", resetTimer);
+  ajouter.addEventListener("click", ajouterTimer);
+  }
+ 
+  arreter.style.backgroundColor="transparent"
+  // Fonction pour afficher le modal avec décompte
+  function showModalWithCountdown() {
+    montrer.style.display="none"
+    cacher.style.display="block"
+    let isPaused1 = false;
+    let isPassClicked1 = false; // Variable pour vérifier si le bouton "passer" est cliqué
+    // Ajoutez un événement au bouton "passer"
+    passer.addEventListener("click", function () {
+      isPassClicked1 = true; // Définir la variable à true lorsque le bouton est cliqué
+      ct1.style.backgroundColor='#D04643'
+    });
+    pass.style.display='block'
+    btn.style.display = "none";
+
+    // Compteur de décompte de 5 minutes
+    let countdown = 5* 60; // 5 minutes en secondes
+    function resetTimer1() {
+      countdown = 5* 60;
+    }
+function ajouterTimer1() {
+  countdown=countdown+60
+}
+    const countdownInterval = setInterval(function () {
+
+      if(isPaused1 && isPassClicked1){isPaused1=false}
+      if (!isPaused1) {
+        
+        recommencer1.addEventListener("click", resetTimer1);
+  ajouter1.addEventListener("click", ajouterTimer1);
+        arreter.style.backgroundColor="transparent"
+      time.textContent=`${Math.floor(countdown / 60)}:${countdown % 60 < 10 ? '0' : ''}${countdown % 60}`
+
+
+      if (isPassClicked1 || --countdown < 0) {
+        var audioAlert = document.getElementById("audio-alert1");
+          audioAlert.play();
+        clearInterval(countdownInterval); // Arrêtez le décompte lorsque le temps est écoulé
+        pass.style.display='none'
+        cacher.style.display="none"
+        btn.style.display = "block";
+        time.textContent="25:00"
+      }
+      
+    }
+    
+    }, 1000);
+    arreter.addEventListener("click", function () {
+    isPaused1 = !isPaused1; // Inverser l'état de la pause lorsque le bouton est cliqué
+    if(isPaused1){
+      arreter.style.backgroundColor="white"
+      ct1.style.backgroundColor='#D04643'
+     
+    }
+    else{
+      arreter.style.backgroundColor="transparent"
+      ct1.style.backgroundColor='#D04643'
+    }
+
+  
+    
+  });
+    
+
+
+    // Événement pour arrêter le décompte si la vidéo se termine
+
+    
+  }
+
+  function completeFirstTask() {
+    const tasks = Array.from(taskList.querySelectorAll('.task'));
+    for (const task of tasks) {
+      const checkbox = task.querySelector('.task-checkbox');
+      if (!checkbox.checked) {
+        checkbox.checked = true;
+        task.classList.add('completed');
+        saveTasksToLocalStorage();
+        break;
+      }
+    }
+  }
+ // Gestionnaire d'événement pour le bouton "Play"
+const playButton = document.getElementById('playButton');
+const musicModal = document.getElementById('musicModal');
+const musicListContainer = document.getElementById('musicList');
+
+const musicList = ["Eteindre","Cats-Cradle", "Midnight-Stroll", "Sleepless","Wondering"]; // Votre liste de musique
+
+playButton.addEventListener('click', () => {
+    createMusicOptions();
+    $('#musicModal').modal('show'); // Affichez le modal lorsque vous cliquez sur "Play"
+});
+let selectedMusic=''
+function createMusicOptions() {
+    musicListContainer.innerHTML = ''; // Supprimez les anciennes options de musique
+    musicList.forEach((music) => {
+        const musicOption = document.createElement('li');
+        musicOption.style.borderRadius='10px'
+        const icon = document.createElement('i');
+        if (music !=='Eteindre'){
+          icon.className="fa fa-play"
+        musicOption.appendChild(icon)
+        }
+        else{
+          icon.className="fa fa-ban"
+        musicOption.appendChild(icon)
+        }
+        
+        musicOption.className = " d-flex justify-content-between align-items-center p-2 bg-white mb-1";
+        const musicLink = document.createElement('a');
+        musicLink.style.textDecoration="none"
+        musicLink.style.color="black"
+        musicLink.href = '#';
+        musicLink.textContent = music;
+        musicLink.setAttribute('data-music', music);
+        musicOption.appendChild(musicLink);
+        musicListContainer.appendChild(musicOption);
+
+        // Gestionnaire d'événement pour sélectionner une musique
+        musicLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            selectedMusic = e.target.getAttribute('data-music');
+            playMusic();
+            $('#musicModal').modal('hide'); // Fermez le modal après avoir sélectionné une musique
+        });
+    });
+}
+
+const musicPlayer = document.getElementById('musicPlayer');
+const musicIcon = document.getElementById('musicIcon');
+let isMusicOn = false; 
+function playMusic() {
+    if (selectedMusic!=="Eteindre") {
+        const musicSource = `/static/audio/${selectedMusic}.mp3`;
+        musicPlayer.src = musicSource;
+        musicPlayer.play(); // Commencez la lecture
+        musicIcon.classList.remove('fa-volume-mute');
+            musicIcon.classList.add('fa-volume-up');
+    }
+    else{
+      const musicSource = `/static/audio/${selectedMusic}.mp3`;
+        musicPlayer.src = musicSource;
+        musicPlayer.play(); // Commencez la lecture
+      musicIcon.classList.remove('fa-volume-up');
+            musicIcon.classList.add('fa-volume-mute');
+    }
+       
+        }
+   
+
+$(document).ready(function () {
+        // Lorsqu'un utilisateur tape dans le champ de recherche
+        $('#searchMusic').on('input', function () {
+            const searchText = $(this).val().toLowerCase(); // Texte de recherche en minuscules
+
+            // Parcours des éléments de la liste de musique
+            $('#musicList li').each(function () {
+                const musicText = $(this).text().toLowerCase(); // Texte de la musique en minuscules
+
+                // Affiche ou masque les éléments de la liste en fonction de la correspondance avec le texte de recherche
+                if (musicText.indexOf(searchText) === -1) {
+                    $(this).hide();
+                } else {
+                    $(this).show();
+                }
+            });
+        });
+    });
+    // script.js
+    const mascotte = document.getElementById("mascotte");
+        let isDragging = false;
+        let offsetX, offsetY;
+        let initialX, initialY;
+        let xx, y;
+        let zIndex = 9999;
+
+        mascotte.addEventListener("mousedown", startDragging);
+        mascotte.addEventListener("touchstart", startDragging);
+
+        document.addEventListener("mouseup", stopDragging);
+        document.addEventListener("touchend", stopDragging);
+
+        document.addEventListener("mousemove", dragMascotte);
+        document.addEventListener("touchmove", dragMascotte);
+
+        let positionX = Math.random() * 100;
+        let positionY = Math.random() * 100;
+        let directionX = (Math.random() < 0.5) ? 1 : -1;
+        let directionY = (Math.random() < 0.5) ? 1 : -1;
+
+        let animating = true;
+
+        function startDragging(e) {
+            isDragging = true;
+            const boundingBox = mascotte.getBoundingClientRect();
+            offsetX = e.clientX - boundingBox.left;
+            offsetY = e.clientY - boundingBox.top;
+
+            initialX = mascotte.style.left;
+            initialY = mascotte.style.top;
+
+            animating = false;
+        }
+
+        function stopDragging() {
+            isDragging = false;
+        }
+        function changeZIndex() {
+            // Modifiez le z-index de manière cyclique
+            zIndex = zIndex === 9999 ? 0 : 9999;
+            mascotte.style.zIndex = zIndex;
+            setTimeout(changeZIndex, 10000); // Appel récursif toutes les 10 secondes
+        }
+        // changeZIndex();
+
+        function dragMascotte(e) {
+            if (isDragging) {
+                xx = e.clientX || e.touches[0].clientX;
+                y = e.clientY || e.touches[0].clientY;
+
+                mascotte.style.left = xx - offsetX-30 + "px";
+                mascotte.style.top = y - offsetY-50 + "px";
+            }
+        }
+
+        function animateMascotte() {
+            if (!isDragging) {
+                if (!animating) {
+                    positionX = xx - offsetX-30;
+                    positionY = y - offsetY-50;
+                    animating = true;
+                }
+
+                positionX += 0.5 * directionX;
+                positionY += 0.5 * directionY;
+
+                mascotte.style.left = positionX + 'px';
+                mascotte.style.top = positionY + 'px';
+
+                if (Math.random() < 0.01) {
+                    directionX = (Math.random() < 0.5) ? 1 : -1;
+                    directionY = (Math.random() < 0.5) ? 1 : -1;
+                }
+
+                if (positionX >= window.innerWidth || positionX <= 10) {
+                    directionX *= -1;
+                }
+
+                if (positionY >= window.innerHeight || positionY <= 10) {
+                    directionY *= -1;
+                }
+            }
+
+            requestAnimationFrame(animateMascotte);
+        }
+
+        animateMascotte();
+        const messagesMotivation = [
+  "Ton travail acharné est la clé de ton succès. Continue d'avancer avec détermination.",
+  "Chaque petit pas que tu fais te rapproche un peu plus de tes objectifs. Ne t'arrête jamais.",
+  "Les défis ne font que renforcer ta résilience. Tu as ce qu'il faut pour réussir.",
+  "La persévérance est la clé du progrès. Continue de travailler dur, les résultats suivront.",
+  "Ton engagement envers l'apprentissage et le travail acharné te démarque. Continue à briller.",
+  "Chaque jour où tu travailles est un jour de croissance. Reste concentré sur tes objectifs.",
+  "Ne laisse jamais la peur de l'échec te décourager. Chaque erreur est une occasion d'apprendre.",
+  "La persistance est le chemin du succès. Garde la tête haute et continue d'avancer.",
+  `Tu sais que travaille depuis ${localStorage.getItem('nbr')*25} minutes?C'est super !!!`,
+  `Savais tu que le meilleur utilisateur du work room est <span style="color:blue;font-weight:bold;">{{username}}</span>`,
+  "Pourquoi le livre de mathématiques était-il triste ?<br>Parce qu'il avait trop de problèmes !",
+  "Ton dévouement est admirable. Tu es en train de forger ton propre chemin vers le succès.",
+  "N'oublie pas qu'a la pause tu peux te detendre en jouant a nos jeux de culture",
+  `Il y a du bruit autour,Je te propose de mettre un lofi beat en appuyant sur <i class="fa fa-volume-mute ml-1" style="scale:1.5;color:black;background-color:white;border-radius:50%;padding:2px"></i>`
+];
+const motivationElement = document.getElementById("motivation");
+
+function afficherMotivationAleatoire() {
+    const randomIndex = Math.floor(Math.random() * messagesMotivation.length);
+    const randomMotivation = messagesMotivation[randomIndex];
+    motivationElement.style.opacity = 1;
+    motivationElement.innerHTML = randomMotivation;
+
+    // Dissimulation du texte après 30 secondes
+    setTimeout(() => {
+        motivationElement.style.opacity = 0;
+    }, 30 * 1000);
+}
+
+afficherMotivationAleatoire(); // Afficher un message de motivation dès le chargement de la page
+
+// Afficher un nouveau message de motivation toutes les 5 minutes
+setInterval(() => {
+    afficherMotivationAleatoire();
+}, 5 * 60 * 1000);
+
+
+$(document).ready(function() {
+  const clm=document.getElementById("clm")
+  clm.addEventListener('click',()=>{$('#gameModal').modal('hide')})
+            // Vérifiez si le cookie "gameModalVisible" existe
+            const gameModalVisible = getCookie('gameModalVisible');
+            
+            if (gameModalVisible === 'true') {
+                $('#gameModal').modal('show');
+            }
+            $('#game1, #game2, #game3').click(function() {
+        const selectedGame = $(this).text();
+        if(selectedGame === 'Testez votre strategie')
+        {
+          $('#gameContent').html(`
+          <h3 style="color:blue;font-weight:bold;">Tic-Tac-Toe</h3>
+    <div id="userFeedback">
+    </div>
+    <!-- The options dialog -->
+    <div id="optionsDlg" >
+      <div >
+        <h2>How would you like to play?</h2>
+          <h3>Difficulty:</h3>
+          <label><input type="radio" name="difficulty" id="r0" value="0">easy&nbsp;</label>
+          <label><input type="radio" name="difficulty" id="r1" value="1" checked>hard</label><br>
+          <h3>Play as:</h3>
+          <label><input type="radio" name="player" id="rx" value="x" checked>X (go first)&nbsp;</label>
+          <label><input type="radio" name="player" id="ro" value="o">O<br></label>
+          <p><a id="game11" href="#" class="btn btn"  onclick="getOptions()" style="padding-left: 5px;padding-right: 5px;background-color: black;border-radius: 50px;text-align: center;color: white;opacity: 0.8;">Play</a></p>
+      </div>
+    </div>
+    <style>
+      body {
+    background-color: rgb(32, 32, 32);
+    text-align: center;
+    font-family: 'Indie Flower', 'Comic Sans', cursive;
+}
+      h1 {
+    line-height: 1em;
+    margin-bottom: 0;
+    padding-bottom: 5px;
+    font-size: 2.8em;
+    font-weight: bold;
+}
+h2 {
+    font-size: 1.3em;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+
+}
+h3 {
+    font-size: 1.1em;
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    padding: 0;
+    margin: 10px 0 2px 0;
+}
+table {
+    margin: 2% auto;
+    border-collapse: collapse;
+}
+#table_game {
+    position: relative;
+    font-size: 120px;
+    margin: 1% auto;
+    border-collapse: collapse;
+}
+.td_game {
+    border: 4px solid rgb(230, 230, 230);
+    width: 90px;
+    height: 90px;
+    padding: 0;
+    vertical-align: middle;
+    text-align: center;
+}
+.fixed {
+    width: 90px;
+    height: 90px;
+    line-height: 90px;
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+}
+.td_list {
+    text-align: center;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+.th_list {
+    font-size: 1.3em;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: underline;
+}
+#restart {
+    font-size: 3em;
+    width: 1em;
+    height: 0.9em;
+    cursor: pointer;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.x {
+    color: darksalmon;
+    position: relative;
+    top: -8px;
+    font-size: 1.2em;
+    cursor: default;
+}
+.o {
+    color: aquamarine;
+    position: relative;
+    top: -7px;
+    font-size: 1.0em;
+    cursor: default;
+}
+
+/* modal background */
+
+
+/* close button for modal dialog */
+.close {
+    color: rgb(170, 170, 170);
+    float: right;
+    position: relative;
+    top: -25px;
+    right: -10px;
+    font-size: 34px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.win-color {
+    background-color: rgb(240, 240, 240);
+}
+
+      </style>
+
+        `);
+        $('#game11').click(function() {
+          $('#gameContent').html(`
+          <body onload="initialize()"">
+          <p style="text-align:center;">Tic-Tac-Toe</p>
+    <table id="table_game">
+      <tr><td class="td_game"><div id="cell0" onclick="cellClicked(this.id)" class="fixed"></div></td><td class="td_game"><div id="cell1" onclick="cellClicked(this.id)" class="fixed"></div></td><td class="td_game"><div id="cell2" onclick="cellClicked(this.id)" class="fixed"></div></td></tr>
+      <tr><td class="td_game"><div id="cell3" onclick="cellClicked(this.id)" class="fixed"></div></td><td class="td_game"><div id="cell4" onclick="cellClicked(this.id)" class="fixed"></div></td><td class="td_game"><div id="cell5" onclick="cellClicked(this.id)" class="fixed"></div></td></tr>
+      <tr><td class="td_game"><div id="cell6" onclick="cellClicked(this.id)" class="fixed"></div></td><td class="td_game"><div id="cell7" onclick="cellClicked(this.id)" class="fixed"></div></td><td class="td_game"><div id="cell8" onclick="cellClicked(this.id)" class="fixed"></div></td></tr>
+    </table>
+    <table>
+      <tr><th class="th_list">Computer</th><th class="th_list" style="padding-right:10px;padding-left:10px">Draws</th><th class="th_list">Player</th></tr>
+      <tr><td class="td_list" id="computer_score">0</td><td class="td_list" style="padding-right:10px;padding-left:10px" id="tie_score">0</td><td class="td_list" id="player_score">0</td></tr>
+    </table>
+    <!-- The modal dialog for announcing the winner -->
+    <div id="winAnnounce" style="text-align:center;font-size:10px;" >
+      <div >
+        <p id="winText"></p>
+      </div>
+    </div>
+    <style>
+      table {
+    margin: 2% auto;
+    border-collapse: collapse;
+}
+#table_game {
+    position: relative;
+    font-size: 120px;
+    margin: 1% auto;
+    border-collapse: collapse;
+}
+.td_game {
+    border: 4px solid rgb(230, 230, 230);
+    width: 90px;
+    height: 90px;
+    padding: 0;
+    vertical-align: middle;
+    text-align: center;
+}
+.fixed {
+    width: 90px;
+    height: 90px;
+    line-height: 90px;
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+}
+.td_list {
+    text-align: center;
+    font-size: 1em;
+    font-weight: bold;
+}
+.th_list {
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: underline;
+}
+#restart {
+    font-size: 3em;
+    width: 1em;
+    height: 0.9em;
+    cursor: pointer;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.x {
+    color: darksalmon;
+    position: relative;
+    top: -8px;
+    font-size: 1.2em;
+    cursor: default;
+}
+.o {
+    color: aquamarine;
+    position: relative;
+    top: -7px;
+    font-size: 1.0em;
+    cursor: default;
+}
+      </style>
+      <body>
+    `)
+  
+    
+
+        })
+        $('#gameContent').show();
+        }else{
+          if(selectedGame === 'Testez votre rapidite'){
+            $('#gameContent').html(`
+            <div class="container justify-content-center d-flex flex">
+        <div class="row justify-content-center">
+            <div class="col align-items-center">
+                <div class="alert alert-danger text-center" id="go" style="display: none;">
+                    GAME OVER
+                    <button class="btn btn-secondary ml-2" onclick="window.location.reload()">Rejouer</button>
+                </div>
+                <div class="alert alert-success text-center" id="win" style="display: none;">
+                    Felicitation - Temps : <span id="timess"></span> secondes
+                    <button class="btn btn-secondary ml-2" onclick="window.location.reload()">Rejouer</button>
+                </div>
+                <div class="d-flex flex justify-content-center"><p id="record d-flex" style="text-align: center;font-size:30px;color:blue">Meilleur temps:{{temps_25}} s</p></div>
+                <div class="alert alert-info text-center" id="timerss">
+                    Temps écoulé : 0 secondes
+                </div>
+                <div class="grid" id="grid"></div>
+            </div>
+        </div>
+    </div>
+    <style>
+        body {
+            background-color: #f0f0f0;
+        }
+
+
+
+        h1 {
+            text-align: center;
+            color: #007BFF;
+            text-shadow: 2px 2px 4px #333;
+        }
+
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(5, 50px);
+            grid-gap: 1px;
+            transform-style: preserve-3d;
+            
+        }
+
+        .cell {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border: 1px solid #007BFF;
+            cursor: pointer;
+            background-color: #0056b3;
+            color: white;
+            transform: translateZ(50px);
+            transition: transform 0.3s;
+        }
+
+        .red {
+            background-color: #FF0000;
+        }
+
+        .blue {
+            background-color: #0056b3;
+        }
+
+        .green {
+            background-color: #008000;
+        }
+
+        .cell:hover {
+            transform: translateZ(80px);
+            box-shadow: 0 0 20px #007BFF;
+        }
+
+        #go, #win {
+            text-align: center;
+            display: none;
+            font-size: 24px;
+        }
+
+        #go {
+            color: #FF0000;
+        }
+
+        #win {
+            color: #008000;
+        }
+
+        #timer {
+            font-size: 20px;
+            text-align: center;
+        }
+    </style>
+            `)
+            const grid = document.getElementById("grid");
+            const go = document.getElementById("go");
+            const win = document.getElementById("win");
+            const timeDisplay = document.getElementById("timess");
+            const timerDisplay = document.getElementById("timerss");
+            let expectedNumber = 1;
+            let numbers = createNumbersArray(25);
+            let startTime;
+            let intervalId;
+            let elapsedTime = 0;
+            function getRandomColorClass() {
+            const colors = ["red", "blue", "green"];
+            const randomIndex = Math.floor(Math.random() * colors.length);
+            return colors[randomIndex];
+        }
+
+
+            function createNumbersArray(count) {
+                const numbers = [];
+                for (let i = 1; i <= count; i++) {
+                    numbers.push(i);
+                }
+                return numbers;
+            }
+
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            }
+timerDisplay.textContent = "Temps écoulé : 0 secondes";
+            function createGrid() {
+                numbers = shuffleArray(numbers);
+                grid.innerHTML = '';
+                startTime = null;
+                clearInterval(intervalId);
+                for (let i = 0; i < numbers.length; i++) {
+                    const cell = document.createElement("div");
+                    cell.className = "cell " + getRandomColorClass();
+                    cell.textContent = numbers[i];
+                    cell.addEventListener("click", () => {
+                        if (parseInt(cell.textContent) === expectedNumber) {
+                            numbers.splice(i, 1);
+                            expectedNumber++;
+                            if (expectedNumber === 2) {
+                                startTime = Date.now();
+                                updateTimer()
+                            }
+                            if (expectedNumber === 26) {
+                              alert("termine")
+                                timerDisplay.style.display='none'
+                                const endTime = Date.now();
+                                timeDisplay.textContent = elapsedTime + " secondes";
+                                win.style.display = "block";
+                                xhr = new XMLHttpRequest();
+                                xhr.open('post', '/score_25alasuite');
+                                xhr.setRequestHeader('Content-Type', 'application/json'); // Définit l'en-tête Content-Type
+                                xhr.send(JSON.stringify({ time: elapsedTime })); // Convertit l'objet en une chaîne JSON
+                                
+                            }
+                            createGrid();
+                        } else {
+                            timerDisplay.style.display='none'
+                            grid.style.display = 'none';
+                            go.style.display = "block";
+                            
+
+
+               
+                            createGrid();
+                        }
+                    });
+                    grid.appendChild(cell);
+                }
+            }
+
+            function updateTimer() {
+                elapsedTime++;
+                timerDisplay.textContent = "Temps écoulé : " + (elapsedTime-1) + " secondes";
+                setTimeout(updateTimer,1000)
+            }
+            
+
+            createGrid();
+       
+        $('#gameContent').show();
+          }else{
+            if(selectedGame === 'Testez votre memoire'){
+            $('#gameContent').html(`
+              <div id="game-container" class="container justify-content-center d-flex flex">
+                
+                    <div class="row justify-content-center">
+                      
+                      <div class="col align-items-center">
+                        <div class="mb-4" id="advice" style="background-color:transparent;height:30px;width:100%;font-family:'Permanent Marker';font-size:30px;color:blue"></div>
+                        <div id="grid">
+                            <!-- La grille sera générée dynamiquement en JavaScript -->
+                        </div>
+                        <div class="col d-flex justify-content-center">
+                        <button id="starts-button" class="btn btn-success mt-3 mr-2" style="">Commencer</button>
+                        <button id="su" class="btn btn-secondary mt-3">Suivant</button>
+                        </div>
+                    <div class=" mt-2" style="float:left;font-family:'Permanent Marker';font-size:20px;color:red"><p id="niveau">Niveau:</p></div>
+                    <div class=" mt-2" style="float:right;font-family:'Permanent Marker';font-size:20px;color:red"><p id="niveau">Meilleur niveau:{{nombre}}</p></div>
+
+                      </div>
+                      
+                    </div>
+              </div>
+          <style>
+        #game-container {
+    text-align: center;
+}
+#su{
+  display:none
+}
+#grid {
+            display: grid;
+            grid-template-columns: repeat(5, 60px);
+            grid-gap: 3px;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+.cell {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border: 1px solid #007BFF;
+            cursor: pointer;
+            background-color: #0056b3;
+            color: white;
+            transform: translateZ(50px);
+            transition: transform 0.3s;
+        }
+.selected {
+    background-color: red;
+}
+.disabled {
+    pointer-events: none;
+    /* Empêche les clics et les événements de souris */
+    opacity: 0.5;
+    /* Optionnel : Réduit l'opacité pour indiquer que les cellules sont désactivées */
+}
+
+    </style>
+            `)
+            const gridSize = 5;
+const maxNumbers = gridSize * gridSize;
+const selectionDuration = 1000; // 1 seconde
+var nombre=1
+let numbersToRemember = [];
+let playerSelection = [];
+let gameStarted = false;
+
+function generateGrid() {
+    const grid = document.getElementById('grid');
+    for (let i = 1; i <= maxNumbers; i++) {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+        cell.innerText = i;
+        grid.appendChild(cell);
+        playerSelection=[]
+        cell.addEventListener('click', () => {
+            if (gameStarted && !cell.classList.contains('selected')) {
+                cell.classList.add('selected');
+                playerSelection.push(i);
+                if (playerSelection.length === numbersToRemember.length) {
+                    checkSelection();
+                }
+            }
+        });
+    }
+}
+
+function startGame() {
+    if (!gameStarted) {
+        gameStarted = true;
+        document.getElementById('starts-button').disabled = true;
+        playGame();
+    }
+}
+
+function playGame() {
+  advice.textContent = "";
+  nv("Niveau:"+nombre)
+  su.style.display='none'
+    numbersToRemember=[]
+    numbersToRemember = generateRandomNumbers();
+    setTimeout(function() {
+      displayNumbers(0);
+        }, 2000); // Ajoutez le délai ici
+    
+}
+const niveau=document.getElementById('niveau')
+function generateRandomNumbers() {
+    const randomNumbers = [];
+    while (randomNumbers.length < nombre) {
+        const randomNumber = Math.floor(Math.random() * maxNumbers) + 1;
+        if (!randomNumbers.includes(randomNumber)) {
+            randomNumbers.push(randomNumber);
+        }
+    }
+    return randomNumbers;
+}
+nv("Niveau:"+nombre)
+function displayNumbers(index) {
+  const grid = document.getElementById('grid');
+    clearGrid()
+    const cells = grid.querySelectorAll('.cell');
+    cells.forEach(cell => cell.classList.add('disabled'));
+    if (index < numbersToRemember.length) {
+        const num = numbersToRemember[index];
+        const cell = document.querySelector(`.cell:nth-child(${num}`);
+        cell.classList.add('selected');
+        setTimeout(() => {
+            cell.classList.remove('selected');
+            displayNumbers(index + 1);
+        }, selectionDuration);
+    } else{
+      adcd("A votre tour",1000,1000)
+      cells.forEach(cell => cell.classList.remove('disabled'));
+     
+    }
+}
+
+function nv(text){
+niveau.textContent=text
+}
+const advice=document.getElementById('advice')
+function adc(text){
+advice.textContent=text
+}
+function adcd(text, delay, duration) {
+    const advice = document.getElementById("advice");
+    advice.textContent = text;
+
+    // Attente avant d'afficher le message
+    setTimeout(function() {
+        advice.style.display = "block";
+        
+        // Durée pendant laquelle le message reste affiché
+        setTimeout(function() {
+            advice.textContent = "";
+        }, duration);
+    }, delay);
+}
+function clearGrid() {
+    const cells = document.querySelectorAll('.cell');
+    cells.forEach((cell) => cell.classList.remove('selected'));
+}
+su=document.getElementById('su')
+function checkSelection() {
+    if (JSON.stringify(playerSelection) === JSON.stringify(numbersToRemember)) {
+        playerSelection = [];
+        if (numbersToRemember.length === maxNumbers) {
+          adc("Vous avez terminé le jeu")
+        } else {
+          adc("Trouvé")
+          xhr = new XMLHttpRequest();
+          xhr.open('post', '/score_memorix');
+          xhr.setRequestHeader('Content-Type', 'application/json'); // Définit l'en-tête Content-Type
+          xhr.send(JSON.stringify({ nombre: nombre })); // Convertit l'objet en une chaîne JSON
+          nombre=nombre+1; 
+            // const continueToNextLevel = confirm('Félicitations ! Voulez-vous passer au niveau suivant ?');
+            su.style.display='block'
+            su.addEventListener('click',()=>{
+              
+              clearGrid()
+            playGame()
+            })
+// if (continueToNextLevel) {
+// nv("Niveau:"+nombre)
+//             playGame()
+//         } 
+//             else {
+//                 alert('Merci d\'avoir joué !');
+//             }
+           
+        }
+    } else {
+      adcd("Mauvaise selection",10,3000)
+        clearGrid();
+        playerSelection = [];
+        document.getElementById('starts-button').disabled = false;
+        document.getElementById('starts-button').addEventListener('click', ()=>{
+          nombre=1;
+          adc("")
+          playGame()
+        });
+    }
+}
+
+generateGrid();
+document.getElementById('starts-button').addEventListener('click', startGame);
+
+          }
+
+        }
+          
+        }
+        // Affiche le contenu du jeu sélectionné dans la même modal
+        
+        
+    });
+            $('#open-game-modal').click(function() {
+                $('#gameModal').modal('show');
+                // Définissez un cookie "gameModalVisible" pour indiquer que le modal est ouvert
+                setCookie('gameModalVisible', 'true', 365); // Le cookie expire dans un an
+            });
+
+            $('#gameModal').on('hidden.bs.modal', function (e) {
+                // Lorsque le modal est fermé, définissez le cookie pour indiquer que le modal est fermé
+                setCookie('gameModalVisible', 'false', 365); // Le cookie expire dans un an
+            });
+
+            // Fonction pour définir un cookie
+            function setCookie(name, value, days) {
+                const expires = new Date();
+                expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+                document.cookie = name + '=' + value + ';expires=' + expires.toUTCString();
+            }
+
+            // Fonction pour récupérer un cookie
+            function getCookie(name) {
+                const cookieName = name + '=';
+                const cookieArray = document.cookie.split(';');
+                for (let i = 0; i < cookieArray.length; i++) {
+                    let cookie = cookieArray[i];
+                    while (cookie.charAt(0) === ' ') {
+                        cookie = cookie.substring(1);
+                    }
+                    if (cookie.indexOf(cookieName) === 0) {
+                        return cookie.substring(cookieName.length, cookie.length);
+                    }
+                }
+                return null;
+            }
+        });
+
+      
+</script>
+
+<script>
+// Bind Esc key to closing the modal dialog
+document.onkeypress = function (evt) {
+    evt = evt || window.event;
+    var modal = document.getElementsByClassName("modal")[0];
+    if (evt.keyCode === 27) {
+        modal.style.display = "none";
+    }
+};
+
+// When the user clicks anywhere outside of the modal dialog, close it
+window.onclick = function (evt) {
+    var modal = document.getElementsByClassName("modal")[0];
+    if (evt.target === modal) {
+        modal.style.display = "none";
+    }
+};
+
+//==================================
+// HELPER FUNCTIONS
+//==================================
+function sumArray(array) {
+    var sum = 0,
+        i = 0;
+    for (i = 0; i < array.length; i++) {
+        sum += array[i];
+    }
+    return sum;
+}
+
+function isInArray(element, array) {
+    if (array.indexOf(element) > -1) {
+        return true;
+    }
+    return false;
+}
+
+function shuffleArray(array) {
+    var counter = array.length,
+        temp,
+        index;
+    while (counter > 0) {
+        index = Math.floor(Math.random() * counter);
+        counter--;
+        temp = array[counter];
+        array[counter] = array[index];
+        array[index] = temp;
+    }
+    return array;
+}
+
+function intRandom(min, max) {
+    var rand = min + Math.random() * (max + 1 - min);
+    return Math.floor(rand);
+}
+
+// GLOBAL VARIABLES
+var moves = 0,
+    winner = 0,
+    x = 1,
+    o = 3,
+    player = x,
+    computer = o,
+    whoseTurn = x,
+    gameOver = false,
+    score = {
+        ties: 0,
+        player: 0,
+        computer: 0
+    },
+    xText = "<span class=\"x\">&times;</class>",
+    oText = "<span class=\"o\">o</class>",
+    playerText = xText,
+    computerText = oText,
+    difficulty = 1,
+    myGrid = null;
+
+//==================================
+// GRID OBJECT
+//==================================
+
+// Grid constructor
+//=================
+function Grid() {
+    this.cells = new Array(9);
+}
+
+// Grid methods
+//=============
+
+// Get free cells in an array.
+// Returns an array of indices in the original Grid.cells array, not the values
+// of the array elements.
+// Their values can be accessed as Grid.cells[index].
+Grid.prototype.getFreeCellIndices = function () {
+    var i = 0,
+        resultArray = [];
+    for (i = 0; i < this.cells.length; i++) {
+        if (this.cells[i] === 0) {
+            resultArray.push(i);
+        }
+    }
+    // console.log("resultArray: " + resultArray.toString());
+    // debugger;
+    return resultArray;
+};
+
+// Get a row (accepts 0, 1, or 2 as argument).
+// Returns the values of the elements.
+Grid.prototype.getRowValues = function (index) {
+    if (index !== 0 && index !== 1 && index !== 2) {
+        console.error("Wrong arg for getRowValues!");
+        return undefined;
+    }
+    var i = index * 3;
+    return this.cells.slice(i, i + 3);
+};
+
+// Get a row (accepts 0, 1, or 2 as argument).
+// Returns an array with the indices, not their values.
+Grid.prototype.getRowIndices = function (index) {
+    if (index !== 0 && index !== 1 && index !== 2) {
+        console.error("Wrong arg for getRowIndices!");
+        return undefined;
+    }
+    var row = [];
+    index = index * 3;
+    row.push(index);
+    row.push(index + 1);
+    row.push(index + 2);
+    return row;
+};
+
+// get a column (values)
+Grid.prototype.getColumnValues = function (index) {
+    if (index !== 0 && index !== 1 && index !== 2) {
+        console.error("Wrong arg for getColumnValues!");
+        return undefined;
+    }
+    var i, column = [];
+    for (i = index; i < this.cells.length; i += 3) {
+        column.push(this.cells[i]);
+    }
+    return column;
+};
+
+// get a column (indices)
+Grid.prototype.getColumnIndices = function (index) {
+    if (index !== 0 && index !== 1 && index !== 2) {
+        console.error("Wrong arg for getColumnIndices!");
+        return undefined;
+    }
+    var i, column = [];
+    for (i = index; i < this.cells.length; i += 3) {
+        column.push(i);
+    }
+    return column;
+};
+
+// get diagonal cells
+// arg 0: from top-left
+// arg 1: from top-right
+Grid.prototype.getDiagValues = function (arg) {
+    var cells = [];
+    if (arg !== 1 && arg !== 0) {
+        console.error("Wrong arg for getDiagValues!");
+        return undefined;
+    } else if (arg === 0) {
+        cells.push(this.cells[0]);
+        cells.push(this.cells[4]);
+        cells.push(this.cells[8]);
+    } else {
+        cells.push(this.cells[2]);
+        cells.push(this.cells[4]);
+        cells.push(this.cells[6]);
+    }
+    return cells;
+};
+
+// get diagonal cells
+// arg 0: from top-left
+// arg 1: from top-right
+Grid.prototype.getDiagIndices = function (arg) {
+    if (arg !== 1 && arg !== 0) {
+        console.error("Wrong arg for getDiagIndices!");
+        return undefined;
+    } else if (arg === 0) {
+        return [0, 4, 8];
+    } else {
+        return [2, 4, 6];
+    }
+};
+
+// Get first index with two in a row (accepts computer or player as argument)
+Grid.prototype.getFirstWithTwoInARow = function (agent) {
+    if (agent !== computer && agent !== player) {
+        console.error("Function getFirstWithTwoInARow accepts only player or computer as argument.");
+        return undefined;
+    }
+    var sum = agent * 2,
+        freeCells = shuffleArray(this.getFreeCellIndices());
+    for (var i = 0; i < freeCells.length; i++) {
+        for (var j = 0; j < 3; j++) {
+            var rowV = this.getRowValues(j);
+            var rowI = this.getRowIndices(j);
+            var colV = this.getColumnValues(j);
+            var colI = this.getColumnIndices(j);
+            if (sumArray(rowV) == sum && isInArray(freeCells[i], rowI)) {
+                return freeCells[i];
+            } else if (sumArray(colV) == sum && isInArray(freeCells[i], colI)) {
+                return freeCells[i];
+            }
+        }
+        for (j = 0; j < 2; j++) {
+            var diagV = this.getDiagValues(j);
+            var diagI = this.getDiagIndices(j);
+            if (sumArray(diagV) == sum && isInArray(freeCells[i], diagI)) {
+                return freeCells[i];
+            }
+        }
+    }
+    return false;
+};
+
+Grid.prototype.reset = function () {
+    for (var i = 0; i < this.cells.length; i++) {
+        this.cells[i] = 0;
+    }
+    return true;
+};
+
+//==================================
+// MAIN FUNCTIONS
+//==================================
+
+// executed when the page loads
+function initialize() {
+    myGrid = new Grid();
+    moves = 0;
+    winner = 0;
+    gameOver = false;
+    whoseTurn = player; // default, this may change
+    for (var i = 0; i <= myGrid.cells.length - 1; i++) {
+        myGrid.cells[i] = 0;
+    }
+    // setTimeout(assignRoles, 500);
+    setTimeout(showOptions, 500);
+    // debugger;
+}
+
+// Ask player if they want to play as X or O. X goes first.
+function assignRoles() {
+    askUser("Do you want to go first?");
+    document.getElementById("yesBtn").addEventListener("click", makePlayerX);
+    document.getElementById("noBtn").addEventListener("click", makePlayerO);
+}
+initialize()
+function makePlayerX() {
+    player = x;
+    computer = o;
+    whoseTurn = player;
+    playerText = xText;
+    computerText = oText;
+    document.getElementById("userFeedback").style.display = "none";
+    document.getElementById("yesBtn").removeEventListener("click", makePlayerX);
+    document.getElementById("noBtn").removeEventListener("click", makePlayerO);
+}
+
+function makePlayerO() {
+    player = o;
+    computer = x;
+    whoseTurn = computer;
+    playerText = oText;
+    computerText = xText;
+    setTimeout(makeComputerMove, 400);
+    document.getElementById("userFeedback").style.display = "none";
+    document.getElementById("yesBtn").removeEventListener("click", makePlayerX);
+    document.getElementById("noBtn").removeEventListener("click", makePlayerO);
+}
+
+// executed when player clicks one of the table cells
+function cellClicked(id) {
+    // The last character of the id corresponds to the numeric index in Grid.cells:
+    var idName = id.toString();
+    var cell = parseInt(idName[idName.length - 1]);
+    if (myGrid.cells[cell] > 0 || whoseTurn !== player || gameOver) {
+        // cell is already occupied or something else is wrong
+        return false;
+    }
+    moves += 1;
+    document.getElementById(id).innerHTML = playerText;
+    // randomize orientation (for looks only)
+    var rand = Math.random();
+    if (rand < 0.3) {
+        document.getElementById(id).style.transform = "rotate(180deg)";
+    } else if (rand > 0.6) {
+        document.getElementById(id).style.transform = "rotate(90deg)";
+    }
+    document.getElementById(id).style.cursor = "default";
+    myGrid.cells[cell] = player;
+    // Test if we have a winner:
+    if (moves >= 5) {
+        winner = checkWin();
+    }
+    if (winner === 0) {
+        whoseTurn = computer;
+        makeComputerMove();
+    }
+    return true;
+}
+
+// Executed when player hits restart button.
+// ask should be true if we should ask users if they want to play as X or O
+function restartGame(ask) {
+    if (moves > 0) {
+        var response = confirm("Are you sure you want to start over?");
+        if (response === false) {
+            return;
+        }
+    }
+    gameOver = false;
+    moves = 0;
+    winner = 0;
+    whoseTurn = x;
+    myGrid.reset();
+    for (var i = 0; i <= 8; i++) {
+        var id = "cell" + i.toString();
+        document.getElementById(id).innerHTML = "";
+        document.getElementById(id).style.cursor = "pointer";
+        document.getElementById(id).classList.remove("win-color");
+    }
+    if (ask === true) {
+        // setTimeout(assignRoles, 200);
+        setTimeout(showOptions, 200);
+    } else if (whoseTurn == computer) {
+        setTimeout(makeComputerMove, 800);
+    }
+}
+
+// The core logic of the game AI:
+function makeComputerMove() {
+    // debugger;
+    if (gameOver) {
+        return false;
+    }
+    var cell = -1,
+        myArr = [],
+        corners = [0,2,6,8];
+    if (moves >= 3) {
+        cell = myGrid.getFirstWithTwoInARow(computer);
+        if (cell === false) {
+            cell = myGrid.getFirstWithTwoInARow(player);
+        }
+        if (cell === false) {
+            if (myGrid.cells[4] === 0 && difficulty == 1) {
+                cell = 4;
+            } else {
+                myArr = myGrid.getFreeCellIndices();
+                cell = myArr[intRandom(0, myArr.length - 1)];
+            }
+        }
+        // Avoid a catch-22 situation:
+        if (moves == 3 && myGrid.cells[4] == computer && player == x && difficulty == 1) {
+            if (myGrid.cells[7] == player && (myGrid.cells[0] == player || myGrid.cells[2] == player)) {
+                myArr = [6,8];
+                cell = myArr[intRandom(0,1)];
+            }
+            else if (myGrid.cells[5] == player && (myGrid.cells[0] == player || myGrid.cells[6] == player)) {
+                myArr = [2,8];
+                cell = myArr[intRandom(0,1)];
+            }
+            else if (myGrid.cells[3] == player && (myGrid.cells[2] == player || myGrid.cells[8] == player)) {
+                myArr = [0,6];
+                cell = myArr[intRandom(0,1)];
+            }
+            else if (myGrid.cells[1] == player && (myGrid.cells[6] == player || myGrid.cells[8] == player)) {
+                myArr = [0,2];
+                cell = myArr[intRandom(0,1)];
+            }
+        }
+        else if (moves == 3 && myGrid.cells[4] == player && player == x && difficulty == 1) {
+            if (myGrid.cells[2] == player && myGrid.cells[6] == computer) {
+                cell = 8;
+            }
+            else if (myGrid.cells[0] == player && myGrid.cells[8] == computer) {
+                cell = 6;
+            }
+            else if (myGrid.cells[8] == player && myGrid.cells[0] == computer) {
+                cell = 2;
+            }
+            else if (myGrid.cells[6] == player && myGrid.cells[2] == computer) {
+                cell = 0;
+            }
+        }
+    } else if (moves === 1 && myGrid.cells[4] == player && difficulty == 1) {
+        // if player is X and played center, play one of the corners
+        cell = corners[intRandom(0,3)];
+    } else if (moves === 2 && myGrid.cells[4] == player && computer == x && difficulty == 1) {
+        // if player is O and played center, take two opposite corners
+        if (myGrid.cells[0] == computer) {
+            cell = 8;
+        }
+        else if (myGrid.cells[2] == computer) {
+            cell = 6;
+        }
+        else if (myGrid.cells[6] == computer) {
+            cell = 2;
+        }
+        else if (myGrid.cells[8] == computer) {
+            cell = 0;
+        }
+    } else if (moves === 0 && intRandom(1,10) < 8) {
+        // if computer is X, start with one of the corners sometimes
+        cell = corners[intRandom(0,3)];
+    } else {
+        // choose the center of the board if possible
+        if (myGrid.cells[4] === 0 && difficulty == 1) {
+            cell = 4;
+        } else {
+            myArr = myGrid.getFreeCellIndices();
+            cell = myArr[intRandom(0, myArr.length - 1)];
+        }
+    }
+    var id = "cell" + cell.toString();
+    // console.log("computer chooses " + id);
+    document.getElementById(id).innerHTML = computerText;
+    document.getElementById(id).style.cursor = "default";
+    // randomize rotation of marks on the board to make them look
+    // as if they were handwritten
+    var rand = Math.random();
+    if (rand < 0.3) {
+        document.getElementById(id).style.transform = "rotate(180deg)";
+    } else if (rand > 0.6) {
+        document.getElementById(id).style.transform = "rotate(90deg)";
+    }
+    myGrid.cells[cell] = computer;
+    moves += 1;
+    if (moves >= 5) {
+        winner = checkWin();
+    }
+    if (winner === 0 && !gameOver) {
+        whoseTurn = player;
+    }
+}
+
+// Check if the game is over and determine winner
+function checkWin() {
+    winner = 0;
+
+    // rows
+    for (var i = 0; i <= 2; i++) {
+        var row = myGrid.getRowValues(i);
+        if (row[0] > 0 && row[0] == row[1] && row[0] == row[2]) {
+            if (row[0] == computer) {
+                score.computer++;
+                winner = computer;
+                // console.log("computer wins");
+            } else {
+                score.player++;
+                winner = player;
+                // console.log("player wins");
+            }
+            // Give the winning row/column/diagonal a different bg-color
+            var tmpAr = myGrid.getRowIndices(i);
+            for (var j = 0; j < tmpAr.length; j++) {
+                var str = "cell" + tmpAr[j];
+                document.getElementById(str).classList.add("win-color");
+            }
+            setTimeout(endGame, 1000, winner);
+            return winner;
+        }
+    }
+
+    // columns
+    for (i = 0; i <= 2; i++) {
+        var col = myGrid.getColumnValues(i);
+        if (col[0] > 0 && col[0] == col[1] && col[0] == col[2]) {
+            if (col[0] == computer) {
+                score.computer++;
+                winner = computer;
+                // console.log("computer wins");
+            } else {
+                score.player++;
+                winner = player;
+                // console.log("player wins");
+            }
+            // Give the winning row/column/diagonal a different bg-color
+            var tmpAr = myGrid.getColumnIndices(i);
+            for (var j = 0; j < tmpAr.length; j++) {
+                var str = "cell" + tmpAr[j];
+                document.getElementById(str).classList.add("win-color");
+            }
+            setTimeout(endGame, 1000, winner);
+            return winner;
+        }
+    }
+
+    // diagonals
+    for (i = 0; i <= 1; i++) {
+        var diagonal = myGrid.getDiagValues(i);
+        if (diagonal[0] > 0 && diagonal[0] == diagonal[1] && diagonal[0] == diagonal[2]) {
+            if (diagonal[0] == computer) {
+                score.computer++;
+                winner = computer;
+                // console.log("computer wins");
+            } else {
+                score.player++;
+                winner = player;
+                // console.log("player wins");
+            }
+            // Give the winning row/column/diagonal a different bg-color
+            var tmpAr = myGrid.getDiagIndices(i);
+            for (var j = 0; j < tmpAr.length; j++) {
+                var str = "cell" + tmpAr[j];
+                document.getElementById(str).classList.add("win-color");
+            }
+            setTimeout(endGame, 1000, winner);
+            return winner;
+        }
+    }
+
+    // If we haven't returned a winner by now, if the board is full, it's a tie
+    var myArr = myGrid.getFreeCellIndices();
+    if (myArr.length === 0) {
+        winner = 10;
+        score.ties++;
+        endGame(winner);
+        return winner;
+    }
+
+    return winner;
+}
+
+function announceWinner(text) {
+    document.getElementById("winText").innerHTML = text;
+    document.getElementById("winAnnounce").style.display = "block";
+    setTimeout(closeModal, 1400, "winAnnounce");
+}
+
+function askUser(text) {
+    document.getElementById("questionText").innerHTML = text;
+    document.getElementById("userFeedback").style.display = "block";
+}
+
+function showOptions() {
+    if (player == o) {
+        document.getElementById("rx").checked = false;
+        document.getElementById("ro").checked = true;
+    }
+    else if (player == x) {
+        document.getElementById("rx").checked = true;
+        document.getElementById("ro").checked = false;
+    }
+    if (difficulty === 0) {
+        document.getElementById("r0").checked = true;
+        document.getElementById("r1").checked = false;
+    }
+    else {
+        document.getElementById("r0").checked = false;
+        document.getElementById("r1").checked = true;
+    }
+    document.getElementById("optionsDlg").style.display = "block";
+}
+
+function getOptions() {
+    var diffs = document.getElementsByName('difficulty');
+    for (var i = 0; i < diffs.length; i++) {
+        if (diffs[i].checked) {
+            difficulty = parseInt(diffs[i].value);
+            break;
+            // debugger;
+        }
+    }
+    if (document.getElementById('rx').checked === true) {
+        player = x;
+        computer = o;
+        whoseTurn = player;
+        playerText = xText;
+        computerText = oText;
+    }
+    else {
+        player = o;
+        computer = x;
+        whoseTurn = computer;
+        playerText = oText;
+        computerText = xText;
+        setTimeout(makeComputerMove, 400);
+    }
+    document.getElementById("optionsDlg").style.display = "none";
+}
+
+function closeModal(id) {
+    document.getElementById(id).style.display = "none";
+}
+
+function endGame(who) {
+    if (who == player) {
+        announceWinner("Congratulations, you won!");
+    } else if (who == computer) {
+        announceWinner("Computer wins!");
+    } else {
+        announceWinner("It's a tie!");
+    }
+    gameOver = true;
+    whoseTurn = 0;
+    moves = 0;
+    winner = 0;
+    document.getElementById("computer_score").innerHTML = score.computer;
+    document.getElementById("tie_score").innerHTML = score.ties;
+    document.getElementById("player_score").innerHTML = score.player;
+    for (var i = 0; i <= 8; i++) {
+        var id = "cell" + i.toString();
+        document.getElementById(id).style.cursor = "default";
+    }
+    setTimeout(restartGame, 800);
+  }
+
+ 
+</script>
+
+<!-- Video Modal -->
+<div class="modal fade" id="gameModal" tabindex="-1" role="dialog" aria-labelledby="gameModalLabel" aria-hidden="true" style="margin-top: 10vh;scale: 0.9;">
+  <div class="modal-dialog" role="document" >
+      <div class="modal-content" style="background-color: #f5f5f5;">
+          <div class="modal-header justify-content-center d-flex flex" >
+              <h5 class="" id="gameModalLabel" onclick="window.location.reload()" style="padding-left: 5px;padding-right: 5px;background-color: black;border-radius: 50px;text-align: center;color: white;opacity: 0.8;">Menu</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                  <span id="clm" aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body" id="gameContent">
+              <h4 style="text-align: center;font-family: 'Indie Flower';color: rgb(231, 111, 75);">Liste de jeux</h4>
+              <div class="mt-1">
+                <div class="d-style btn btn-brc-tp border-2 bgc-white btn-outline-blue btn-h-outline-blue btn-a-outline-blue w-100 my-2 py-3 shadow-sm">
+                  <!-- Basic Plan -->
+                  <div class="row align-items-center">
+                    <div class="col-12 col-md-4" style="background-image: url('/static/image/tic-tac-toe.jfif');background-position: center;background-size: cover;">
+                      <h4 class="pt-3 text-170 text-600 text-primary-d1 letter-spacing text-white">
+                        TIC TAC TOE
+                      </h4>
+                    </div>
+          
+                    <ul class="list-unstyled mb-0 col-12 col-md-4 text-dark-l1 text-90 text-left my-4 my-md-0" style="font-size: 10px;">
+                      <li>
+                       
+                        <span>
+                          <span class="text-110" style="font-size: 10px;">Stratégie</span>
+                          former un alignement de trois symboles X sur une ligne, une colonne ou une diagonale
+                        </span>
+                      </li>
+                    </ul>
+          
+                    <div class="col-12 col-md-4 text-center">
+        
+                      <a href="#" id="game1" class="f-n-hover btn btn-info btn-raised px-4 py-25 w-75 text-600">Testez votre strategie</a>
+                    </div>
+                  </div>
+          
+                </div>
+          
+          
+          
+                <div class="d-style bgc-white btn btn-brc-tp btn-outline-green btn-h-outline-green btn-a-outline-green w-100 my-2 py-3 shadow-sm border-2">
+                  <!-- Pro Plan -->
+                  <div class="row align-items-center">
+                    <div class="col-12 col-md-4" style="background-image: url('/static/image/25alasuite.jpg');background-position: center;background-size: cover;" >
+                      <h4 class="pt-3 text-170 text-600 text-green-d1 letter-spacing text-white">
+                        25 A LA SUITE
+                      </h4>
+                    </div>
+          
+                    <ul class="list-unstyled mb-0 col-12 col-md-4 text-dark-l1 text-90 text-left my-4 my-md-0" style="font-size: 10px;">
+                      <li>
+              
+                        <span>
+                          <span class="text-110" style="font-size: 10px;">Rapidité</span>
+                          Votre objectif est de sélectionner les nombres dans l'ordre croissant. Vous êtes contraint par le temps.
+                        </span>
+                      </li>
+                    </ul>
+          
+                    <div class="col-12 col-md-4 text-center">
+                      <a href="#" id="game2" class="f-n-hover btn btn-success btn-raised px-4 py-25 w-75 text-600">Testez votre rapidite</a>
+                    </div>
+                  </div>
+          
+                </div>
+          
+          
+          
+                <div class="d-style btn btn-brc-tp border-2 bgc-white btn-outline-purple btn-h-outline-purple btn-a-outline-purple w-100 my-2 py-3 shadow-sm">
+                  <!-- Premium Plan -->
+                  <div class="row align-items-center">
+                    <div class="col-12 col-md-4" style="background-image: url('/static/image/memorix.jpg');background-position: center;background-size: cover;">
+                      <h4 class="pt-3 text-170 text-600 text-purple-d1 letter-spacing text-white">
+                        MEMORIX
+                      </h4>
+                    </div>
+          
+                    <ul class="list-unstyled mb-0 col-12 col-md-4 text-dark-l1 text-90 text-left my-4 my-md-0" style="font-size: 10px;">
+                      <li>
+                  
+                        <span>
+                          <span class="text-110" style="font-size: 10px;">Mémoire</span>
+                          Mémorisez et sélectionnez les chiffres dans l'ordre, tout en relevant le défi croissant de chiffres à retenir à chaque étape.
+                        </span>
+                      </li>
+                    </ul>
+          
+                    <div class="col-12 col-md-4 text-center">
+                      <a href="#" id="game3" class="f-n-hover btn btn-warning btn-raised px-4 py-25 w-75 text-600">Testez votre memoire</a>
+                    </div>
+                  </div>
+          
+                </div>
+              </div>
+              <!-- <ul style="list-style: none; " class="list-unstyled mb-0 col-12 col-md-4 text-dark-l1 text-90 text-left my-4 my-md-0">
+                  <li style="text-align: center;"><a href="#" id="game1" style="text-decoration: none;" >TIC TAC TOE</a></li>
+                  <li style="text-align: center;"><a href="#" id="game2" style="text-decoration: none;">NOMBRE</a></li>
+                  <li style="text-align: center;"><a href="#" id="game3" style="text-decoration: none;">JEU DE MEMOIRE</a></li>
+              </ul> -->
+          </div>
+      </div>
+  </div>
+</div>
+
+{% endblock %}

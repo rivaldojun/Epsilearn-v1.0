@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+{% block style %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Recherche d'Utilisateurs | Epsilearn</title>
+  <!-- Inclure les fichiers Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f5f5f5;
+    }
+    .container {
+      margin-top: 50px;
+    }
+    .user-card {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 10px;
+      margin: 10px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .user-card:hover{
+        cursor: pointer;
+        scale: 1.05;
+        background-color:rgba(0, 0, 255, 0.103);
+        transition: 0.7s;
+    }
+    #listeprof{
+            text-decoration: overline ;
+            color: rgb(0, 0, 0)
+        }
+  .choose-button {
+    background-color: #000000;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+   /* Style pour le bouton "Passer" */
+   .pass-button {
+    background-color: #000000;
+    color: #fff;
+    border: none;
+    padding: 5px 50px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 60px;
+    float: right;
+  }
+  .user-photo {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.user-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+  .stylish-input-group {
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    padding: 5px 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    display: inline-block;
+    width: auto;
+}
+
+.stylish-input-group input[type="text"] {
+    border: none;
+    outline: none;
+    box-shadow: none;
+    padding: 15px;
+    font-size: 14px;
+    width: 120px;
+    transition: width 0.3s ease-in-out;
+    border-radius: 25px 0px 0px 25px;
+}
+
+.stylish-input-group input[type="text"]:focus {
+    width: 100%;
+}
+
+.stylish-input-group .input-group-append button {
+    border: none;
+    outline: none;
+    background-color: blue;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 0px 25px 25px 0px;
+    cursor: pointer;
+}
+
+.stylish-input-group .input-group-append button:hover {
+    background-color: #0056b3;
+}
+
+  </style>
+  {% endblock %}
+
+  {% block content %}
+  <div class="container">
+    <h3 class="mb-4 animate-element" data-animation="fadeInUp" style="animation-duration: 1s;color: #000000;font-family: 'Kanit'; font-size: 28px;">Liste des professeurs </h3>
+    <div class="input-group mb-3">
+        <div class="dropdown" >
+            <ul class="dropdown-menu" id="suggestions" style="display: none;"></ul>
+          </div>
+          <div class="input-group stylish-input-group mt-4 animate-element" data-animation="fadeInUp" style="animation-duration: 1.4s;">
+            <input type="text" class="form-control" id="searchUserInput" placeholder="Rechercher par nom">
+        </div>
+        
+
+      </div>
+      <!-- Suggestions sous forme de dropdown -->
+      
+    </div>
+    <div class="container">
+    <div class="container row animate-element justify-content-center" data-animation="fadeInUp" style="animation-duration: 2s;scale: 1;" id="userCards" >
+      <!-- Blocs des informations d'utilisateur seront insérés ici dynamiquement -->
+      <div class="container">
+      {% for user,users in professeurs %}
+      <div class="card col-md-3 user-card">
+      <div class="d-flex align-items-start mb-4">
+        <div class="flex-shrink-0">
+          <img src="{{user.photo}}"
+            alt="Generic placeholder image" class="img-fluid rounded-circle border border-dark border-3"
+            style="width: 70px;">
+        </div>
+        <div class="flex-grow-1 ms-3">
+          <p class="mb-0">{{users.nom}} {{users.prenom}}</p>
+          <ul class="mb-2 list-unstyled">
+            <li>
+              <span class="stars">
+                {% for _ in range(user.etoile) %}
+                  <i class="fas fa-star" style="color: gold;"></i>
+                {% endfor %}
+              </span>
+            </li> 
+            <li class="ms-2">{{ user.nationalite }}</li>
+          </ul>
+        </div>
+      </div>
+      <hr>
+      <div>
+
+        <p style="margin-bottom: 20px;"> {{user.vendervous}}</p>
+        
+    
+        <p class="mb-0" style="margin-bottom: 20px;">
+            <i class="fas fa-book discipline-icon"></i> Discipline :
+            {{user.discipline}}
+        </p>
+
+        <p class="mb-0">
+            <i class="fas fa-graduation-cap formation-icon"></i>
+            {{user.formation}}
+        </p>
+      <button class="choose-button" onclick="window.location.href='/profilprof/{{user.id}}'" style="background-color:blue">Voir profil</button>
+    </div>
+  </div>
+</div>
+
+{% endfor %}
+</div>
+    </div>
+    <div class="navigation-buttons fixed-bottom" style="text-align: center; margin-top: 20px;bottom: 0px;">
+      <button class="btn btn-navigation" onclick="scrollPanels(-1)">Précédent</button>
+      <span id="pageNumber" style="margin: 0 10px;color: blue;"></span>
+      <button class="btn btn-navigation" onclick="scrollPanels(1)">Suivant</button>
+  </div>
+  </div>
+
+  <!-- Inclure les fichiers Bootstrap JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+     let currentPage = 0;
+    const panels = document.querySelectorAll('.card');
+    const panelsPerPage = 9;
+    const totalPages = Math.ceil(panels.length / panelsPerPage);
+    const pageNumberElement = document.getElementById('pageNumber');
+
+    const panelsContainer = document.querySelector('.panel-container'); // Ajoutez cette ligne
+
+    function updatePageNumber() {
+        pageNumberElement.textContent = (currentPage + 1) + ' / ' + totalPages;
+    }
+
+    function scrollPanels(direction) {
+    currentPage += direction;
+    if (currentPage < 0) currentPage = 0;
+    if (currentPage >= totalPages) currentPage = totalPages - 1;
+
+    const startIndex = currentPage * panelsPerPage;
+    const endIndex = startIndex + panelsPerPage;
+
+    panels.forEach((panel, index) => {
+            if (index >= startIndex && index < endIndex) {
+                if (direction === -1) {
+                    panel.classList.remove('animate-right');
+                    panel.classList.add('animate-left');
+                } else if (direction === 1) {
+                    panel.classList.remove('animate-left');
+                    panel.classList.add('animate-right');
+                }
+                panel.style.display = 'block';
+            } else {
+                panel.style.display = 'none';
+            }
+        });
+
+
+
+    updatePageNumber();
+}
+
+
+    // Afficher la première page de panels
+    scrollPanels(0);
+  </script>
+{% endblock %}

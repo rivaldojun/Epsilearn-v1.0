@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}Epsilearn{% endblock %}
+
+{% block style %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uploader un fichier | Epsilearn</title>
+  <!-- Inclure les fichiers Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f5f5f5;
+    }
+
+    .container {
+      margin-top: 50px;
+      animation: slideInFromBottom 1s forwards;
+    }
+
+    .upload-block {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s, transform 0.5s;
+    }
+
+    .upload-block.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .choose-button,
+    .submit-button,
+    .return-button {
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .choose-button {
+      background-color: blue;
+      color: #fff;
+    }
+
+    .submit-button {
+      background-color: blue;
+      color: #fff;
+    }
+
+    .return-button {
+      background-color: black;
+      color: #fff;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .file-label {
+      cursor: pointer;
+    }
+
+    @keyframes slideInFromBottom {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <form method="POST" enctype="multipart/form-data" action="/epreuve">
+    <div class="upload-block">
+      <h3 class="mb-4 text-center">Télécharger un fichier</h3>
+      <p class="text-center">Sélectionnez un fichier à télécharger en cliquant sur le bouton ci-dessous :</p>
+      <div class="text-center">
+        <label class="choose-button file-label" for="file">Choisir un fichier</label>
+        <input type="file" name="file" id="file" accept=".jpg,.jpeg,.png,.pdf" class="d-none">
+      </div>
+      <br><br>
+      <div class="buttons text-center">
+        <button class="submit-button">Soumettre</button>
+        <a href="/chapitre" class="return-button" style="text-decoration: none;color: white;" onclick="goBack()">Retour</a>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+
+  <!-- Inclure les fichiers Bootstrap JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const uploadBlock = document.querySelector(".upload-block");
+      uploadBlock.classList.add("show");
+    });
+
+    document.getElementById('submit-button').addEventListener('click', function () {
+      const fileInput = document.getElementById('file');
+      if (fileInput.files.length > 0) {
+        window.location.href = "/date";
+      }
+    });
+
+    function goBack() {
+      window.location.href = "/chapitre";
+    }
+  </script>
+{% endblock %}

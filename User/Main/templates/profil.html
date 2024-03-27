@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block style %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style_base.css') }}">
+  <!-- Add Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  <!-- Add your other CSS files if needed -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/accueil.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/discipline.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/profil_etudiant.css') }}">
+  <style>
+    body{
+    background-image: url("/static/image/bgimg.jpg");
+   }
+  
+    .profile-picture {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 5px solid white;
+    }
+    .profil_container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 70vh;
+      margin-top: 90px;
+    }
+    .profil_panel {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      max-width: 600px;
+      width: 100%;
+      margin-top: -100px;
+    }
+    .fs-5 {
+      font-size: 1.2rem;
+    }
+    .btn-primary {
+      background-color: #1877f2;
+      border-color: #1877f2;
+    }
+    .btn-primary:hover {
+      background-color: #166fe5;
+      border-color: #166fe5;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+
+  {% if user_type=="etudiant" %}
+  <div class="profil_container" style="scale: 0.7;">
+    <div class="profil_panel">
+      <div class="card bg-light p-4">
+        <div class="d-flex justify-content-center">
+          <img class="profile-picture" src="{{ profile_picture_path }}" alt="Photo de profil">
+        </div>
+        <div class="ml-4 mt-3" style="background-color: rgb(255, 255, 255);color: rgb(0, 0, 0);padding: 20px;border-radius: 10px;text-align: center;">
+          <p class="fw-bold fs-5">{{ user.nom }} {{ user.prenom }}</p>
+          <p><strong>Ecole:</strong> {{ etudiant.ecole }}</p>
+          <p><strong>Formation:</strong> {{ etudiant.formation }}</p>
+          <p><strong>Niveau d'étude:</strong> {{ etudiant.Nvdetud }}</p>
+          <p><strong>Filière:</strong> {{ etudiant.filiere }}</p>
+        </div>
+        <div class="d-flex justify-content-center mt-4">
+          <button class="btn btn-primary me-3" onclick="window.location.href='/modifierprofil';">Modifier</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if user_type=="professeur" %}
+  <div class="profil_container" style="scale: 0.7;">
+    <div class="profil_panel">
+      <div class="card bg-light p-4">
+        <div class="d-flex justify-content-center">
+          <img class="profile-picture" src="{{ profile_picture_path }}" alt="Photo de profil">
+        </div>
+        <div class="m-lg-4 mt-3" style="background-color: rgb(255, 255, 255);color: rgb(0, 0, 0);padding: 20px;border-radius: 10px;text-align: center;">
+          <p class="fw-bold fs-5">{{ user.nom }} {{ user.prenom }}</p>
+          <p><strong>Discipline enseignée(s):</strong> {{ prof.discipline }}</p>
+          <p><strong>Formation:</strong> {{ prof.formation }}</p>
+          <p><strong>Niveau d'étude:</strong> {{ prof.Nvdetud }}</p>
+          <p><strong>Dernier diplôme obtenu:</strong> {{ prof.Diplome }}</p>
+        </div>
+        <div class="d-flex justify-content-center mt-4">
+          <button class="btn btn-primary me-3" onclick="window.location.href='/modifierprofil';">Modifier</button>
+          <button class="btn btn-primary me-3" onclick="window.location.href='/profilprof/{{idprof}}';">Voir détails profil</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if user_type=="autre" %}
+  <div class="profil_container" style="scale: 0.7;">
+    <div class="profil_panel">
+      <div class="card bg-light p-4">
+        <div class="d-flex justify-content-center">
+          <img class="profile-picture" src="{{ profile_picture_path }}" alt="Photo de profil">
+        </div>
+        <div class="m-lg-4 mt-3" style="background-color: rgb(255, 255, 255);color: rgb(0, 0, 0);padding: 20px;border-radius: 10px;text-align: center;">
+          <p class="fw-bold fs-5">{{ user.nom }} {{ user.prenom }}</p>
+          <p><strong>Age:</strong> {{ user.age }}</p>
+        </div>
+        <div class="d-flex justify-content-center mt-4">
+          <button class="btn btn-primary me-3" onclick="window.location.href='/modifierprofil';">Modifier</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+{% endblock %}

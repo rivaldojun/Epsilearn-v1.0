@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block style %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mes demandes</title>
+  <!-- Inclure les fichiers Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+     body{
+      background-color: #f5f5f5;
+    }
+    #navbarDropdownMenuLink{
+    text-decoration: overline ;
+    color: rgb(0, 0, 0)
+  }
+
+    .panel-container:hover{
+      background-color: cornflowerblue;
+      cursor: pointer;
+  }
+  
+/* Utilisez Flexbox pour centrer les demandes et styliser le panel */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.panel-container {
+    width: 300px; /* Largeur du conteneur */
+    border-radius: 30px;
+    margin: 30px;
+    padding: 10px;
+    background-color: #f0f0f0; /* Fond du panel en gris */
+    position: relative; /* Pour positionner les boutons à l'intérieur */
+}
+
+.panel-container button {
+    position: absolute;
+    border: none;
+    cursor: pointer;
+}
+
+.panel-container button.confirm-btn {
+    bottom: -30px; /* Bouton "Confirmer" en bas du panel */
+  
+     /* Pour centrer par rapport à la largeur du panel */
+    background-color: rgb(22, 209, 22); /* Bouton "Confirmer" en vert */
+    color: #fff; /* Couleur du texte en blanc */
+    margin-left: 18px;
+    height: 30px;
+    width: 250px;
+    border-radius: 10px;
+}
+
+.panel-container button.cancel-btn {
+    top: 25px; /* Bouton "Annuler" sur le côté supérieur du panel */
+    right: -100px; /* Collé à l'extrémité droite du panel */
+    background-color: red; /* Bouton "Annuler" en rouge */
+    color: #fff; /* Couleur du texte en blanc */
+    height: 30px;
+    width: 170px;
+    border-radius: 10px;
+    transform: rotate(90deg); /* Tourner le bouton "Annuler" de 90 degrés (verticalement) */
+    transform-origin: center; /* Point de rotation au centre du bouton */
+    margin-top: 70px;
+    margin-left: 1000px;
+
+}
+.h1{
+    margin-top: 50px;
+    color: black;
+    display: flex;
+    display: flex;
+   justify-content: center;
+   align-items: center;
+   
+}
+.panel-container:hover{
+  background-color: cornflowerblue;
+  cursor: pointer;
+}
+
+#deconnecterButton{
+     height: 40px;
+     width: 150px;
+     color: white;
+     background-color: #000000;
+     border: none;
+     border-radius: 5px;
+    } 
+    #deconnecterButton:hover{
+    cursor: pointer;
+    } 
+    .ime:hover{
+      cursor: pointer;
+    }
+    /* Votre code CSS */
+/* Style pour la fenêtre modale */
+.modal {
+display: none;
+position: fixed;
+z-index: 1;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+overflow: auto;
+background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+background-color: #fff;
+border-radius: 5px;
+max-width: 300px;
+margin: 150px auto;
+padding: 20px;
+text-align: center;
+}
+  </style>
+  {% endblock %}
+  
+
+  {% block content %}
+  <div class="h1">
+    <h1 style="font-size: 28px;">Mes offres</h1>
+</div>
+
+<div class='demandes-container flex-container'>
+  {% for demand in demands %}
+  <div class='panel-container' data-demand-id="{{ demand.id_demande }}">
+      <div class="pan" data-demand-id="{{ demand.id_demande }}" >
+          <p>Code : {{demand.id_demande}}</p>
+          <p>Statut : {{demand.statut_demande}}</p>
+          <p>Matiere :{{demand.matiere}}<span id="date2"></span></p>
+          <p>Date 1 : {{demand.date1}}</p>
+          <p>Date 2 : {{demand.date2}}</p>
+      </div>
+      <button class='confirm-btn' data-demand-id="{{ demand.id_demande }}" onclick="afficherConfirmation()" >Confirmer</button>
+    </div>
+     
+      <div id="modals" class="modals" style="display: none; background-color: rgb(206, 205, 205);height: 160px;width: 300px;z-index: 9999999;position: fixed;margin-top: 0px;border-radius: 20px;">
+        <div class="modal-contents"  >
+          <p id="con" style="text-align: center;font-size: 17px;font-weight: bold;"> <span style="color: rgb(14, 14, 64);font-weight: bolder; "></span> <br>Quelle date preferez-vous  ?</p>
+          <button class="dat1" style="height: 50px;width: 300px;background-color: rgb(164, 162, 162);border-radius: 15px;" data-demand-id="{{ demand.id_demande }}" data-date-id="1" data-live-id="{{ demand.lien }}" >Le {{demand.date1}}</button>
+          <button class="dat2" style="height: 50px;width: 300px;background-color: rgb(179, 177, 177);border-radius: 15px;"data-demand-id="{{ demand.id_demande }}" data-date-id="2" data-live-id="{{ demand.lien }}" >Le {{demand.date2}}</button>
+          <button style="height: 50px;width: 300px;background-color: rgb(255, 0, 0);border-radius: 15px;" onclick="cacherConfirmation()" >Annuler</button>
+        </div>
+      </div>
+  {% endfor %}
+</div>
+
+<script src="{{ url_for('static', filename='JS/demandeprof.js') }}"></script>
+  <!-- Inclure les fichiers Bootstrap JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    // Votre code JavaScript ici si nécessaire
+  </script>
+{% endblock %}

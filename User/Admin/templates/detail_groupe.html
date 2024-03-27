@@ -1,0 +1,54 @@
+{% extends 'index.html'%}
+
+<head>
+    <title>Participants du groupe {{ groupe.nom }}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 18px;
+            color: #555;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+{% block content %}
+
+    <div class="container">
+        <h1>Participants du groupe {{ groupe.nom }}</h1>
+        <ul>
+            {% for participant in participants %}
+            <li>{{ participant.util.nom }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

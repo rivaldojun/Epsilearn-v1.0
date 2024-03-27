@@ -1,0 +1,103 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// schema.prisma
+
+model Registration {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  func  String
+  password  String
+}
+
+model souscripconf {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  idconf  Int
+  sub  Boolean
+}
+
+model souscripformation {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  sub  Boolean
+}
+model Newsletter{
+  id  Int @id @default(autoincrement())
+  email  String @unique
+}
+// Modèle pour les blogs
+model Blog {
+  id          Int       @id @default(autoincrement())
+  titre       String
+  description String
+  imagePath   String
+}
+
+// Modèle pour les projets
+model Projet {
+  id          Int       @id @default(autoincrement())
+  titre       String
+  description String
+  imagePath   String
+}
+
+
+model Offre {
+  id          Int       @id @default(autoincrement())
+  type       String
+  description String
+  imagePath   String     @default("../assets/images/lms-logo-removebg-preview.png")
+  fonc     String  @default("")
+  date        DateTime @default(now())
+}
+
+model Conference {
+  id          Int       @id @default(autoincrement())
+  titre       String
+  description String
+  imagePath   String
+  lien        String
+  lieu        String @default("")
+  date        DateTime @default(now())
+}
+
+// schema.prisma
+
+model ThemeFormation {
+  id                Int               @id @default(autoincrement())
+  titre             String
+  description       String
+  contentFormations ContentFormation[] // Relation inverse
+}
+
+model ContentFormation {
+  id              Int               @id @default(autoincrement())
+  titre           String
+  description     String
+  path            String
+  themeFormation  ThemeFormation    @relation(fields: [themeFormationId], references: [id])
+  themeFormationId Int
+  commentaires    CommentaireFormation[]
+}
+
+model CommentaireFormation {
+  id              Int               @id @default(autoincrement())
+  contenu         String
+  auteur          String
+  date        DateTime
+  formation       ContentFormation  @relation(fields: [formationId], references: [id])
+  formationId     Int
+}

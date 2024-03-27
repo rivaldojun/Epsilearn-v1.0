@@ -1,0 +1,36 @@
+{% extends "index.html" %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin List</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+{% block content %}
+    <div class="container mt-5">
+        <h1>Admin List</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Superadmin</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for admin in admins %}
+                <tr>
+                    <td>{{ admin.id }}</td>
+                    <td>{{ admin.mail }}</td>
+                    <td>{{ admin.superadmin }}</td>
+                    <td>
+                        {% if admin.superadmin == "Non" %}
+                        <a href="{{ url_for('Admin.remove_admin', admin_id=admin.id) }}" class="btn btn-danger">Remove</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'index.html'%}
+<head>
+    <title>Liste des Salles</title>
+    <!-- Inclure le lien vers le fichier CSS personnalisé ici -->
+    <!-- Inclure les liens vers les fichiers CSS et JS de Bootstrap ici -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+{% block content %}
+    <style>
+        /* Styles personnalisés pour la page */
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #d1d1d1;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333;
+}
+
+.table th {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.table td {
+    background-color: #f8f9fa;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+    </style>
+</head>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Liste des Salles</h1>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Sujet</th>
+                    <th scope="col">Créateur</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for room in rooms %}
+                <tr>
+                    <td>{{ room.name }}</td>
+                    <td>{{ room.subject }}</td>
+                    <td>{{ room.creator.nom }} {{ room.creator.prenom }}</td>
+                    <td>
+                        <a href="{{ url_for('Room.delete_room', room_id=room.id) }}" class="btn btn-danger btn-sm">Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Inclure le lien vers le fichier JS de Bootstrap ici si nécessaire -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

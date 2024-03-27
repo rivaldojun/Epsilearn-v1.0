@@ -1,0 +1,85 @@
+{% extends "index.html" %}
+
+
+  <!-- Ajoutez le lien vers le fichier Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+{% block content %}
+<style>
+    /* Ajoutez ici votre propre CSS pour personnaliser l'esthétique */
+    .entete {
+      text-align: center;
+    }
+
+    .event {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      margin-bottom: 20px;
+    }
+
+    .comment-form textarea {
+      width: 100%;
+      height: 100px;
+      resize: none;
+      margin-bottom: 10px;
+    }
+
+    .comment-form button {
+      padding: 10px 20px;
+    }
+
+    .commentaire {
+      background-color: #b1b3b4;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+      margin-bottom: 10px;
+      resize: none;
+    }
+    .entete {
+      display: flex;
+      align-items: center;
+    }
+
+    .reserve-button {
+      margin-bottom: 10px;
+      background-color: black;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+  </style>
+
+
+<div class="container">
+    <div class="entete">
+        <h2 style="float:left;margin-top: 20px;">Details Événement</h2>
+      </div>
+  <div class="events">
+    <div class="event" style="margin-left: -20px;">
+      <h2><strong> Nom de l'événement :</strong> {{evenement.Nom}}</h2>
+      <h2><strong>Type de l'événement : </strong>{{evenement.type_ev}}</h2>
+      <p><strong>Organisateur : </strong>{{evenement.organizer.nom}} {{evenement.organizer.prenom}}</p>
+      <p>Localisation:{{ evenement.pays_ville }}</p>
+      <p><strong>Date et heure :</strong> {{evenement.date}}</p>
+      <p><strong>Statut :</strong> {{evenement.statut}}</p>
+      <p><strong>Nombre de place : </strong>{{evenement.nbplace}}</p>
+      <p><strong>En ligne : </strong>{{evenement.live}} <a href="{{evenement.lien}}">Cliquer pour aller à la référence</a></p>
+      <p class="description"><strong>Description : </strong>{{evenement.description}}</p>
+      <p><strong>Nombre de vues :</strong> {{evenement.vue}}</p>
+    </div>
+  </div> 
+</div>
+
+<!-- Ajoutez le lien vers le fichier Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+</script>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

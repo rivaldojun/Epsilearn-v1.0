@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block style %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mes Événements|Epsilearn</title>
+  <!-- Inclure les fichiers Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .entete {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .entete a {
+      margin-right: 10px;
+    }
+
+    .entete h2 {
+      flex: 1;
+      font-family: 'Kanit';
+      font-size: 24px;
+      margin: 0;
+    }
+
+    .reserve-button {
+      background-color: blue;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+
+    .events {
+      margin-top: 20px;
+    }
+
+    .event {
+      background-color: #f9f9f9;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .event:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      background-color: blue;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    .event h2 {
+      margin-top: 55px;
+      font-size: 20px;
+    }
+
+    .event p {
+      margin: 0;
+    }
+
+    .description {
+      margin-top: 10px;
+    }
+
+    .event-photo {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      border: 2px solid white;
+    }
+
+    body {
+      background-color: #f5f5f5;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="entete mt-5">
+      <a href="/evenement"  style="text-decoration: none;color: blue;"><i class="fa fa-arrow-alt-circle-left "></i></a>
+      <h2>Mes Événements</h2>
+    </div>
+    
+    <div class="events">
+      {% for evenement in evenements %}
+      <div class="event mt-4" data-ev-id="{{evenement.id_evenement}}">
+        <h2><strong>Nom de l'événement :</strong> {{evenement.Nom}}</h2>
+        {% if evenement.photo %}
+          {% if evenement.photo.endswith(".mp4") or evenement.photo.endswith(".avi") or evenement.photo.endswith(".mov") %}
+            <img src="../static/image/2.png" alt="Photo de l'événement" class="event-photo">
+          {% else %}
+            <img src="{{ evenement.photo }}" alt="Photo de l'événement" class="event-photo">
+          {% endif %}
+        {% else %}
+          <img src="../static/image/2.png" alt="Photo de l'événement" class="event-photo">
+        {% endif %}
+        <p><strong>Type de l'événement :</strong>  {{evenement.type_ev}}</p>
+        <p><strong>Organisateur :</strong>  {{evenement.organizer.nom}} {{evenement.organizer.prenom}}</p>
+        <p><strong>Date et heure :</strong>  {{evenement.date}}</p>
+        <p><strong>Statut :</strong>  {{evenement.statut}}</p>
+        <p class="description"><strong>Description :</strong>  {{evenement.description}}</p>
+        <p><strong><i class="fa fa-eye"></i> :</strong> {{evenement.vue}}</p>
+        <a href="/effacer_evenement/{{evenement.id_evenement}}" class="btn btn-danger">Retirer</a>
+        {% if evenement.live == "Oui" %}
+        <a href="/room/{{evenement.cd}}" class="btn btn ml-2" style="background-color: blue;color: white;">Commencer le live</a>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Inclure les fichiers Bootstrap JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

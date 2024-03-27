@@ -1,0 +1,1429 @@
+{% extends "base.html" %}
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Événements | Lernender</title>
+<!-- Inclure les fichiers Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
+
+
+{% block content %}
+<style>
+    body{
+        background-color: #f5f5f5;
+    }
+    .container1 {
+  background-color: white;
+  text-align: center;
+  padding-top: 25px;
+  height: 30vh;
+  border-radius: 10px;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+  transform: perspective(2000px) rotateX(0deg);
+  animation: openBook 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) 1 forwards;
+  background-color: #D04643;
+  
+}
+
+@keyframes openBook {
+  from {
+    transform: perspective(2000px) rotateX(90deg);
+    opacity: 0;
+  }
+  to {
+    transform: perspective(2000px) rotateX(0deg);
+    opacity: 1;
+  }
+}
+#progress-container {
+            width: 100%;
+            height: 50px;
+            background-color: #ffffff;
+            position: relative;
+            border-radius: 50px;
+        }
+
+        #progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #000;
+            
+        }
+        .red {
+            background-color: rgb(250, 88, 88) !important; /* Couleur rouge */
+        }
+        #progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #7effa3;
+            transition: width 1s linear;
+            border-radius: 50px;
+        }
+.h1 {
+  font-size:10px;
+  color: rgb(255, 255, 255);
+  transition: color 0.3s ease-in-out;
+}
+
+.btn-primary {
+  animation: fadeIn 1s ease;
+}
+
+.btn-primary:hover {
+  background-color: blue;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+#start-record{
+  display: block;
+}
+.timer {
+  font-size: 3rem;
+  color: blue;
+  display: inline-block;
+  transform: scaleY(1);
+  transition: transform 0.3s ease-in-out;
+}
+.timer-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+.timer-transition {
+  animation: scaleUp 0.3s forwards;
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scaleY(1);
+  }
+  to {
+    transform: scaleY(1.2);
+  }
+}
+
+/* Ajoutez cette partie dans votre feuille de style CSS */
+
+@keyframes moveText {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+#workroom{
+    text-decoration: overline ;
+    color: rgb(0, 0, 0)
+  }
+.motivation-text {
+  font-size: 2rem;
+  color: blue;
+  animation: moveText 10s infinite;
+
+}
+
+.motivation-paragraph {
+  animation: fadeIn 10s infinite;
+  color: rgb(0, 0, 0);
+  animation-delay: 1s;
+  opacity: 0;
+  font-family: 'Kanit';
+}
+
+@keyframes fadeIn {
+  0%, 100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.task {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .task input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .task.completed {
+            color: green;
+        }
+        .task.completed::after {
+    content: "\2713"; /* Code Unicode pour une coche (checkmark) */
+    margin-right: 5px; /* Espace entre la coche et le texte */
+    color: green; /* Couleur de la coche */
+    font-weight: bold;
+}
+.task.completed .fa-trash {
+    display: none;
+}
+
+  .delete-task:hover{
+    cursor: pointer;
+  }
+#pass{
+  display: none;
+}
+#cacher{
+  display: none;
+}
+#montrer{
+  display: none;
+}
+#cmt{
+  display: block;
+}
+.animated-btn {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    line-height: 80px;
+    display: inline-block;
+    text-align: center;
+    background: #000000;
+    position: relative;
+}
+
+.animated-btn::before, .animated-btn::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.8);
+    animation: ripple-1 2s infinite ease-in-out;
+    z-index: -1;
+}
+
+.animated-btn::after {
+    background: rgba(0, 0, 0, 0.6);
+    animation: ripple-2 2s infinite ease-in-out;
+    animation-delay: 0.5s;
+}
+
+@keyframes ripple-1 {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+@keyframes ripple-2 {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.7);
+        opacity: 0;
+    }
+}
+#emailList {
+    list-style: none; /* Masque le point avant les éléments de la liste */
+    max-height: 200px; /* Définissez la hauteur maximale de la liste avec une barre de défilement */
+    overflow-y: auto; /* Ajoute une barre de défilement vertical si nécessaire */
+    padding-left: 0; /* Supprimez le padding gauche par défaut pour la liste */
+}
+#ml{
+  padding: 5px;
+}
+#ml:hover{
+  cursor: pointer;
+  background-color:rgb(215, 224, 250);
+  border-radius: 5px;
+}
+.form-control:focus {
+  box-shadow: none;
+}
+
+.form-control-underlined {
+  border-width: 0;
+  border-bottom-width: 1px;
+  border-radius: 0;
+  padding-left: 0;
+}
+
+/*
+*
+* ==========================================
+* FOR DEMO PURPOSE
+* ==========================================
+*
+*/
+
+
+.form-control::placeholder {
+  font-size: 0.95rem;
+  color: #aaa;
+  font-style: italic;
+}
+</style>
+<div class="container-fluid mt-5">
+  
+  <div class="row">
+    <!-- Colonne de gauche (Minuteur et Liste de tâches) -->
+    <div class="col-lg-6 col-md-12">
+      <div class="container1 mb-4" id="ct1">
+        <!-- Boutons Recommencer et Ajouter -->
+        <div class="col" id="montrer">
+          <button id="recommencer" class="btn btn" style="color: white; float: left; scale: 0.9;"><i class="fa fa-redo"></i></button>
+          <button id="ajouter" class="btn btn" style="color: white; float: right; scale: 0.9;"><i class="fa fa-plus-circle"></i></button>
+        </div>
+        <div class="col" id="cacher">
+          <button id="recommencer1" class="btn btn" style="color: rgb(0, 0, 0); float: left; scale: 0.9;"><i class="fa fa-redo"></i></button>
+          <button id="ajouter1" class="btn btn" style="color: rgb(0, 0, 0); float: right; scale: 0.9;"><i class="fa fa-plus-circle"></i></button>
+        </div>
+        <div class="text-center">
+          <h5 style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size: 26px;">Minuteur</h5>
+        </div>
+        <div class="timer-container mt-1">
+          <div id="timer" class="h1" style="font-size: 30px; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">25:00</div>
+        </div>
+        <div id="bt" class="text-center" style="margin-top: -5px;">
+          <!-- Animated button -->
+          <a id="buttontimer" onclick="startTimer()" data-toggle="tooltip" data-placement="top" class="animated-btn text-white" href="#"><i class="fa fa-play"></i></a>
+      </div>
+        <!-- <div id="bt" class="text-center mt-3">
+          <button class="btn btn" style="font-family: 'Kanit'; background-color: rgb(0, 0, 0); color: white; margin-bottom: 20px; border-radius: 50%; scale: 2;" id="buttontimer" onclick="startTimer()" data-toggle="tooltip" data-placement="top"><i class="fa fa-play"></i></button>
+        </div> -->
+        <div class="col mt-3" id="pass">
+          <button id="passer" class="btn btn" style="border: 2px solid black; background-color: transparent;">Passer</button>
+          <button id="arreter" class="btn btn" style="border: 2px solid black; background-color: transparent;">Arrêter</button>
+        </div>
+        <div style="margin-top: -3%;display: block;visibility: visible;">
+          <button id="playButton" class="btn btn" style="border-radius: 60%; background-color: white; float: right;display: block;visibility: visible;">
+            <i id="musicIcon" class="fa fa-volume-mute"></i>
+        </button>
+        </div>
+        <br>
+      </div>
+        <h1 class="mb-3 text-center" style="background-color: white; border-radius: 50px;"><div id="progress-container">
+          <div id="progress-text">To Do</div>
+          <div id="progress-bar"></div>
+      </div></h1>
+      <div id="messageContainer"></div>
+      <!-- Liste de tâches -->
+      <div class="container mb-3" style="background-color: #D04643; padding: 20px; border-radius: 20px; height: 230px; ">
+        
+        <div id="task-list" style="padding: 10px; border-radius: 10px; margin-bottom: 20px;overflow-y: auto;"></div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-12" style="background-color: transparent; padding: 0px; border-radius: 10px; height: 81vh;">
+      <div class="container" style="min-height: fit-content;background-color: white;border-radius: 10px;">
+            <div class="row">
+              <div class="col-md-12" >
+        
+                <div class="" id="chat3" style="border-radius: 10px;border: none;">
+                  <div class="" >
+                    <div class="row" >
+                      <div class="col-md-3 col-lg-5 col-xl-4 mb-4 mb-md-0 d-none d-md-block" style="border:2px black;background-color: #cbcaf1;border-radius: 10px;">
+                        <div class="" style="overflow-y: auto;">
+                          <div data-mdb-perfect-scrollbar="true" style="position: relative; height: 470px">
+                            <ul class="list-unstyled mb-0" >
+                              <p class="mt-1" style="text-align: center;background-color: #ffffff;border-radius: 5px;">Membres</p>
+                              {% for m in membre %}
+                              {% if m.utilisateur.id!= current_user.id and m.statut!="attente" %}
+                              <li  data-peer-id=="a{{m.utilisateur.id}}b" class="recipients p-0 mb-1" style="background-color: #ffffff;border-radius: 10px;">
+                                <a href="#!" class="d-flex justify-content-between" style="text-decoration: none;">
+                                  <div class="d-flex flex-row" >
+                                    <div>
+                                      <img
+                                        src="../{{m.utilisateur.photo}}"
+                                        alt="avatar" class="d-flex align-self-center me-3" width="60" style="border-radius: 50%;scale: 0.8;">
+                                      <span class="badge bg-success badge-dot"></span>
+                                    </div>
+                                    <div class="mt-3" style="scale: 0.8;">
+                                      <p class="" style="color: rgb(0, 0, 0);text-decoration: none;">{{m.utilisateur.nom}} {{m.utilisateur.prenom}}</p>
+                                    </div>
+                                    {% if current_user.id == m.groupe.id_createur %}
+                                    <a href="/effacer_etudiant/{{m.id}}" style="color: grey;text-decoration: none;float: right;color: red;"><i class="fa fa-times"></i></a>
+                                    {% endif %}
+                                  </div>
+                                </a>
+                              </li>
+                              {% endif %}
+                              {% endfor %}
+                            </ul>
+                            
+                          </div>
+                          <a  class="btn btn c mb-2" style="background-color: black;color: white;border-radius: 10px;width: 100%;">Inviter</a>
+                        </div>
+        
+                      </div>
+        
+                      <div class="col-md-9 col-lg-7 col-xl-8" >
+        
+                        <div class="pt-3 pe-3"  id="msg"
+                          style="height: 400px;overflow-y:auto;">
+                          {% for msg in message %}
+                          {% if msg.id_user==current_user.id %}
+                          {% if msg.audio_data_path %}
+                          <div class="d-flex flex-row justify-content-end" id="mes_message" >
+                            <div>
+                                    <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary" style="padding: 20px;">Message vocal de <span style="color: rgb(238, 132, 132);font-weight: bold;">@{{msg.utilisateur.nom}} {{msg.utilisateur.prenom}}</span><button style="border:none;border-radius:50px;margin-left: 10px;" ><i class="fa fa-play" data-action="play-audio" data-audio-id="{{msg.id}}"><audio src="{{msg.audio_data_path}}"></audio></i></button></p>
+                                    <p class="small me-3 mb-3 rounded-3 text-muted">{{msg.date_env.strftime('%I:%M %p | %b %d')}}</p>
+                                  </div>
+                          </div>
+                          {% else %}
+                          <div class="d-flex flex-row justify-content-end" id="mes_message">
+                            <div>
+                              <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary"><span style="color:#e8e6e6;font-size:9px;">{{msg.utilisateur.nom}} {{msg.utilisateur.prenom}}</span><br>{{msg.message}}</p>
+                              <p class="small me-3 mb-3 rounded-3 text-muted">{{msg.date_env.strftime('%I:%M %p | %b %d')}}</p>
+                            </div>
+                            <img src="../{{msg.utilisateur.photo}}"
+                              alt="avatar 1" style="width: 45px; height: 100%;border-radius: 50%;">
+                          </div>
+                          {% endif %}
+                          {% else %}
+                          {% if msg.audio_data_path %}
+                          <div class="d-flex flex-row justify-content-start" id="autre_message" >
+                            <div>
+                                    <p class="small p-2 me-3 mb-1  rounded-3" style="background-color:#f5f6f7;color:rgb(69, 69, 69);padding: 20px;">Message vocal de <span style="color: blue;font-weight: bold;">@{{msg.utilisateur.nom}} {{msg.utilisateur.prenom}}</span><button style="border:none;border-radius:50px;margin-left: 10px;"><i class="fa fa-play" data-action="play-audio" data-audio-id="{{msg.id}}"><audio src="{{msg.audio_data_path}}"></audio></i></button></p>
+                                    <p class="small me-3 mb-3 rounded-3 text-muted">{{msg.date_env.strftime('%I:%M %p | %b %d')}}</p>
+                                  </div>
+                          </div>
+                          {% else %}
+                          <div class="d-flex flex-row justify-content-start" id="autre_message">
+                            <img src="../{{msg.utilisateur.photo}}"
+                              alt="avatar 1" style="width: 45px; height: 100%;border-radius: 50%;">
+                            <div>
+                              <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;"><span style="color:rgb(69, 69, 69);font-size:9px;">{{msg.utilisateur.nom}} {{msg.utilisateur.prenom}}</span><br>{{msg.message}}
+                              </p>
+                              <p class="small ms-3 mb-3 rounded-3 text-muted float-end">{{msg.date_env.strftime('%I:%M %p | %b %d')}}</p>
+                            </div>
+                          </div> 
+                          {% endif %}
+                          {% endif %}
+                          {% endfor %}                      
+                        </div>
+        
+                        <div class="text-muted  justify-content-start d-flex flex ">
+                          <img src="../{{current_user.photo}}" 
+                            alt="avatar 3" style="width: 40px; height: 100%;border-radius: 50%;">
+                            <form id="message-form" >
+                          <input type="text" class="form-control form-control-lg" id="exampleFormControlInput2"
+                            placeholder="Type message">
+                            <button type="submit" class="btn btn ms-3 " style="background-color:rgb(0, 0, 0);color: rgb(255, 255, 255);float: right;border-radius: 50px;">Envoyer</button>
+                          <!-- <a class="ms-1 text-muted" href="#!"><i class="fas fa-paperclip"></i></a>
+                          <a class="ms-3 text-muted" href="#!"><i class="fas fa-smile"></i></a> -->
+                          <!-- <a class="ms-3" href="#!"><i class="fas fa-paper-plane"></i></a> -->
+                        </form>
+                        <div class="col">
+                          <button id="start-record" class="btn btn" ><i class="fa fa-microphone"></i></button>
+                          <!-- Bouton pour arrêter l'enregistrement -->
+                          </div>
+                          <div id="vocid" class="voc" style="width: 40%;background-color: rgb(244, 244, 244);padding: 10px;float: right;margin-bottom: 10px;border-radius: 50px; display: flex; align-items: center;display: none;scale: 0.8;">
+                            <canvas id="spectreCanvas" style="width: 90%;height: 20px;border: none;border-radius: 20px;background-color: white;"></canvas>
+                            <button id="send-audio" class="btn btn" style="color: blue;"><i class="fa fa-paper-plane"></i></button>
+                        </div>  
+                        </div>  
+                      </div>
+                    </div>
+        
+                  </div>
+                </div>
+        
+              </div>
+            </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="reservationModalLabel" aria-hidden="true" style="margin-top: 120px;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #dfe1e4;">
+              <div class="input-group">
+                <input type="text" id="searchEmail" placeholder="Qui voulez-vous ajouter?" aria-describedby="button-addon1" class="form-control border-0 bg-light">
+                <div class="input-group-append">
+                  <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="modal-body" >
+                <!-- La liste des e-mails -->
+                <ul id="emailList">
+                    {% for u in us %}
+                    {% if u.id!=current_user.id %}
+                    <a href="/ajoutermembre/{{id_group}}/{{u.id}}" style="text-decoration: none;color: #000;"><li id="ml"><span class="">
+                      <img
+                      src="../{{u.photo}}"class="" width="60" style="border-radius: 50%;">
+                  </span>{{u.nom}} {{u.prenom}}</li>
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<audio id="audio-alert">
+  <source src="/static/audio/beep.wav" type="audio/mpeg">
+  <!-- Ajoutez ici d'autres sources audio au format WAV, OGG, etc., au besoin -->
+  Votre navigateur ne supporte pas l'élément audio.
+</audio>
+<audio id="audio-alert1">
+  <source src="/static/audio/debuter.wav"  type="audio/mpeg">
+  <!-- Ajoutez ici d'autres sources audio au format WAV, OGG, etc., au besoin -->
+  Votre navigateur ne supporte pas l'élément audio.
+</audio>
+<audio id="musicPlayer" loop controls style="display: none;">
+  <source src="" type="audio/mpeg">
+  Votre navigateur ne supporte pas l'audio HTML.
+</audio>
+</div>
+
+<!-- Bouton pour lire le message vocal -->
+<audio id="audio-player" style="display: none;"  controls></audio>
+
+<!-- Bouton pour envoyer le message vocal -->
+
+<ul id="userList">
+    <!-- Liste des utilisateurs connectés -->
+</ul>
+<div id="callWindow">
+    <!-- Fenêtre de l'appel vocal -->
+    <audio id="localAudio" autoplay></audio>
+    <audio id="remoteAudio" autoplay></audio>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+<script src="https://unpkg.com/peerjs@1.5.1/dist/peerjs.min.js"></script>
+<div class="modal fade" id="musicModal" tabindex="-1" role="dialog" aria-labelledby="musicModalLabel" aria-hidden="true" style="margin-top: 150px;">
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" style="background-color: #ffffff;">
+        <div class="modal-body">
+            <div class="row">
+                <!-- Partie gauche avec l'image -->
+                <div class="col-md-6" >
+                    <img src="/static/image/lofi.jpg" alt="Image de la musique" class="img-fluid" style="height: 100%;border-radius: 10px;">
+                </div>
+                <!-- Partie droite avec la barre de recherche et la liste de musique -->
+                <div class="col-md-6" style="background-color: transparent;">
+                    <div class="modal-header" style="background-color:transparent">
+                        <div class="input-group">
+                            <input type="text" id="searchMusic" placeholder="Rechercher une musique" aria-describedby="button-addon1" class="form-control border-0 bg-light" style="border-radius: 50px;">
+                            <div class="input-group-append">
+                                <button id="button-addon1" type="button" class="btn btn-link text-primary" style="background-color: transparent;border-radius: 50px;"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <ul id="musicList" class="list-group">
+                            <!-- Les options de musique seront générées ici -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<style>
+  .checkbox-wrapper-2 #ikxBAC {
+    appearance: none;
+    background-color: #9f9f9f;
+    border-radius: 72px;
+    border-style: none;
+    flex-shrink: 0;
+    height: 20px;
+    margin: 0;
+    position: relative;
+    width: 30px;
+  }
+
+  .checkbox-wrapper-2 #ikxBAC::before {
+    bottom: -6px;
+    content: "";
+    left: -6px;
+    position: absolute;
+    right: -6px;
+    top: -6px;
+  }
+
+  .checkbox-wrapper-2 #ikxBAC,
+  .checkbox-wrapper-2 #ikxBAC::after {
+    transition: all 100ms ease-out;
+  }
+
+  .checkbox-wrapper-2 #ikxBAC::after {
+    background-color: #000000;
+    border-radius: 50%;
+    content: "";
+    height: 14px;
+    left: 3px;
+    position: absolute;
+    top: 3px;
+    width: 14px;
+  }
+
+  .checkbox-wrapper-2 input[type=checkbox] {
+    cursor: default;
+  }
+
+ #ikxBAC:hover {
+    background-color: #c9cbcd;
+    transition-duration: 0s;
+  }
+
+  #ikxBAC:checked {
+    background-color: #6e79d6;
+  }
+
+#ikxBAC:checked::after {
+    background-color: #fff;
+    left: 13px;
+  }
+
+  .checkbox-wrapper-2 :focus:not(.focus-visible) {
+    outline: 0;
+  }
+
+ #ikxBAC:checked:hover {
+    background-color: #535db3;
+  }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.1/socket.io.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
+<script src="https://unpkg.com/peerjs@1.5.1/dist/peerjs.min.js"></script>
+<script>
+   const taskList = document.getElementById('task-list');
+  const newTaskInput = document.getElementById('new-task');
+  const ct1 = document.getElementById('ct1');
+  const arreter = document.getElementById("arreter");
+  const passer = document.getElementById("passer");
+  const pass = document.getElementById("pass");
+  const recommencer = document.getElementById("recommencer");
+  const ajouter = document.getElementById("ajouter");
+  const recommencer1 = document.getElementById("recommencer1");
+  const ajouter1 = document.getElementById("ajouter1");
+  const cacher = document.getElementById("cacher");
+  const montrer = document.getElementById("montrer");
+  // Supprimez la clé "tasks1" du local storage
+localStorage.removeItem('tasks1');
+
+
+// Fonction pour effacer le localStorage à minuit
+function clearLocalStorageAtMidnight() {
+  const now = new Date();
+  const midnight = new Date(now);
+  midnight.setHours(0, 0, 0, 0); // Réglez l'heure à minuit
+
+  const timeUntilMidnight = midnight - now;
+  // Définissez un délai pour effacer le localStorage à minuit
+  setTimeout(function() {
+    localStorage.removeItem('nbr');
+    // Appelez à nouveau la fonction pour programmer la prochaine suppression
+    clearLocalStorageAtMidnight();
+  }, timeUntilMidnight);
+}
+
+// Appelez la fonction pour la première fois
+clearLocalStorageAtMidnight();
+
+
+  
+    $(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+    
+    
+  });
+
+
+  function addTask(taskText, completed = false) {
+    const taskElement = document.createElement('div');
+    taskElement.style.backgroundColor='white'
+    taskElement.style.padding='10px'
+    taskElement.style.borderRadius='20px'
+    taskElement.classList.add('task');
+    if (completed) {
+      taskElement.classList.add('completed');
+    }
+    
+
+
+    taskElement.innerHTML = `
+    <div class="checkbox-wrapper-2" >
+        <input type="checkbox" id="ikxBAC" class="task-checkbox" ${completed ? 'checked' : ''}>
+    </div>
+        <span class="task-text" >${taskText}</span>
+      <i class="fas fa-trash delete-task" style="color:#D04643;visibility:hidden"></i>
+    `;
+    taskList.appendChild(taskElement);
+  }
+
+  function deleteTask(taskElement) {
+    taskList.removeChild(taskElement);
+
+  }
+
+  function toggleCompleted(taskElement) {
+    taskElement.classList.toggle('completed');
+    
+  }
+  function incrementNbrInLocalStorage() {
+  // Récupérez la valeur actuelle du localStorage pour la clé "nbr"
+  let nbr = localStorage.getItem('nbr');
+  // Assurez-vous que nbr est un nombre (si c'est la première fois, cela peut être null)
+  nbr = parseInt(nbr) || 0;
+  // Ajoutez 1 à la valeur actuelle de nbr
+  nbr += 1;
+  // Enregistrez la nouvelle valeur dans le localStorage
+  localStorage.setItem('nbr', nbr);
+  // Retournez la nouvelle valeur de nbr
+  return nbr;
+}
+function decrementNbrInLocalStorage() {
+  // Récupérez la valeur actuelle du localStorage pour la clé "nbr"
+  let nbr = localStorage.getItem('nbr');
+  // Assurez-vous que nbr est un nombre (si c'est la première fois, cela peut être null)
+  nbr = parseInt(nbr) || 0;
+  // Ajoutez 1 à la valeur actuelle de nbr
+  nbr -= 1;
+  if (nbr<0){nbr=0}
+  // Enregistrez la nouvelle valeur dans le localStorage
+  localStorage.setItem('nbr', nbr);
+  // Retournez la nouvelle valeur de nbr
+  return nbr;
+}
+
+
+
+
+// Appeler la fonction pour calculer l'heure de fin si elle n'est pas définie
+
+
+// Vous pouvez maintenant utiliser localStorage.getItem('heureFinFormatee') pour obtenir l'heure de fin.
+
+
+
+  
+  taskList.addEventListener('click', (event) => {
+    const taskElement = event.target.closest('.task');
+    if (event.target.classList.contains('delete-task')) {
+      
+      deleteTask(taskElement);
+
+      
+    } else if (event.target.classList.contains('task-checkbox')) {
+      toggleCompleted(taskElement);
+    }
+  });
+
+  window.addEventListener('load', () => {
+  // Supposons que "tasksFromFlask" soit correctement définie à partir de Flask
+  var tasksFromFlask = {{task | safe}};
+  
+  // Vérifiez si le local storage est pris en charge par le navigateur
+  if (typeof(Storage) !== "undefined") {
+    // Stockez les tâches directement sous forme de liste dans le local storage
+    localStorage.setItem("task", JSON.stringify(tasksFromFlask));
+   
+    // Récupérez les tâches depuis le localStorage
+    const taskLists = JSON.parse(localStorage.getItem('task')) || [];
+    
+    // Récupérez le div où vous souhaitez afficher les tâches
+    
+    const taskElement = document.createElement('div');
+    // Utilisez forEach pour parcourir les tâches
+    taskLists.forEach(task => {
+      addTask(task)
+
+    });
+  }
+});
+
+
+
+  function areAllTasksCompleted() {
+  const tasks = JSON.parse(localStorage.getItem('task')) || []; // Obtenir la liste des tâches depuis le localStorage
+  // Vérifier si toutes les tâches ont la propriété "completed" à true
+  return tasks.every(task => task.completed);
+}
+
+  const time = document.getElementById("timer");
+  const btn = document.getElementById("bt");
+
+
+  function startTimer() {
+    let isPaused = false;
+    arreter.style.backgroundColor="transparent"
+    pass.style.display='block'
+    ct1.style.backgroundColor='#56bd56'
+    time.textContent="25:00"
+    const twentyMinutesInSeconds = 25 * 60; // Change this to 20 * 60 for 20 minutes
+    const display = document.querySelector("#timer");
+    btn.style.display = "none";
+    let isPassClicked = false; // Variable pour vérifier si le bouton "passer" est cliqué
+
+    
+    // Ajoutez un événement au bouton "passer"
+    passer.addEventListener("click", function () {
+      isPassClicked = true; // Définir la variable à true lorsque le bouton est cliqué
+    });
+    
+    let timer = twentyMinutesInSeconds, minutes, seconds;
+
+    const intervalId = setInterval(function () {
+      montrer.style.display="block"
+      if(isPaused && isPassClicked){isPaused=false}
+      passer.addEventListener("click", function () {
+      isPassClicked = true; // Définir la variable à true lorsque le bouton est cliqué
+    });
+      if (!isPaused) {
+        
+      minutes = parseInt(timer / 60, 10);
+      seconds = parseInt(timer % 60, 10);
+
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+
+      display.textContent = minutes + ":" + seconds;
+
+      if (isPassClicked ||--timer < 0) {
+        if(!isPassClicked){
+          var audioAlert = document.getElementById("audio-alert");
+          audioAlert.play();
+          nombrederound=incrementNbrInLocalStorage()
+          fetch('/update_pomodoro', {
+        method: 'POST',
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Traitez la réponse si nécessaire
+        })
+        .catch(error => {
+          console.error('Erreur lors de la mise à jour de la base de données :', error);
+        });
+        }
+        clearInterval(intervalId);
+        pass.style.display='none'
+        btn.style.display = "block";
+        ct1.style.backgroundColor='#D04643'
+        completeFirstTask();
+        showModalWithCountdown(); // Affichez le modal avec le décompte
+
+      }
+    }
+    }, 1000);
+     // Ajoutez un gestionnaire d'événements au bouton "arrêter"
+  arreter.addEventListener("click", function () {
+    isPaused = !isPaused; // Inverser l'état de la pause lorsque le bouton est cliqué
+    if(isPaused){
+      arreter.style.backgroundColor="white"
+      ct1.style.backgroundColor='#D04643'
+    }
+    else{
+      arreter.style.backgroundColor="transparent"
+      ct1.style.backgroundColor='#56bd56'
+    }
+    
+  });
+  function resetTimer() {
+    timer = twentyMinutesInSeconds;
+// Mettez à jour l'affichage du timer
+minutes = parseInt(timer / 60, 10);
+  seconds = parseInt(timer % 60, 10);
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  seconds = seconds < 10 ? "0" + seconds : seconds;
+  display.textContent = minutes + ":" + seconds;
+}
+function ajouterTimer() {
+timer+=60
+// Mettez à jour l'affichage du timer
+minutes = parseInt(timer / 60, 10);
+  seconds = parseInt(timer % 60, 10);
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  seconds = seconds < 10 ? "0" + seconds : seconds;
+  display.textContent = minutes + ":" + seconds;
+}
+  recommencer.addEventListener("click", resetTimer);
+  ajouter.addEventListener("click", ajouterTimer);
+  }
+ 
+  arreter.style.backgroundColor="transparent"
+  // Fonction pour afficher le modal avec décompte
+  function showModalWithCountdown() {
+    montrer.style.display="none"
+    cacher.style.display="block"
+    let isPaused1 = false;
+    let isPassClicked1 = false; // Variable pour vérifier si le bouton "passer" est cliqué
+    // Ajoutez un événement au bouton "passer"
+    passer.addEventListener("click", function () {
+      isPassClicked1 = true; // Définir la variable à true lorsque le bouton est cliqué
+      ct1.style.backgroundColor='#D04643'
+    });
+    pass.style.display='block'
+    btn.style.display = "none";
+
+    // Compteur de décompte de 5 minutes
+    let countdown = 5* 60; // 5 minutes en secondes
+    function resetTimer1() {
+      countdown = 5* 60;
+    }
+function ajouterTimer1() {
+  countdown=countdown+60
+}
+    const countdownInterval = setInterval(function () {
+
+      if(isPaused1 && isPassClicked1){isPaused1=false}
+      if (!isPaused1) {
+        
+        recommencer1.addEventListener("click", resetTimer1);
+  ajouter1.addEventListener("click", ajouterTimer1);
+        arreter.style.backgroundColor="transparent"
+      time.textContent=`${Math.floor(countdown / 60)}:${countdown % 60 < 10 ? '0' : ''}${countdown % 60}`
+
+
+      if (isPassClicked1 || --countdown < 0) {
+        var audioAlert = document.getElementById("audio-alert1");
+          audioAlert.play();
+        clearInterval(countdownInterval); // Arrêtez le décompte lorsque le temps est écoulé
+        pass.style.display='none'
+        cacher.style.display="none"
+        btn.style.display = "block";
+        time.textContent="25:00"
+      }
+      
+    }
+    
+    }, 1000);
+    arreter.addEventListener("click", function () {
+    isPaused1 = !isPaused1; // Inverser l'état de la pause lorsque le bouton est cliqué
+    if(isPaused1){
+      arreter.style.backgroundColor="white"
+      ct1.style.backgroundColor='#D04643'
+     
+    }
+    else{
+      arreter.style.backgroundColor="transparent"
+      ct1.style.backgroundColor='#D04643'
+    }
+
+  
+    
+  });
+    
+
+
+    
+  }
+
+  function completeFirstTask() {
+    const tasks = Array.from(taskList.querySelectorAll('.task'));
+    for (const task of tasks) {
+      const checkbox = task.querySelector('.task-checkbox');
+      if (!checkbox.checked) {
+        checkbox.checked = true;
+        task.classList.add('completed');
+        break;
+      }
+    }
+  } 
+  
+  const messageContainers = document.getElementById("msg");
+                // Fonction pour faire défiler automatiquement vers le bas
+function scrollToBottom() {
+  messageContainers.scrollTop = messageContainers.scrollHeight;
+}
+
+  document.addEventListener('DOMContentLoaded', () => {
+    
+scrollToBottom()
+    const currentDate = new Date();
+
+// Fonction pour obtenir l'heure au format "hh:mm AM/PM"
+function formatTime(date) {
+  const options = { hour: 'numeric', minute: '2-digit', hour12: true };
+  return date.toLocaleTimeString('en-US', options);
+}
+
+// Fonction pour obtenir la date au format "Mon DD"
+function formatDate(date) {
+  const options = { month: 'short', day: 'numeric' };
+  return date.toLocaleDateString('en-US', options);
+}
+
+// Formattez l'heure actuelle
+const formattedTime = formatTime(currentDate);
+
+// Formattez la date actuelle
+const formattedDate = formatDate(currentDate);
+
+            const socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+
+            // Gérer la réception de messages
+            socket.on('message', (data) => {
+                const messageContainer = document.getElementById("msg");
+                
+                const messageDiv = document.createElement('div');
+                var isSentMessage
+                if(data.call){
+                  if(data.call=="yes")
+                  { 
+                    if (socket.id === data.user) {
+                isSentMessage = 'end';
+                    messageDiv.innerHTML = `
+                    <div class="d-flex flex-row justify-content-${isSentMessage}" id="mes_message" >
+                      <div>
+                              <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">Message vocal de <span style="color: rgb(238, 132, 132);font-weight: bold;">@${data.username}</span><button style="border:none;border-radius:50px;margin-left: 10px;"  ><i class="fa fa-play" data-action="play-audio" data-audio-id="${data.msgid}" ><audio src="${data.audio_data_path}"></audio></i></button></p>
+                              <p class="small me-3 mb-3 rounded-3 text-muted">${formattedTime} | ${formattedDate}</p>
+                            </div>
+                          
+                    </div>
+                `;
+              }else {
+                isSentMessage = 'start';
+                messageDiv.innerHTML = `
+                    <div class="d-flex flex-row justify-content-${isSentMessage}" id="mes_message" >
+                      <div>
+                              <p class="small p-2 me-3 mb-1 rounded-3" style="background-color:#f5f6f7;color:rgb(69, 69, 69);">Message vocal de <span style="color: blue;font-weight: bold;">@${data.username}</span><button style="background-color:transparent;border:none;padding:5px;"><i class="fa fa-play" data-action="play-audio" data-audio-id="${data.msgid}" style="background-color:transparent;border:none;"><audio src="${data.audio_data_path}"></audio></i></button></p>
+                              <p class="small me-3 mb-3 rounded-3 text-muted">${formattedTime} | ${formattedDate}</p>
+                            </div>
+                          
+                    </div>
+                `;
+
+              }
+                  }
+                  else{
+                if (socket.id === data.user) {
+                isSentMessage = 'end';
+                messageDiv.innerHTML = `
+                    <div class="d-flex flex-row justify-content-${isSentMessage}" id="mes_message">
+                      <div>
+                              <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary"><span style="color:#d5d5d5;font-size:9px;">${data.username}</span><br>${data.content}</p>
+                              <p class="small me-3 mb-3 rounded-3 text-muted">${formattedTime} | ${formattedDate}</p>
+                            </div>
+                            <img src="../{{current_user.photo}}"
+                              alt="avatar 1" style="width: 45px; height: 100%;border-radius: 50%;">
+                    </div>
+                `;
+                
+              } else {
+                isSentMessage = 'start';
+                messageDiv.innerHTML=`
+                <div class="d-flex flex-row justify-content-${isSentMessage}" id="autre_message">
+                            <img src="../{{current_user.photo}}"
+                              alt="avatar 1" style="width: 45px; height: 100%;border-radius: 50%;">
+                            <div>
+                              <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color:#f5f6f7;"><span style="color:rgb(69, 69, 69);font-size:9px;">${data.username}</span><br>${data.content}
+                              </p>
+                              <p class="small ms-3 mb-3 rounded-3 text-muted float-end">${formattedTime} | ${formattedDate}</p>
+                            </div>
+                          </div>                  
+                `
+              }
+            }
+          }
+                messageContainer.appendChild(messageDiv);
+                messageContainer.scrollTop = messageContainer.scrollHeight;
+            });
+            // Envoyer un message
+            const messageForm = document.getElementById('message-form');
+            messageForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const messageInput = document.getElementById('exampleFormControlInput2');
+                const message = messageInput.value;
+                if(message!==''){
+                // Émettre le message avec l'indicateur 'isSentMessage' défini sur true
+                socket.emit('message', { content: message, user: socket.id,call:'no',msgid:'oi',group:{{id_group}} });
+                // Obtenez le div à faire défiler automatiquement
+                messageInput.value = '';
+                }         
+            });
+const voc=document.getElementById('vocid')
+let prem=true;
+            document.getElementById('msg').addEventListener('click', function(event) {
+              
+  const action = event.target.getAttribute('data-action');
+//   // Vérifier si l'élément cliqué correspond au sélecteur spécifié (dans cet exemple, un bouton avec une classe "accepte-call")
+  if (action === 'play-audio') {
+    // Récupérez l'ID du message audio depuis l'élément HTML
+    var audioId = event.target.getAttribute('data-audio-id');
+    // Envoyez une requête au serveur pour obtenir les données audio
+    fetch(`/get-audio/${audioId}`)
+        .then(response => response.json()) // Transformez la réponse en un objet Blob
+        .then(data => {
+          const iconElement = event.target;
+          if(iconElement.classList.contains('fa-play')){
+            // Créez un lecteur audio
+            iconElement.classList.remove('fa-play');
+            iconElement.classList.add('fa-pause');
+            const mp3Path = data.mp3_path;
+            // Créez un lecteur audio
+            var audio = new Audio();
+            audio.src = mp3Path;
+            // Lisez le message vocal
+            audio.addEventListener("ended", function () {
+        // À la fin de la lecture, passez à "play"
+        iconElement.classList.remove("fa-pause");
+        iconElement.classList.add("fa-play");
+      });
+            audio.play();
+            prem=false
+          }else{
+            // Créez un lecteur audio
+            const iconElement = event.target;
+            iconElement.classList.remove('fa-pause');
+            iconElement.classList.add('fa-play');
+            const mp3Path = data.mp3_path;
+            // Créez un lecteur audio
+            var audio = new Audio();
+            audio.src = mp3Path;
+            
+            // Lisez le message vocal
+            audio.pause();
+            prem=true;
+          }
+        })
+        .catch(error => {
+            console.error('Erreur lors de la récupération des données audio :', error);
+        });
+  }
+});
+
+    const audioPlayer = document.getElementById("audio-player");
+    const startRecordButton = document.getElementById("start-record");
+    const sendAudioButton = document.getElementById("send-audio");
+
+    let audioStream;
+    let recorder;
+
+    // Configuration pour l'enregistrement audio
+    const audioOptions = { audio: true ,video:false};
+    const spectreCanvas = document.getElementById('spectreCanvas');
+    const canvasContext = spectreCanvas.getContext('2d');
+    // Gérer le clic sur le bouton "Commencer l'enregistrement"
+    startRecordButton.addEventListener("click", async () => {
+    try {
+      startRecordButton.style.display='none'
+      voc.style.display='flex'
+      audioStream = await navigator.mediaDevices.getUserMedia(audioOptions);
+      recorder = new MediaRecorder(audioStream);
+// Configuration de l'analyseur audio
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+const analyserNode = audioContext.createAnalyser();
+analyserNode.fftSize = 256;
+const dataArray = new Uint8Array(analyserNode.frequencyBinCount);
+const barCount = 50; // Nombre de barres verticales
+messageContainer.scrollTop = messageContainer.scrollHeight;
+// Connecter le flux audio au contexte audio
+const audioSource = audioContext.createMediaStreamSource(audioStream);
+audioSource.connect(analyserNode);
+const chunks = [];
+        recorder.ondataavailable = (event) => {
+          messageContainer.scrollTop = messageContainer.scrollHeight;
+            if (event.data.size > 0) {
+                chunks.push(event.data);
+                messageContainer.scrollTop = messageContainer.scrollHeight;
+            }
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+        };
+
+function drawSpectre() {
+  messageContainer.scrollTop = messageContainer.scrollHeight;
+    analyserNode.getByteFrequencyData(dataArray);
+    canvasContext.clearRect(0, 0, spectreCanvas.width, spectreCanvas.height);
+
+    const barWidth = spectreCanvas.width / barCount;
+    const spaceWidth = 2; // Espace entre les barres
+
+    for (let i = 0; i < barCount; i++) {
+        const index = Math.floor((i / barCount) * (analyserNode.frequencyBinCount - 1));
+        const barHeight = (dataArray[index] / 256) * spectreCanvas.height;
+        const x = i * (barWidth + spaceWidth);
+        const roundedRectRadius = 5; // Rayon pour les coins arrondis
+
+        // Dessiner une barre verticale avec des coins arrondis
+        canvasContext.fillStyle = 'rgb(0, 0, 0)';
+        canvasContext.beginPath();
+        canvasContext.moveTo(x + roundedRectRadius, spectreCanvas.height);
+        canvasContext.lineTo(x + barWidth - roundedRectRadius, spectreCanvas.height);
+        canvasContext.quadraticCurveTo(x + barWidth, spectreCanvas.height, x + barWidth, spectreCanvas.height - roundedRectRadius);
+        canvasContext.lineTo(x + barWidth, spectreCanvas.height - barHeight + roundedRectRadius);
+        canvasContext.quadraticCurveTo(x + barWidth, spectreCanvas.height - barHeight, x + barWidth - roundedRectRadius, spectreCanvas.height - barHeight);
+        canvasContext.lineTo(x + roundedRectRadius, spectreCanvas.height - barHeight);
+        canvasContext.quadraticCurveTo(x, spectreCanvas.height - barHeight, x, spectreCanvas.height - barHeight + roundedRectRadius);
+        canvasContext.lineTo(x, spectreCanvas.height - roundedRectRadius);
+        canvasContext.quadraticCurveTo(x, spectreCanvas.height, x + roundedRectRadius, spectreCanvas.height);
+        canvasContext.closePath();
+        canvasContext.fill();
+    }
+
+    requestAnimationFrame(drawSpectre);
+}
+
+// Démarrez l'analyse en temps réel
+audioContext.resume().then(() => {
+    drawSpectre();
+});
+
+
+        recorder.onstop = () => {
+          startRecordButton.style.display = "block";
+          voc.style.display='none'
+            const audioBlob = new Blob(chunks, { type: "audio/mp3" });
+            const audioURL = URL.createObjectURL(audioBlob);
+            audioPlayer.src = audioURL;
+            socket.emit('message', { content: "message vocal de " + `{{current_user.nom}}` + " " + `{{current_user.prenom}}`, call: "yes", 'mp3': audioBlob, user: socket.id, group: {{id_group}} });
+            sendAudioButton.style.display = "block";
+            audioStream.getTracks().forEach(track => {
+            track.stop(); // Arrêter le microphone
+        });
+            
+        }
+
+        recorder.start();
+        
+    } catch (error) {
+        console.error("Erreur lors de l'enregistrement audio :", error);
+    }
+    });
+
+
+    // Gérer le clic sur le bouton "Envoyer le message"
+    sendAudioButton.addEventListener("click", () => {
+      recorder.stop();
+    });
+
+// Fonction pour dessiner un spectre en barres verticales
+
+
+});
+        scrollToBottom();
+
+ // Lorsque le champ d'adresse e-mail est cliqué
+ document.addEventListener('click', function (event) {
+    if (event.target && event.target.matches('.c')) {
+        const emailField = event.target;
+        $('#reservationModal').modal('show');
+        
+    
+    $('#emailList li').click(function () {
+        // Obtenez le texte de l'élément cliqué (c'est-à-dire l'adresse e-mail)
+        const selectedEmail = $(this).text();
+
+        // Mettez à jour la valeur du champ d'adresse e-mail avec l'adresse sélectionnée
+        emailField.value = selectedEmail
+
+        // Fermez le modal après avoir sélectionné l'e-mail
+        $('#reservationModal').modal('hide');
+    });
+  }
+});
+$(document).ready(function () {
+    // Lorsqu'un utilisateur tape dans le champ de recherche
+    $('#searchEmail').on('input', function () {
+        const searchText = $(this).val().toLowerCase(); // Texte de recherche en minuscules
+
+        // Parcours des éléments de la liste des e-mails
+        $('#emailList li').each(function () {
+            const emailText = $(this).text().toLowerCase(); // Texte de l'e-mail en minuscules
+
+            // Affiche ou masque les éléments de la liste en fonction de la correspondance avec le texte de recherche
+            if (emailText.indexOf(searchText) === -1) {
+                $(this).hide();
+            } else {
+                $(this).show();
+            }
+        });
+    });
+});
+
+// Gestionnaire d'événement pour le bouton "Play"
+const playButton = document.getElementById('playButton');
+const musicModal = document.getElementById('musicModal');
+const musicListContainer = document.getElementById('musicList');
+
+const musicList = ["Eteindre","Cats-Cradle", "Midnight-Stroll", "Sleepless","Wondering"]; // Votre liste de musique
+
+playButton.addEventListener('click', () => {
+    createMusicOptions();
+    $('#musicModal').modal('show'); // Affichez le modal lorsque vous cliquez sur "Play"
+});
+let selectedMusic=''
+function createMusicOptions() {
+    musicListContainer.innerHTML = ''; // Supprimez les anciennes options de musique
+    musicList.forEach((music) => {
+        const musicOption = document.createElement('li');
+        musicOption.style.borderRadius='10px'
+        const icon = document.createElement('i');
+        if (music !=='Eteindre'){
+          icon.className="fa fa-play"
+        musicOption.appendChild(icon)
+        }
+        else{
+          icon.className="fa fa-ban"
+        musicOption.appendChild(icon)
+        }
+        
+        musicOption.className = " d-flex justify-content-between align-items-center p-2 bg-white mb-1";
+        const musicLink = document.createElement('a');
+        musicLink.style.textDecoration="none"
+        musicLink.style.color="black"
+        musicLink.href = '#';
+        musicLink.textContent = music;
+        musicLink.setAttribute('data-music', music);
+        musicOption.appendChild(musicLink);
+        musicListContainer.appendChild(musicOption);
+
+        // Gestionnaire d'événement pour sélectionner une musique
+        musicLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            selectedMusic = e.target.getAttribute('data-music');
+            playMusic();
+            $('#musicModal').modal('hide'); // Fermez le modal après avoir sélectionné une musique
+        });
+    });
+}
+
+const musicPlayer = document.getElementById('musicPlayer');
+const musicIcon = document.getElementById('musicIcon');
+let isMusicOn = false; 
+function playMusic() {
+    if (selectedMusic!=="Eteindre") {
+        const musicSource = `/static/audio/${selectedMusic}.mp3`;
+        musicPlayer.src = musicSource;
+        musicPlayer.play(); // Commencez la lecture
+        musicIcon.classList.remove('fa-volume-mute');
+            musicIcon.classList.add('fa-volume-up');
+    }
+    else{
+      const musicSource = `/static/audio/${selectedMusic}.mp3`;
+        musicPlayer.src = musicSource;
+        musicPlayer.play(); // Commencez la lecture
+      musicIcon.classList.remove('fa-volume-up');
+            musicIcon.classList.add('fa-volume-mute');
+    }
+       
+        }
+
+$(document).ready(function () {
+        // Lorsqu'un utilisateur tape dans le champ de recherche
+        $('#searchMusic').on('input', function () {
+            const searchText = $(this).val().toLowerCase(); // Texte de recherche en minuscules
+
+            // Parcours des éléments de la liste de musique
+            $('#musicList li').each(function () {
+                const musicText = $(this).text().toLowerCase(); // Texte de la musique en minuscules
+
+                // Affiche ou masque les éléments de la liste en fonction de la correspondance avec le texte de recherche
+                if (musicText.indexOf(searchText) === -1) {
+                    $(this).hide();
+                } else {
+                    $(this).show();
+                }
+            });
+        });
+    });
+
+    const heureDebut = `{{grp.time_debut}}:00`;
+    const heureFin = `{{grp.time_fin}}:00`;
+        function updateProgressBar() {
+            const maintenant = new Date();
+            const heureActuelle = maintenant.getHours() + ':' + maintenant.getMinutes() + ':' + maintenant.getSeconds();
+            const pourcentageProgression = calculatePercentage(heureDebut, heureFin, heureActuelle);
+            document.getElementById('progress-bar').style.width = pourcentageProgression + '%';
+        }
+
+        function calculatePercentage(start, end, current) {
+            const heureDebutMs = timeToMilliseconds(start);
+            const heureFinMs = timeToMilliseconds(end);
+            const heureActuelleMs = timeToMilliseconds(current);
+
+            if (heureActuelleMs <= heureDebutMs) {
+                return 0;
+            } else if (heureActuelleMs >= heureFinMs) {
+                return 100;
+            } else {
+                return ((heureActuelleMs - heureDebutMs) / (heureFinMs - heureDebutMs)) * 100;
+            }
+        }
+
+        function timeToMilliseconds(time) {
+            const [hours, minutes, seconds] = time.split(':').map(Number);
+            return (hours * 3600 + minutes * 60 + seconds) * 1000;
+        }
+
+        // Mettez à jour la barre de progression toutes les secondes
+        setInterval(updateProgressBar, 1000);
+
+        // Appelez la fonction de mise à jour une fois au chargement de la page
+        updateProgressBar();
+
+        // Calculez le temps restant en secondes
+        const maintenant = new Date();
+        const heureActuelle = maintenant.getHours() + ':' + maintenant.getMinutes() + ':' + maintenant.getSeconds();
+        const tempsRestant = calculateTimeRemaining(heureFin, heureActuelle);
+
+        // Définissez une alerte 5 minutes avant la fin du temps
+        const alertTime = tempsRestant - 5 * 60;
+        setTimeout(() => {
+            alert('Il reste 5 minutes !');
+            document.getElementById('progress-bar').classList.add('red');
+        }, alertTime * 1000); // Convertir en millisecondes
+        // Redirigez vers un lien à la fin du temps
+        setTimeout(() => {
+            window.location.href = `/suppgroupstud/{{grp.id}}`; // Remplacez par votre lien
+        }, tempsRestant * 1000); // Convertir en millisecondes
+
+        function calculateTimeRemaining(end, current) {
+            const heureFinMs = timeToMilliseconds(end);
+            const heureActuelleMs = timeToMilliseconds(current);
+
+            if (heureActuelleMs >= heureFinMs) {
+                return 0;
+            } else {
+                return Math.floor((heureFinMs - heureActuelleMs) / 1000);
+            }
+        }
+
+        function timeToMilliseconds(time) {
+            const [hours, minutes, seconds] = time.split(':').map(Number);
+            return (hours * 3600 + minutes * 60 + seconds) * 1000;
+        }
+
+        
+
+
+
+</script>
+{% endblock %}
+{% block script %}
+{% endblock %}

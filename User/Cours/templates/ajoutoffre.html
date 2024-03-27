@@ -1,0 +1,412 @@
+{% extends "base.html" %}
+
+{% block title %}Offres|Epsilearn{% endblock %}
+
+{% block content %}
+    <title>Ajouter une offre</title>
+    <!-- Inclure les fichiers CSS Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+    rel="stylesheet"
+    href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+    crossorigin="anonymous"
+  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Vibur&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dangrek&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kanit&display=swap">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet"
+  />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+
+        /* Styles personnalisés pour le bouton "input file" */
+.custom-file {
+    position: relative;
+}
+
+.custom-file-input {
+
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    opacity: 0;
+    z-index: -1;
+    background-color: blue;
+}
+
+.custom-file-label::after {
+    content: "Parcourir"; /* Texte du bouton personnalisé */
+    background-color: blue;
+    width: 5px;
+    color: rgb(203, 201, 201);
+}
+
+/* Style pour le bouton "input file" lorsqu'un fichier est sélectionné */
+.custom-file-input~.custom-file-label::after {
+    background-color: blue;
+    width: 5px;
+    color: white;
+    visibility: hidden;
+    content: "Parcourir"; /* Texte du bouton lorsque le fichier est sélectionné */
+}
+.asm{
+    float:right;
+    width: 40%;
+
+}
+.asm1{
+    width: 100%;
+    background-color: white;
+}
+.asm2{
+    width: 58%;
+}
+
+@media (max-width: 1000px) {
+.asm{
+    float: none;
+    width: 100%;
+    
+    
+}
+.asm1{
+    float: none;
+    width: 100%;
+    margin-bottom: 20px;
+    
+}
+.asm2{
+    float: none;
+    width: 100%;
+    
+}
+
+}
+body{
+    background-color: #f5f5f5;
+}
+
+/* Media query pour les écrans plus grands (ordinateurs de bureau, grands écrans) */
+#horaireDistanceGroup{
+    display: none;
+}
+#horairePresentGroup{
+    display: none;
+}
+</style>
+<div class="container mt-5">
+    <section class="section">  
+        <a href="/offreprof" style="color: blue;" ><i class="fa fa-arrow-alt-circle-left" ></i></a>
+        <h3 class="mb-3 mt-1 " data-animation="fadeInUp" style="animation-duration: 1s;color: rgb(0, 0, 0); font-family: 'Kanit';font-size: 38px;">Ajouter une offre de cours</h3>
+    <form method="POST" action="/traiter_offre" enctype="multipart/form-data">
+        <div class="card" style="background-color: #f5f5f5;border: none;margin-top: 70px;">
+            <div class="rounded-top text-white d-flex flex-row" id="arr" style="background-color: blue; background-image: url('/static/image/hero.png');background-size: cover;height:350px;">
+                <div class="ms-4 d-flex flex-column" style="width: 150px;margin-left: 100px;margin-top: 250px;">
+                    <img src="/static/image/3974104.jpg"
+                        alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                        style="width: 150px; z-index: 1" id="imagePreview1">
+                     <!-- Champ d'image 1 -->
+                     <div class="form-group" style="margin-top: -33px;margin-left: 120px;border-radius: 50%;" >
+       
+                        <div class="custom-file" >
+                            <input type="file" class="custom-file-input" id="image_1" name="image_1" onchange="previewImage(this, 'imagePreview1')" style="margin-left: 50px;height: 50px;width: 50px;border-radius: 50%;">
+                            <label class="custom-file-label" for="image_1" style="border-radius: 50%;height: 40px;width: 40px;background-color: rgb(201, 201, 201);"><i class="fa fa-camera"></i></label>
+                        </div>
+                    </div>
+                       
+                </div>
+                <div class="ms-3 mx-auto"  >
+                     <!-- Champ d'image 2 -->
+                     <div class="form-group" style="z-index: 1;margin-top: 70%;" >
+                        <div class="custom-file"  >
+                        <input type="file" class="custom-file-input" id="image_2" name="image_2" onchange="updateBackgroundImage(this)">
+                        <label class="custom-file-label" for="image_2" style="border-radius: 10px;height: 40px;width: fit-content;background-color: rgb(0, 0, 0);color: white;opacity: 0.6;">Choisir un arriere plan</label>
+                    </div>
+                    </div>
+                </div>
+        </div>
+    
+<div class="card-body p-4 text-black" style="margin-top:100px ;">
+    <div class="row" >
+        <div class="mb-5" >
+         <div class="asm" >
+            <div class="card shadow-sm mb-3" style="border-radius: 10px;border: none;">
+            <div class="col">
+                <h4 class="mt-2">Intro</h4>
+                <hr>
+                <div class="col-md-0">
+                     <!-- Champ de nom d'offre -->
+                    <div class="form-group">
+                        <label for="matiere">Nom de l'offre</label>
+                        <input type="text" class="form-control" id="nom_offre" name="nom_offre" placeholder="Nom de l'offre" style="border-radius: 20px;background-color: #f5f5f5;border: none;" required>
+                    </div>
+                </div>
+                <div class="col-md-0">
+                      <!-- Champ de matière -->
+                    <div class="form-group">
+                        <label for="matiere">Matière</label>
+                        <input type="text" class="form-control" id="matiere" name="matiere" placeholder="Matière" style="border-radius: 20px;background-color: #f5f5f5;border: none;" required>
+                    </div>
+                </div>
+                <div class="col-md-0">
+                    <!-- Champ de nom d'offre -->
+                   <div class="form-group">
+                       <label for="organisation">Nom de l'organisation</label>
+                       <input type="text" class="form-control" id="organisation" name="organisation" placeholder="Nom de l'organisation" style="border-radius: 20px;background-color: #f5f5f5;border: none;" required>
+                   </div>
+               </div>
+               <div class="col-md-0">
+                <!-- Champ de nom d'offre -->
+               <div class="form-group">
+                   <label for="tel">Telephone</label>
+                   <input type="tel" class="form-control" id="tel" name="tel" placeholder="Telephone" style="border-radius: 20px;background-color: #f5f5f5;border: none;" required>
+               </div>
+           </div>
+               <div class="col-md-0">
+                <!-- Champ de nom d'offre -->
+               <div class="form-group">
+                   <label for="duree">Dure de la seance (En heure)</label>
+                   <input type="text" class="form-control" id="duree" name="duree" placeholder="Duree d'une seance" style="border-radius: 20px;background-color: #f5f5f5;border: none;" required>
+               </div>
+           </div>
+            </div>
+        </div>
+
+
+        <div class="col border shadow-sm asm1" style="border-radius: 10px;border: none;">
+
+            <!-- Champ de nombre de séances par semaine -->
+            <div class="form-group mt-3">
+                <label for="type">Type :</label>
+                <select class="form-select" id="type" name="type" style="border-radius: 20px;background-color: #f5f5f5;border: none;" >
+                    <option value="hybride">Hybride</option>
+                    <option value="presentiel">Présentiel</option>
+                    <option value="distanciel" selected>À distance</option>
+                </select>
+            </div>
+            <div class="form-group" id="location" style="display: none;">
+                <label for="emplacement">Emplacement :</label>
+                <input type="text" class="form-control" id="emplacement" name="emplacement" style="border-radius: 20px;background-color: #f5f5f5;border: none;">
+            </div>
+            <div class="form-group mt-3" id="horairePresentGroup">
+                <label for="nombre_seances_presentiel">Nombre de séances en presentiel par semaine</label>
+                <input type="number" class="form-control" id="nombre_seances_presentiel" name="nombre_seances_presentiel" style="border-radius: 20px;background-color: #f5f5f5;border: none;" >
+                <button type="button" class="btn btn-success mb-3 mt-3" id="ajouter-seance-presentiel" >Ajouter date(s)</button>
+            </div>
+    
+            <!-- Conteneur pour les séances dynamiques -->
+            <div id="seances-container-presentiel">
+                <!-- Les champs de séances seront ajoutés ici dynamiquement -->
+            </div>
+
+            
+            <!-- Bouton pour ajouter une séance -->
+    
+
+            <div class="form-group mt-3" id="horaireDistanceGroup">
+                <label for="nombre_seances">Nombre de séances a distance par semaine</label>
+                <input type="number" class="form-control" id="nombre_seances" name="nombre_seances" style="border-radius: 20px;background-color: #f5f5f5;border: none;" min="1" required>
+                <button type="button" class="btn btn-success mb-3 mt-3" id="ajouter-seance"><i class="fa fa-plus "></i></button>
+            </div>
+    
+            <!-- Conteneur pour les séances dynamiques -->
+            <div id="seances-container">
+                <!-- Les champs de séances seront ajoutés ici dynamiquement -->
+            </div>
+            <!-- Bouton pour ajouter une séance -->
+    
+    </div>
+    <div class="col border shadow-sm asm1 mt-3" style="border-radius: 10px;border: none;" >
+        <!-- Champ de nombre de séances par semaine -->
+        <div class="form-group mt-3">
+            <label for="prix">Prix(DHS)/mois</label>
+            <input type="number" class="form-control" min="0" id="prix" name="prix" style="border-radius: 20px;background-color: #f5f5f5;border: none;" required>
+        </div>
+</div>
+    </div>
+<div class="card shadow-sm asm2" style="padding: 10px;border-radius: 10px;border: none;">
+    <h3>Details</h3>
+    <hr>
+<div class="row">
+    <div class="col-md-12 mb-1">
+        <!-- Champ de nombre de places -->
+    <div class="form-group">
+    <label for="nombre_place_total">Nombre de places</label>
+    <input type="number" class="form-control" min="1" id="nombre_place_total" name="nombre_place_total" style="border-radius: 20px;background-color: #f5f5f5;border: none;" required>
+    </div>
+    </div>
+    <div class="form-group ">
+        <label for="date_debut">Date de début</label>
+        <input type="date" class="form-control  mb-1" id="date_debut" name="date_debut" style="border-radius: 20px;background-color: #f5f5f5;border: none;" required>
+    </div>
+    <div class="form-group">
+        <label for="date_fin">Date de fin</label>
+        <input type="date" class="form-control  mb-1" id="date_fin" name="date_fin" style="border-radius: 20px;background-color: #f5f5f5;border: none;" required>
+    </div>
+    <div class="form-group ">
+        <label for="description mb-3">Description</label>
+        <textarea class="form-control mb-2" id="description" name="description" rows="4" style="resize: none;background-color: #f5f5f5;border: none;" required></textarea>
+    </div>
+
+</div>
+</div>
+              </div>
+         <!-- Bouton de soumission -->
+  <button type="submit" class="btn btn-primary">Ajouter l'offre</button>
+</form>
+</section>
+</div>
+<!-- Inclure les fichiers JavaScript Bootstrap (facultatif) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    const typeSelect = document.getElementById('type');
+    const horaireDistanceGroup = document.getElementById('horaireDistanceGroup');
+    const horairePresentGroup = document.getElementById('horairePresentGroup');
+    const loc=document.getElementById('location');
+    // Fonction pour afficher ou masquer le champ "Horaire à distance" en fonction de la sélection
+    function toggleHoraireDistance() {
+        if (typeSelect.value === 'distanciel') {
+            horaireDistanceGroup.style.display = 'block';
+            horairePresentGroup.style.display = 'none';
+            loc.style.display = 'none';
+        } 
+        if (typeSelect.value === 'presentiel') {
+            horairePresentGroup.style.display = 'block';
+            loc.style.display = 'block';
+            horaireDistanceGroup.style.display = 'none';
+        } 
+        if (typeSelect.value === 'hybride') {
+            horaireDistanceGroup.style.display = 'block';
+            horairePresentGroup.style.display = 'block';
+            loc.style.display = 'block';
+        }
+         
+    }
+    // Ajouter un écouteur d'événement pour gérer les changements de sélection
+    typeSelect.addEventListener('change', toggleHoraireDistance);
+
+    // Appeler la fonction au chargement de la page pour gérer l'état initial
+    toggleHoraireDistance();
+  document.addEventListener("DOMContentLoaded", function() {
+    // Écouteur d'événement pour le bouton "Ajouter une séance"
+    document.getElementById("ajouter-seance").addEventListener("click", function() {
+        // Récupérer le nombre de séances spécifié par l'utilisateur
+        const nombreSeances = parseInt(document.getElementById("nombre_seances").value);
+        if(parseInt(document.getElementById("nombre_seances").value)){
+        document.getElementById("ajouter-seance").style.display="none";}
+
+        // Créer des champs de séance (jour + heure) pour chaque séance
+        for (let i = 0; i < nombreSeances; i++) {
+            // Créer un conteneur de séance
+            const seanceContainer = document.createElement("div");
+            seanceContainer.className = "form-group";
+
+            // Menu déroulant pour le jour de la semaine
+            const selectJour = document.createElement("select");
+            selectJour.className = "form-control";
+            selectJour.name = `jour_seance_${i}`;  // Utilisez un nom de champ unique
+            const jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+            for (const jour of jours) {
+                const option = document.createElement("option");
+                option.value = jour;
+                option.textContent = jour;
+                selectJour.appendChild(option);
+            }
+            seanceContainer.appendChild(selectJour);
+
+            // Champ de texte pour l'heure
+            const inputHeure = document.createElement("input");
+            inputHeure.type = "time";
+            inputHeure.className = "form-control";
+            inputHeure.placeholder = "Heure de la séance";
+            inputHeure.name = `heure_seance_${i}`;  // Utilisez un nom de champ unique
+            seanceContainer.appendChild(inputHeure);
+
+            // Ajouter le conteneur de séance au conteneur principal
+            document.getElementById("seances-container").appendChild(seanceContainer);
+        }
+    });
+
+    document.getElementById("ajouter-seance-presentiel").addEventListener("click", function() {
+        // Récupérer le nombre de séances spécifié par l'utilisateur
+        const nombreSeances = parseInt(document.getElementById("nombre_seances_presentiel").value);
+        if(parseInt(document.getElementById("nombre_seances_presentiel").value)){
+        document.getElementById("ajouter-seance-presentiel").style.display="none";}
+
+        // Créer des champs de séance (jour + heure) pour chaque séance
+        for (let i = 0; i < nombreSeances; i++) {
+            // Créer un conteneur de séance
+            const seanceContainer = document.createElement("div");
+            seanceContainer.className = "form-group";
+
+            // Menu déroulant pour le jour de la semaine
+            const selectJour = document.createElement("select");
+            selectJour.className = "form-control";
+            selectJour.name = `jour_seance_presentiel_${i}`;  // Utilisez un nom de champ unique
+            const jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+            for (const jour of jours) {
+                const option = document.createElement("option");
+                option.value = jour;
+                option.textContent = jour;
+                selectJour.appendChild(option);
+            }
+            seanceContainer.appendChild(selectJour);
+
+            // Champ de texte pour l'heure
+            const inputHeure = document.createElement("input");
+            inputHeure.type = "time";
+            inputHeure.className = "form-control";
+            inputHeure.placeholder = "Heure de la séance";
+            inputHeure.name = `heure_seance_presentiel_${i}`;  // Utilisez un nom de champ unique
+            seanceContainer.appendChild(inputHeure);
+
+            // Ajouter le conteneur de séance au conteneur principal
+            document.getElementById("seances-container-presentiel").appendChild(seanceContainer);
+        }
+    });
+});
+
+  // Prevent form submission on Enter key press
+  document.getElementById('profile-form').addEventListener('keypress', function(event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+    }
+  });
+
+  function previewImage(input, targetID) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById(targetID).src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function updateBackgroundImage(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+            var backgroundImageUrl = 'url(' + e.target.result + ')';
+            document.getElementById('arr').style.backgroundImage = backgroundImageUrl;
+            document.getElementById('arr').style.backgroundPosition = 'center center';
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+
+</script>
+{% endblock %}

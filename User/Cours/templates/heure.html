@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Choix du temps et prix | Epsilearn{% endblock %}
+
+{% block content %}
+    <style>
+        /* Ajoutez vos styles personnalisés ici si nécessaire */
+        .card {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 0.5s ease forwards;
+        }
+        #prix {
+            transition: color 0.3s ease-in-out;
+        }
+        #temps-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Supprime l'icône du calendrier du champ de temps */
+        input[type="time"]::-webkit-calendar-picker-indicator {
+            display: none;
+        }
+        body{
+            background-color: #f5f5f5;
+        }
+    </style>
+
+    <div class="container d-flex align-items-center justify-content-center vh-100">
+        <div class="card">
+            <h1 class="text-center mb-4">Choix du temps et prix</h1>
+            <h2 class="text-center">Prix: <span id="prix" value="10">10</span> DHS</h2>
+            <div id="temps-group">
+                <button type="button" id="decrement-btn" class="btn btn-primary" onclick="decrementerTemps()">-</button>
+                <input type="time" id="temps" name="temps" value="00:30" step="1800" class="form-control text-center" />
+                <button type="button" id="increment-btn" class="btn btn-primary" onclick="incrementerTemps()">+</button>
+            </div>
+            <div id="plan-tarif" class="mt-3 text-center">Plan tarif: 30 minutes - 10 DHS</div>
+            <form method="POST">
+                <div class="d-flex justify-content-between mt-3">
+                    <button type="button" class="btn btn-secondary">Précédent</button>
+                    <button type="submit" id="submit-btn" class="btn btn" style="background-color: blue;color: white;">Submit</button>
+                </div>
+                <input id="p" type="number" name="prix" value="10" style="visibility: hidden;">
+                <input id="t" type="time" name="t" value="00:30" step="1800" style="visibility: hidden;">
+            </form>
+        </div>
+    </div>
+
+    <!-- Inclure les fichiers JS de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let prix = 0;
+        let tempsInput = document.getElementById('temps');
+        let prixDisplay = document.getElementById('prix');
+        let prixInput = document.getElementById('p');
+        let tInput = document.getElementById('t');
+
+        function updatePrix() {
+            let temps = convertTimeToMinutes(tempsInput.value);
+            prix = (temps / 30) * 10;
+            prixDisplay.textContent = prix;
+            prixInput.value = prix;
+        }
+
+        function incrementerTemps() {
+            let temps = convertTimeToMinutes(tempsInput.value);
+            temps += 30;
+            temps = Math.min(temps, 24 * 60); // Limite à 24 heures
+            tempsInput.value = convertMinutesToTime(temps);
+            tInput.value = convertMinutesToTime(temps);
+            updatePrix();
+        }
+
+        function decrementerTemps() {
+            let temps = convertTimeToMinutes(tempsInput.value);
+            temps -= 30;
+            temps = Math.max(temps, 30); // Limite à 30 minutes
+            tempsInput.value = convertMinutesToTime(temps);
+            tInput.value = convertMinutesToTime(temps);
+            updatePrix();
+        }
+
+        function convertTimeToMinutes(time) {
+            let [hours, minutes] = time.split(":").map(Number);
+            return hours * 60 + minutes;
+        }
+
+        function convertMinutesToTime(minutes) {
+            let hours = Math.floor(minutes / 60);
+            let mins = minutes % 60;
+            return `${String(hours).padStart(2, "0")}:${String(mins).padStart(2, "0")}`;
+        }
+
+        tempsInput.addEventListener('change', updatePrix);
+    </script>
+{% endblock %}

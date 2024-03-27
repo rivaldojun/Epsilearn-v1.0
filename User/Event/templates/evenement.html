@@ -1,0 +1,485 @@
+{% extends "base.html" %}
+
+{% block style %}
+
+<style>
+ 
+ body, html {
+            background-color: #f5f5f5;
+        }
+  .event-block {
+    
+    border-radius: 10px;
+    padding: 0;
+    background-color: #ffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    scale: 0.8;
+  }
+  .event-block:hover {
+    cursor: pointer;
+        scale: 0.82;
+        transition: 0.3s;
+  }
+  .pass-button {
+    background-color: #292727;
+    color: #ffffff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 60px;
+    float: right;
+
+  }
+  #evenement{
+   text-decoration: overline ;
+   color: rgb(0, 0, 0)
+ }
+  .choose-button {
+    background-color: #099c15;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  .img-fluid{
+    height: 80vh;
+    width: 100%;
+  }
+  .plus-button {
+    background-color: blue;
+    color: #ffffff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 60px;
+    float: right;
+    margin-right: 20px;
+  }
+  .stylish-input-group {
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    padding: 5px 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    display: inline-block;
+    width: auto;
+}
+
+.stylish-input-group input[type="text"] {
+    border: none;
+    outline: none;
+    box-shadow: none;
+    padding: 15px;
+    font-size: 14px;
+    width: 120px;
+    transition: width 0.3s ease-in-out;
+    border-radius: 25px 0px 0px 25px;
+}
+
+.stylish-input-group input[type="text"]:focus {
+    width: 100%;
+}
+
+.stylish-input-group .input-group-append button {
+    border: none;
+    outline: none;
+    background-color: blue;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 0px 25px 25px 0px;
+    cursor: pointer;
+}
+
+.stylish-input-group .input-group-append button:hover {
+    background-color: #0056b3;
+}
+
+.pass-button:hover{
+  scale: 1.2;
+  transition: 0.3s;
+}
+.plus-button:hover{
+  scale: 1.2;
+  transition: 0.3s;
+}
+#foot{
+  display: none;
+}
+#soutenance{
+  display: none;
+}
+#autre{
+  display: none;
+}
+#party{
+  display: none;
+}
+#presentation{
+  display: none;
+}
+#genie{
+  display: none;
+}
+#competition{
+  display: none;
+}
+#cours{
+  display: none;
+}
+#Seminaire{
+  display: none;
+}
+
+
+#footlink{
+  display: none;
+}
+#soutenancelink{
+  display: none;
+}
+#autrelink{
+  display: none;
+}
+#partylink{
+  display: none;
+}
+#presentationlink{
+  display: none;
+}
+#genielink{
+  display: none;
+}
+#competitionlink{
+  display: none;
+}
+#courslink{
+  display: none;
+}
+#Seminairelink{
+  display: none;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+{% if user_type!='professeur' and user_type!='etudiant' and user_type!='autre' %}
+
+<style>
+  #panier{
+    visibility: hidden;
+  }
+  .plus-button{
+    visibility: hidden;
+  }
+  #res{
+    visibility: hidden;
+  }
+  
+ /* Styles pour la barre de recherche */
+
+</style>
+{% endif %}
+<div class="container mt-5">
+  <button id="panier" class="pass-button" style="background-color: transparent;" onclick="window.location.href = '/mesevenements'" data-toggle="tooltip" data-placement="top" title="Voir vos réservations" style="z-index: 1000000000;">
+    <i class="fas fa-shopping-cart" style="color: rgb(0, 0, 255);">
+      <span style="background-color: red;scale: 1;float: right;border-radius: 60%;color: white;font-size: 10px;font-family: 'Kanit';padding: 2px;height: 15px;width: 15px;text-align: center;">{{ne}}</span>
+    </i>
+  </button>
+  <button class="plus-button" style="background-color: transparent;" onclick="window.location.href = '/ajouterevenement'" data-toggle="tooltip" data-placement="top" title="Ajouter un évenement" style="z-index: 10000000000;">
+    <i class="fas fa-plus" style="color: blue;"></i>
+  </button>
+  
+</div>
+<!-- Modale de réservation -->
+
+
+<div class="container" >
+  <h3 class="mb-4 mt-5 " data-animation="fadeInUp" style="animation-duration: 1s;color: rgb(0, 0, 0); font-family: 'Kanit';font-size: 38px;">Événements</h3>
+  <h5 class="text-center animate-element" data-animation="fadeInUp" style="animation-duration: 1.4s;"><br><br>
+    Parce que le divertissement est pour le travail ce que l'inspiration est pour l'expiration, les <span style="color: blue;">#événements</span> sont là pour vous apporter une pause rafraîchissante dans votre quête de connaissance et d'amélioration.</h5>
+  <div class="input-group stylish-input-group mt-4 mb-3 animate-element" data-animation="fadeInUp" style="animation-duration: 1.8s;">
+    <input type="text" class="form-control" id="searchInput" placeholder="Rechercher par nom">
+  </div>
+</div>
+<br>
+<div class="container">
+<h5 id="Seminaire" class="animate-element" data-animation="fadeInUp" style="animation-duration: 2s;">Seminaire</h5>
+  <div class="row animate-element" data-animation="fadeInUp" style="animation-duration: 2s;" id="eventCards" >
+    <!-- Blocs des informations d'événement seront insérés ici dynamiquement -->
+  </div>
+  <a href="{{ url_for('Event.plusevenement', typer='Seminaire') }}" id="Seminairelink" class="animate-element" data-animation="fadeInUp" style="animation-duration: 2s;background-color: black;color: white;padding: 10px;border-radius: 20px;width: fit-content;text-decoration: none;">Voir plus</a>
+  <br>
+  <h5 id="cours" class="animate-element" data-animation="fadeInUp" style="animation-duration: 2s;">Cours</h5>
+  <div class="row animate-element" data-animation="fadeInUp" style="animation-duration: 2s;" id="eventCardscours" >
+    <!-- Blocs des informations d'événement seront insérés ici dynamiquement -->
+  </div>
+  <a href="{{ url_for('Event.plusevenement', typer='Cours') }}" id="courslink" class="animate-element" data-animation="fadeInUp" style="animation-duration: 2s;background-color: black;color: white;padding: 10px;border-radius: 20px;width: fit-content;text-decoration: none;">Voir plus</a>
+  <br>
+  <h5 id="presentation" class="animate-element" data-animation="fadeInUp" style="animation-duration: 2s;">Presentation de projet</h5>
+  <div class="row animate-element" data-animation="fadeInUp" style="animation-duration: 2s;" id="eventCardspresentation" >
+    <!-- Blocs des informations d'événement seront insérés ici dynamiquement -->
+  </div>
+  <a href='{{ url_for('Event.plusevenement', typer='Presentation') }}' id="presentationlink" class="animate-element" data-animation="fadeInUp" style="animation-duration: 2s;background-color: black;color: white;padding: 10px;border-radius: 20px;width: fit-content;text-decoration: none;">Voir plus</a>
+  <br>
+  <h5 id="soutenance" class="animate-element" data-animation="fadeInUp" style="animation-duration: 2s;">Essai de soutenance</h5>
+  <div class="row animate-element" data-animation="fadeInUp" style="animation-duration: 2s;" id="eventCardssoutenance" >
+    <!-- Blocs des informations d'événement seront insérés ici dynamiquement -->
+  </div>
+  <a href='{{ url_for('Event.plusevenement', typer="Essai de soutenance") }}' id="soutenancelink" class="animate-element" data-animation="fadeInUp" style="animation-duration: 2s;background-color: black;color: white;padding: 10px;border-radius: 20px;width: fit-content;text-decoration: none;">Voir plus</a>
+  <br>
+  <h5 id="competition" class="animate-element" data-animation="fadeInUp" style="animation-duration: 2s;">Competition</h5>
+  <div class="row animate-element" data-animation="fadeInUp" style="animation-duration: 2s;" id="eventCardscompetion" >
+    <!-- Blocs des informations d'événement seront insérés ici dynamiquement -->
+  </div>
+  <a href='{{ url_for('Event.plusevenement', typer="Competition") }}' id="competitionlink" class="animate-element" data-animation="fadeInUp" style="animation-duration: 2s;background-color: black;color: white;padding: 10px;border-radius: 20px;width: fit-content;text-decoration: none;">Voir plus</a>
+  <br>
+  <h5 id="genie" class="animate-element" data-animation="fadeInUp" style="animation-duration: 2s;">Genie en Herbe</h5>
+  <div class="row animate-element" data-animation="fadeInUp" style="animation-duration: 2s;" id="eventCardsgenie" >
+    <!-- Blocs des informations d'événement seront insérés ici dynamiquement -->
+  </div>
+  <a href='{{ url_for('Event.plusevenement', typer="Genie en Herbe") }}' id="genielink" class="animate-element" data-animation="fadeInUp" style="animation-duration: 2s;background-color: black;color: white;padding: 10px;border-radius: 20px;width: fit-content;text-decoration: none;">Voir plus</a>
+  <br>
+  <h5 id="foot" class="animate-element" data-animation="fadeInUp" style="animation-duration: 2s;">Football</h5>
+  <div class="row animate-element" data-animation="fadeInUp" style="animation-duration: 2s;" id="eventCardsfoot" >
+    <!-- Blocs des informations d'événement seront insérés ici dynamiquement -->
+  </div>
+  <a href='{{ url_for('Event.plusevenement', typer="Football") }}' id="footlink" class="animate-element" data-animation="fadeInUp" style="animation-duration: 2s;background-color: black;color: white;padding: 10px;border-radius: 20px;width: fit-content;text-decoration: none;">Voir plus</a>
+  <br>
+  <h5 id="party" class="animate-element" data-animation="fadeInUp" style="animation-duration: 2s;">Party</h5>
+  <div class="row animate-element" data-animation="fadeInUp" style="animation-duration: 2s;" id="eventCardsparty" >
+    <!-- Blocs des informations d'événement seront insérés ici dynamiquement -->
+  </div>
+  <a href='{{ url_for('Event.plusevenement', typer="Party") }}' id="partylink" class="animate-element" data-animation="fadeInUp" style="animation-duration: 2s;background-color: black;color: white;padding: 10px;border-radius: 20px;width: fit-content;text-decoration: none;">Voir plus</a>
+  <br>
+  <h5 id="autre" class="animate-element" data-animation="fadeInUp" style="animation-duration: 2s;">Autre</h5>
+  <div class="row animate-element" data-animation="fadeInUp" style="animation-duration: 2s;" id="eventCardsautre" >
+    <!-- Blocs des informations d'événement seront insérés ici dynamiquement -->
+  </div>
+  <a href='{{ url_for('Event.plusevenement', typer="Autre") }}' id="autrelink" class="animate-element" data-animation="fadeInUp" style="animation-duration: 2s;background-color: black;color: white;padding: 10px;border-radius: 20px;width: fit-content;text-decoration: none;">Voir plus</a>
+ <div style="height: 20px;">
+
+ </div> 
+
+</div>
+<div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="reservationModalLabel" aria-hidden="true" style="margin-top: 120px;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reservationModalLabel">Réservation effectuée</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Vous avez réservé un événement avec succès !
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- Inclure les fichiers Bootstrap JavaScript -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+  $('[data-toggle="tooltip"]').tooltip();
+  const panierButton = document.getElementById("panier");
+  function redirectToAccueil() {
+    // Implémentez ici la logique pour rediriger vers la page d'accueil
+    // Par exemple, vous pouvez utiliser window.location pour rediriger
+    window.location.href = "/accueil";
+  }
+  panierButton.addEventListener("click", function() {
+   // Redirigez l'utilisateur vers la page souhaitée lorsque le bouton est cliqué
+   window.location.href = "/mesevenements";
+ });
+  
+    let eventList = []; // Declare eventList variable to store event data
+
+    // Fetch event data from the server
+    function loadUsers() {
+      fetch('/get_event')
+        .then(response => response.json())
+        .then(data => {
+          eventList=data
+          displayUsers(eventList);
+        })
+        .catch(error => {
+          console.error('Error fetching event data:', error);
+        });
+    }
+    let pr=0
+    let sem=0
+    let ft=0
+    let crs=0
+    let gen=0
+    let com=0
+    let prt=0
+    let atr=0
+    let stce=0
+    function displayUsers(eventL) {
+      const eventCardsDiv = document.getElementById("eventCards");
+      const eventCardsDivfoot = document.getElementById("eventCardsfoot");
+      const eventCardsDivcours = document.getElementById("eventCardscours");
+      const eventCardsDivpresentation = document.getElementById("eventCardspresentation");
+      const eventCardsDivgenie = document.getElementById("eventCardsgenie");
+      const eventCardsDivcompetition = document.getElementById("eventCardscompetition");
+      const eventCardsDivparty = document.getElementById("eventCardsparty");
+      const eventCardsDivautre = document.getElementById("eventCardsautre");
+      const eventCardsDivsoutenance = document.getElementById("eventCardssoutenance");
+
+      const seminaire = document.getElementById("Seminaire");
+      const foot = document.getElementById("foot");
+      const cours = document.getElementById("cours");
+      const presentation = document.getElementById("presentation");
+      const genie = document.getElementById("genie");
+      const competition = document.getElementById("competition");
+      const party = document.getElementById("party");
+      const autre = document.getElementById("autre");
+      const soutenance = document.getElementById("soutenance");
+
+      const seminairelink = document.getElementById("Seminairelink");
+      const footlink = document.getElementById("footlink");
+      const courslink = document.getElementById("courslink");
+      const presentationlink = document.getElementById("presentationlink");
+      const genielink = document.getElementById("genielink");
+      const competitionlink = document.getElementById("competitionlink");
+      const partylink = document.getElementById("partylink");
+      const autrelink = document.getElementById("autrelink");
+      const soutenancelink = document.getElementById("soutenancelink");
+      
+      eventCardsDiv.innerHTML = "";
+      eventL.forEach(event => {
+        const card = document.createElement("div");
+        card.addEventListener("click", function () {
+          window.location.href = `/details_evenements/${event.id}`;
+        });
+        card.className = "col-lg-4 col-md-6 col-sm-12 event-block";
+        card.innerHTML = `
+  <div class="card shadow-lg">
+    <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+      ${
+        event.photo !== "" ? (
+          event.photo.endsWith(".mp4") || event.photo.endsWith(".avi") || event.photo.endsWith(".mov")
+            ? `<video class="img-fluid" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;" controls>
+                 <source src="${event.photo}" type="video/mp4">
+                 Your browser does not support the video tag.
+               </video>`
+            : `<img src="${event.photo}" class="img-fluid" alt="Media de l'événement" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">`
+        ) : `<img src="../static/image/2.png" class="img-fluid" alt="Image par défaut" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">`
+      }
+      <a href="#!">
+        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+      </a>
+    </div>
+    <div class="card-body">
+      <p><strong><span style="color: red;">${event.date}</span></strong> </p>
+      <h5 class="card-title font-weight-bold">${event.nomevent}</h5>
+      <p><strong>Type :</strong> ${event.type}</p>
+      <p><strong>Nombre de place total:</strong> ${event.nbplace}</p>
+      <p><strong>Nombre de place restant:</strong> ${event.nbplace - event.nbplace_occupe}</p>
+      <p><strong>En ligne:</strong> ${event.live}</p>
+      <p><strong><i class="fa fa-eye"></i> </strong> ${event.vue}</p>
+      <hr>
+      ${
+        event.organisateurid !== event.ig
+          ? `<a href="/reserver/${event.id}" class="btn btn-primary reserve-button">Réserver</a>`
+          : ''
+      }
+      ${
+        event.organisateurid == event.ig
+          ? `<a href="/supprimerevent/${event.id}" class="btn btn reserve-button" style="background-color:blue;color:white">Supprimer</a>`
+          : ''
+      }
+      <!-- Autres informations de l'événement -->
+    </div>
+  </div>
+
+`;
+if (event.type=="Football" & ft < 3){
+eventCardsDivfoot.appendChild(card)
+foot.style.display="block"
+footlink.style.display="block"
+}
+if (event.type=="Genie en Herbe" & gen < 3){
+eventCardsDivgenie.appendChild(card)
+genie.style.display="block"
+genielink.style.display="block"
+}
+if (event.type=="Cours" & crs < 3){
+eventCardsDivcours.appendChild(card)
+cours.style.display="block"
+courslink.style.display="block"
+}
+if (event.type=="Presentation" & pr < 3){
+eventCardsDivpresentation.appendChild(card)
+presentation.style.display="block"
+presentationlink.style.display="block"
+pr=pr+1
+}
+if (event.type=="Essai de soutenance" & stce < 3){
+eventCardsDivsoutenance.appendChild(card)
+soutenance.style.display="block"
+soutenancelink.style.display="block"
+}
+if (event.type=="Competition" & com < 3){
+eventCardsDivcompetition.appendChild(card)
+competition.style.display="block"
+competitionlink.style.display="block"
+}
+if (event.type=="Party" & prt < 3){
+eventCardsDivparty.appendChild(card)
+party.style.display="block"
+partylink.style.display="block"
+}
+if (event.type=="Autre" & atr < 3){
+eventCardsDivautre.appendChild(card)
+autre.style.display="block"
+autrelink.style.display="block"
+}
+if (event.type=="Seminaire" & sem < 3){
+eventCardsDiv.appendChild(card)
+seminaire.style.display="block"
+seminairelink.style.display="block"
+}
+
+        
+      });
+    }
+
+    function filterUsers(searchText) {
+      const filteredUsers = eventList.filter(event => {
+        const fullName = `${event.nomevent} ${event.nom}`.toLowerCase();
+        return fullName.includes(searchText.toLowerCase());
+      });
+      displayUsers(filteredUsers);
+    }
+
+    // Search event input event listener
+    $('#searchInput').keyup(function() {
+      const searchText = $(this).val().trim();
+      if (searchText === '') {
+        displayUsers(eventList);
+      } else {
+        filterUsers(searchText);
+      }
+    });
+
+    // Call this function to load eventList initially
+    loadUsers();
+
+    // ... (rest of the code for chat functionality, same as before) ...
+  });
+</script>
+{% endblock %}

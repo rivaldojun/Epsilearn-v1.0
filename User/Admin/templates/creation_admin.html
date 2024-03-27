@@ -1,0 +1,61 @@
+{% extends "index.html" %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Creation</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+{% block content %}
+    <div class="container mt-5">
+        <h1>Admin Creation</h1>
+        <form method="POST">
+            <div class="form-group">
+                <label for="mail">Email:</label>
+                <input type="email" class="form-control" id="mail" name="mail" required >
+            </div>
+            <div class="form-group">
+                <label for="motdepasse">Mot de passe:</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="motdepasse" name="motdepasse" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="show-hide-password">
+                            <i class="fa fa-eye" ></i>
+                        </button>
+                    </div>
+                </div>
+            </div>            
+            <div class="form-group">
+                <label for="role">Superadmin:</label>
+                <select class="form-control" id="role" name="role">
+                    <option value="Oui">Oui</option>
+                    <option value="Non">Non</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Créer</button>
+        </form>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById('mail').value = '';
+                document.getElementById('motdepasse').value = '';
+        const passwordField = document.getElementById("motdepasse");
+        const showHideButton = document.getElementById("show-hide-password");
+        const eyeIcon = document.getElementById("eye-icon");
+
+        showHideButton.addEventListener("click", function () {
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                eyeIcon.classList.remove("fa-eye");
+                eyeIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordField.type = "password";
+                eyeIcon.classList.remove("fa-eye-slash");
+                eyeIcon.classList.add("fa-eye");
+            }
+        });
+    });
+    </script>
+{% endblock %}

@@ -1,0 +1,374 @@
+{% extends "base.html" %}
+{% block conecter %}
+{% endblock %}
+{% block nav %}
+<nav class="navbar navbar-expand-lg navbar-light bg-transparent" style="display: flex; justify-content: center; height: 40px;">
+  <div class="container" style="background-color: none; border-radius: 20px; z-index: 999999; opacity: 0.8; margin-top: 20px; padding: 0 12px;">
+      <a class="navbar-brand" href="/" style="color: blue; font-size: 24px;">Epsilearn</a>
+  </div>
+</nav>
+
+{% endblock %}
+{% block content %}
+<head>
+  <title>Inscription Professeur/Étudiant | Epsilearn</title>
+  <!-- Inclure les liens CSS de Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(3, auto); /* 3 boutons par ligne */
+      gap: 5px; /* Espacement entre les boutons */
+      background-color: #f0f0f0; /* Couleur de fond pour la partie des boutons checkbox */
+      padding: 10px; /* Marge intérieure pour un meilleur espacement */
+      border-radius: 5px; /* Bordures arrondies */
+    }
+    .checkbox-grid label {
+      width: 100%;
+      text-align: left;
+    }
+
+    /* Styles pour les boutons "Professeur" et "Étudiant" */
+    .btn-professeur.active {
+      background-color: #0000ff;
+      color: white; /* Couleur bleue pour les boutons "Professeur" actifs */
+    }
+    .btn-professeur{
+      border: none;
+      background-color:black;
+      color: white;
+    }
+    .btn-etudiant{
+      border: none;
+      background-color:black;
+      color: white;
+    }
+    .btn-etudiant.active {
+      background-color: #0000ff;
+      color: white; /* Couleur verte pour les boutons "Étudiant" actifs */
+    }
+    body {
+      background-color: #f5f5f5;
+      margin: 0;
+    }
+
+
+    .form-container {
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            margin-top: 20px;
+        }
+  </style>
+</head>
+<div class="container">
+  <h1 class="mt-5">Inscription Professeur/Étudiant</h1>
+  <div class="mt-3">
+      <h5 class="mt-3 mb-3">Inscrivez-vous en tant que:</h5>
+      <div class="d-flex flex-wrap">
+          <button id="formProfesseurBtn" class="btn btn btn-professeur me-3"  onclick="afficherFormProfesseur()">Professeur</button>
+          <button id="formEtudiantBtn" class="btn btn btn-etudiant me-3"  onclick="afficherFormEtudiant()">Étudiant</button>
+          <button id="formAutreBtn" class="btn btn btn-etudiant "  onclick="afficherFormAutre()">Autre</button>
+      </div>
+  </div>
+
+  <div class="row">
+    <div id="formProfesseur" style="display: none;" class="mt-4 form-container">
+        <h2>Formulaire d'inscription Professeur</h2>
+        <form id="profForm" method="post" action="/enregistrerprof" enctype="multipart/form-data">
+          <!-- Ajoutez ici les champs spécifiques pour le formulaire Professeur -->
+          <div class="mb-3">
+            <label for="formation" class="form-label">Formation :</label>
+            <select id="formation" name="formation" class="form-select" onchange="afficherNiveauProf()" required>
+              <option value="" disabled selected>Choisir une formation</option>
+              <option value="Cycle ingenieur">Cycle ingenieur</option>
+              <option value="Parcours/Prepa">Parcours/Prepa</option>
+              <option value="L-M-D">L-M-D</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="Nvdetud" class="form-label">Niveau d'études :</label>
+            <select id="Nvdetud" name="Nvdetud" class="form-select" required>
+              <option value="" disabled selected>Choisir un niveau d'études</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="diplome" class="form-label">Dernier diplôme :</label>
+            <select id="diplome" name="diplome" class="form-select" required>
+              <option value="" disabled selected>Choisir un diplôme</option>
+              <option value="Ingénieur">LICENCE</option>
+              <option value="DEUST">DEUST</option>
+              <option value="Master">MASTER</option>
+              <option value="Doctorat">DOCTORAT</option>
+              <option value="Doctorat">INGENIEUR</option>
+              <option value="Doctorat">BAC</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Discipline :</label>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex flex-wrap" id="disciplineGrid">
+                        <!-- Les disciplines seront générées dynamiquement ici -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+          <div class="mb-3">
+            <label for="filiere" class="form-label">Filière :</label>
+            <input type="text" id="filiere" name="filiere" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="ecole" class="form-label">École :</label>
+            <input type="text" id="ecole" name="ecole" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="age" class="form-label">Date de naissance :</label>
+            <input type="date" id="age" name="age" class="form-control" >
+          </div>
+          <div class="mb-3">
+            <label for="vendervous" class="form-label">Vendez-vous (500 mots max.) :</label>
+            <textarea id="vendervous" name="vendervous" class="form-control" style="resize: none;" required></textarea>
+            <p id="wordCount">0 /500 mots</p>
+        </div>
+        <div class="mb-3">
+          <label for="cv" class="form-label">Importez votre CV:</label>
+          <input id="cv" name="cv" class="form-control" type="file" accept=".pdf" required>
+      </div>
+          <button type="submit" class="btn btn-primary">Terminer l'inscription</button>
+        </form>
+      </div>
+  
+      <!-- ... Le reste du code ... -->
+<div id="formEtudiant" style="display: none;" class="mt-4 form-container">
+    <h2>Formulaire d'inscription Étudiant</h2>
+    <form id="etudiantForm" method="post" action="/enregistreretudiant">
+      <!-- Ajoutez ici les champs spécifiques pour le formulaire Étudiant -->
+      <div class="mb-3">
+        <label for="formation" class="form-label">Formation :</label>
+        <select id="formationetud" name="formationetud" class="form-select" onchange="afficherNiveauEtud()" required>
+          <option value="" disabled selected>Choisir une formation</option>
+          <option value="Cycle ingenieur">Cycle ingenieur</option>
+          <option value="Parcours/Prepa">Parcours/Prepa</option>
+          <option value="L-M-D">LMD</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="niveauEtudiant" class="form-label">Niveau d'études :</label>
+        <select id="niveauEtudiant" name="niveauEtudiant" class="form-select" required>
+          <option value="" disabled selected>Choisir un niveau d'études</option>
+          <option value="1">1ère année</option>
+          <option value="2">2ème année</option>
+          <option value="3">3ème année</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="filiereEtudiant" class="form-label">Filière :</label>
+        <input type="text" id="filiereEtudiant" name="filiereEtudiant" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="ecoleEtudiant" class="form-label">École :</label>
+        <input type="text" id="ecoleEtudiant" name="ecoleEtudiant" class="form-control" required>
+      </div>
+      
+      <div class="mb-3">
+        <label for="ageEtudiant" class="form-label">Date de naissance :</label>
+        <input type="date" id="ageEtudiant" name="ageEtudiant" class="form-control">
+      </div>
+      <button type="submit" class="btn btn-primary">Terminer l'inscription</button>
+    </form>
+  </div>
+
+  <div id="formAutre" style="display: none;" class="mt-4 form-container">
+    <h2>Formulaire d'inscription d'utilisateur (Autre)</h2>
+    <form id="profForm" method="post" action="/enregistrerautre">
+      <!-- Ajoutez ici les champs spécifiques pour le formulaire Professeur -->
+      <div class="mb-3">
+        <label for="age" class="form-label">Date de naissance :</label>
+        <input type="date" id="age" name="age" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label for="vendervous" class="form-label">Vendez-vous (500 mots max.) :</label>
+        <textarea id="vendervousautre" name="vendervous" class="form-control" style="resize: none;" required></textarea>
+        <p id="wordCountautre">0 /500 mots</p>
+    </div>
+      <button type="submit" class="btn btn-primary">Terminer l'inscription</button>
+    </form>
+  </div>
+  <!-- ... Le reste du code ... -->
+</div>
+    <div id="inscriptionComplete" style="display: none;" class="mt-4 form-container">
+      <h2>Inscription complète</h2>
+      <p>Merci pour votre inscription ! Vous êtes maintenant enregistré en tant que <span id="typeInscription"></span>.</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Générer 30 disciplines aléatoires
+    var disciplines = ["Mathématiques", "Physique", "Chimie", "Informatique",  "Biologie",  "Économie", "Autres"];
+
+    var disciplineGrid = document.getElementById("disciplineGrid");
+
+    for (var i = 0; i < disciplines.length; i++) {
+    var disciplineLabel = document.createElement("label");
+    disciplineLabel.classList.add("btn", "btn-secondary", "mb-2", "me-2"); // Ajoutez des classes de marge et de remplissage ici
+    disciplineLabel.innerHTML = '<input type="checkbox" name="discipline[]" value="' + disciplines[i] + '"> ' + disciplines[i];
+    disciplineGrid.appendChild(disciplineLabel);
+}
+
+
+    // Fonction pour changer la couleur du bouton Professeur
+    function afficherFormProfesseur() {
+      document.getElementById("formProfesseur").style.display = "block";
+      document.getElementById("formAutre").style.display = "none";
+      document.getElementById("formEtudiant").style.display = "none";
+      document.getElementById("formProfesseurBtn").classList.add("active");
+      document.getElementById("formEtudiantBtn").classList.remove("active");
+      document.getElementById("formAutreBtn").classList.remove("active");
+    }
+
+    // Fonction pour changer la couleur du bouton Étudiant
+    function afficherFormEtudiant() {
+      document.getElementById("formProfesseur").style.display = "none";
+      document.getElementById("formAutre").style.display = "none";
+      document.getElementById("formEtudiant").style.display = "block";
+      document.getElementById("formProfesseurBtn").classList.remove("active");
+      document.getElementById("formAutreBtn").classList.remove("active");
+      document.getElementById("formEtudiantBtn").classList.add("active");
+    }
+    function afficherFormAutre(){
+      document.getElementById("formProfesseur").style.display = "none";
+      document.getElementById("formEtudiant").style.display = "none";
+      document.getElementById("formAutre").style.display = "block";
+      document.getElementById("formProfesseurBtn").classList.remove("active");
+      document.getElementById("formEtudiantBtn").classList.remove("active");
+      document.getElementById("formAutreBtn").classList.add("active");
+
+    }
+
+
+    function afficherNiveauProf() {
+      var formationSelected = document.getElementById("formation").value;
+      var niveauSelect = document.getElementById("Nvdetud");
+      niveauSelect.innerHTML = ""; // Réinitialiser les options
+
+      if (formationSelected === "Cycle ingenieur") {
+        var optionsCycle = ["1ERE ANNEE", "2EME ANNEE", "3EME ANNEE"];
+        for (var i = 0; i < optionsCycle.length; i++) {
+          var option = document.createElement("option");
+          option.value = optionsCycle[i].toLowerCase();
+          option.text = optionsCycle[i].toLowerCase();
+          niveauSelect.appendChild(option);
+        }
+      } else if (formationSelected === "Parcours/Prepa") {
+        var optionsParcours = ["1ERE ANNEE", "2EME ANNEE"];
+        for (var j = 0; j < optionsParcours.length; j++) {
+          var option = document.createElement("option");
+          option.value = optionsParcours[j].toLowerCase();
+          option.text = optionsParcours[j].toLowerCase();
+          niveauSelect.appendChild(option);
+        }
+      } else if (formationSelected === "L-M-D") {
+        var optionsLMD = ["1ERE ANNEE", "2EME ANNEE", "3EME ANNEE", "4EME ANNEE", "5EME ANNEE", "6EME ANNEE", "7EME ANNEE", "8EME ANNEE"];
+        for (var k = 0; k < optionsLMD.length; k++) {
+          var option = document.createElement("option");
+          option.value = optionsLMD[k].toLowerCase();
+          option.text = optionsLMD[k].toLowerCase();
+          niveauSelect.appendChild(option);
+        }
+      }
+    }
+    function afficherNiveauEtud() {
+      var formationSelected = document.getElementById("formationetud").value;
+      var niveauSelect = document.getElementById("niveauEtudiant");
+      niveauSelect.innerHTML = ""; // Réinitialiser les options
+
+      if (formationSelected === "Cycle ingenieur") {
+        var optionsCycle = ["1ERE ANNEE", "2EME ANNEE", "3EME ANNEE"];
+        for (var i = 0; i < optionsCycle.length; i++) {
+          var option = document.createElement("option");
+          option.value = optionsCycle[i].toLowerCase();
+          option.text = optionsCycle[i].toLowerCase();
+          niveauSelect.appendChild(option);
+        }
+      } else if (formationSelected === "Parcours/Prepa") {
+        var optionsParcours = ["1ERE ANNEE", "2EME ANNEE"];
+        for (var j = 0; j < optionsParcours.length; j++) {
+          var option = document.createElement("option");
+          option.value = optionsParcours[j].toLowerCase();
+          option.text = optionsParcours[j].toLowerCase();
+          niveauSelect.appendChild(option);
+        }
+      } else if (formationSelected === "L-M-D") {
+        var optionsLMD = ["1ERE ANNEE", "2EME ANNEE", "3EME ANNEE", "4EME ANNEE", "5EME ANNEE", "6EME ANNEE", "7EME ANNEE", "8EME ANNEE"];
+        for (const optionText of optionsLMD) {
+          var option = document.createElement("option");
+          option.value = optionText.toLowerCase();
+          option.text = optionText.toLowerCase();
+          niveauSelect.appendChild(option);
+        }
+      }
+    }
+
+    function genererListeAge() {
+      var ageSelect = document.getElementById("age");
+      ageSelect.innerHTML = ""; // Réinitialiser les options
+
+      var ageMin = 12;
+      var ageMax = 40;
+      for (var i = ageMin; i <= ageMax; i++) {
+        var option = document.createElement("option");
+        option.value = i;
+        option.text = i + " ans";
+        ageSelect.appendChild(option);
+      }
+    }
+
+    // Appeler la fonction pour générer la liste déroulante de l'âge lors du chargement de la page
+    genererListeAge();
+
+    function terminerInscription(type) {
+      // Ici, vous pouvez ajouter le code pour traiter les données du formulaire et les soumettre à un serveur, une base de données, etc.
+      // Dans cet exemple, nous affichons simplement un message indiquant que l'inscription est terminée.
+      document.getElementById("formProfesseur").style.display = "none";
+      document.getElementById("formEtudiant").style.display = "none";
+      document.getElementById("inscriptionComplete").style.display = "block";
+      document.getElementById("typeInscription").innerText = (type === 'prof') ? 'Professeur' : 'Étudiant';
+      return false; // Pour empêcher le formulaire de se soumettre normalement
+    }
+
+    const textarea = document.getElementById("vendervous");
+    const wordCount = document.getElementById("wordCount");
+
+    textarea.addEventListener("input", function () {
+        const text = textarea.value;
+        const words = text.split(/\s+/).filter(word => word.length > 0);
+        const wordCountValue = words.length;
+
+        if (wordCountValue > 500) {
+            textarea.value = words.slice(0, 500).join(" ");
+        }
+
+        wordCount.textContent = wordCountValue +"/500"+ " mot(s)";
+    });
+
+    const textareaautre = document.getElementById("vendervousautre");
+    const wordCountautre = document.getElementById("wordCountautre");
+
+    textareaautre.addEventListener("input", function () {
+        const text = textareaautre.value;
+        const words = text.split(/\s+/).filter(word => word.length > 0);
+        const wordCountValue = words.length;
+
+        if (wordCountValue > 500) {
+            textarea.value = words.slice(0, 500).join(" ");
+        }
+
+        wordCountautre.textContent = wordCountValue +"/500"+ " mot(s)";
+    });
+  </script>
+{% endblock %}

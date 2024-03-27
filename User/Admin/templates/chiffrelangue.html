@@ -1,0 +1,63 @@
+{% extends 'index.html'%}
+<style>
+    .ml-auto-custom {
+            margin-left: auto !important;
+        }
+        .body{
+            overflow: visible;
+        }
+        .card-body:hover{
+            cursor: pointer;
+        }
+       
+</style>
+{% block content %}
+<style>
+.card-body{
+    height: 200px;
+    width: 250px;
+}
+</style>
+<div class="container mt-4">
+<div class="row" style="margin-top: 20px;">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    Francais
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title" style="text-align: center; font-size: 50px; font-weight: bold; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">{{ chiffre['francais'] }} $</h3><br>
+                    <h3 class="card-title" style="text-align: center; font-size: 20px; font-weight: bold; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Nombre: {{ nombre['francais'] }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    Darija
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title" style="text-align: center; font-size: 50px; font-weight: bold; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">{{ chiffre['darija'] }} $</h3><br>
+                    <h3 class="card-title" style="text-align: center; font-size: 20px; font-weight: bold; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Nombre:{{ nombre['darija'] }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    Anglais
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title" style="text-align: center; font-size: 50px; font-weight: bold; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">{{ chiffre['anglais'] }} $</h3>
+                    <br>
+                    <h3 class="card-title" style="text-align: center; font-size: 20px; font-weight: bold; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Nombre:{{ nombre['anglais'] }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+</div>
+{% endblock %}
+{% block script %}
+{% endblock %}

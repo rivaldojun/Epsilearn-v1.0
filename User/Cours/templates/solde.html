@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+
+{% block title %}Epsilearn{% endblock %}
+
+
+{% block content %}
+
+{% if user_type == 'professeur' %}
+    <!-- <style>
+        body{
+      background-color: #f5f5f5;
+    }
+
+        .style {
+            padding: 2rem;
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary, .btn-secondary {
+            width: 48%;
+        }
+
+        .modal-content {
+            border-radius: 10px;
+        }
+
+        .modal-header {
+            border-bottom: none;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+        }
+
+        .input-group-addon {
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #495057;
+            text-align: center;
+            background-color: #e9ecef;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+        }
+    </style>
+    <div class="container style mt-5">
+        <div class="row justify-content-end mt-3">
+            <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#retraitModal">Retirer</button>
+            <button class="btn btn-secondary" onclick="window.location.href='/historiqueretrait'">Historiques</button>
+        </div>
+        <div class="row mt-5">
+            <div class="col text-center">
+                <h1 class="display-4" style="color: black;font-family: 'Kanit';">SOLDE : <strong>{{ user_balance|float }} DHS</strong></h1>
+            </div>
+        </div>
+    </div> -->
+
+
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f4f4f4;
+            }
+    
+            header {
+                background-color: #333;
+                color: #fff;
+                padding: 10px;
+                text-align: center;
+            }
+    
+            main {
+                padding: 20px;
+            }
+    
+            section {
+                margin-bottom: 20px;
+            }
+    
+            h2 {
+                color: #333;
+            }
+    
+            .balance {
+                font-size: 34px;
+                font-weight: bold;
+                color: #4CAF50;
+            }
+    
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 10px;
+            }
+    
+            th, td {
+                border: 1px solid #ddd;
+                padding: 12px;
+                text-align: left;
+            }
+    
+            th {
+                background-color: #333;
+                color: #fff;
+            }
+    
+            .transaction-form {
+                margin-top: 20px;
+                max-width: 400px;
+            }
+    
+            .transaction-form input {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 10px;
+                box-sizing: border-box;
+            }
+    
+            .transaction-form button {
+                background-color: #4CAF50;
+                color: #fff;
+                padding: 10px;
+                border: none;
+                cursor: pointer;
+            }
+            .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 40%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .withdraw-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        .withdraw-form button {
+            width: 20%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        .withdraw-form button {
+            background-color: green;
+            color: #fff;
+        }
+        .button11 {
+            width: 50%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        .button11 {
+            background-color: green;
+            color: #fff;
+        }
+        </style> 
+         
+        <header class="mt-5">
+            <h1>Tableau de Bord Financier</h1>
+        </header>
+    
+        <main>
+        <div class="container-fluid" style="background-color: white;padding: 10px;justify-content: center;width: 70vw;text-align: center;border-radius: 5px;">
+            <section>
+                <h2>Solde Actuel</h2>
+                <div class="balance">{{user_balance}} Dhs</div>
+            </section>
+            <section>
+                <div class="mt-3">
+                    <button class="button11"  onclick="openWithdrawModal()">Retirer</button> 
+                </div>  
+            </section>
+        </div>
+    
+            <section class="mt-4">
+                <h2 style="text-align: center;">Dernières Transactions</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Libellé</th>
+                            <th>Montant</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2023-01-15</td>
+                            <td>Supermarket</td>
+                            <td>€ -50.00</td>
+                        </tr>
+                        <tr>
+                            <td>2023-01-14</td>
+                            <td>Gas Station</td>
+                            <td>€ -30.00</td>
+                        </tr>
+                        <!-- More transactions go here -->
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+    
+
+        <div id="withdrawModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeWithdrawModal()">&times;</span>
+                <h2>Retrait d'Argent</h2>
+                <form class="withdraw-form" action="/retrait_info" method="post">
+                    <label for="withdrawAmount">Montant à Retirer</label>
+                    <input type="number" id="withdrawAmount" name="montant" step="0.1" required>
+                    <button type="submit">Retirer</button>
+                </form>
+            </div>
+        </div>
+
+<script>
+      function openWithdrawModal() {
+            document.getElementById('withdrawModal').style.display = 'block';
+        }
+
+        // Fonction pour fermer le modal de retrait
+        function closeWithdrawModal() {
+            document.getElementById('withdrawModal').style.display = 'none';
+        }
+</script>
+    {% endif %}
+    {% endblock %}
+
+{% block script %}
+{% endblock %}

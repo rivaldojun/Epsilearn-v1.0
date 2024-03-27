@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+{% block conecter %}
+{% endblock %}
+{% block nav %}
+<nav class="navbar navbar-expand-lg navbar-light  fixed-top shadow" style="display: flex; justify-content: center; height: 60px; background-color: #f5f5f5;">
+    <div class="container" style="background-color: none; border-radius: 20px; z-index: 999999; opacity: 0.8; margin-top: 0px; padding: 0 12px;">
+        <a href="/users" style="text-decoration: none;"><button class="btn btn" style="background-color: rgb(0, 0, 0);color: white;"><i class="fa fa-backspace"></i></button></a>
+        <a class="navbar-brand" href="/accueil" style="color: blue; font-size: 24px;">Epsilearn</a>
+        <a href="#" style="text-decoration: none; color: rgb(0, 0, 0);">To: <span style="background-color: rgb(0, 0, 0);padding: 5px;border-radius: 5px;color: white;">{{ user.nom }} {{ user.prenom }}</span></a>
+    </div>
+</nav>
+
+
+{% endblock %}
+{% block content %}
+
+    <style>
+        body {
+            padding-bottom: 100px;
+            background-image: url("/static/image/13.jpg");
+            background-attachment: fixed;
+          
+        }
+
+        body{
+      background-color: #f5f5f5;
+    }
+
+
+        #messages-container {
+    max-width: 80%; /* Adjust this value to your preference */
+    margin: 0 auto; /* Centers the container horizontally within its parent */
+}
+
+
+        .message-container {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .message {
+    padding: 8px 12px;
+    border-radius: 8px;
+    max-width: 80%;
+    word-wrap: break-word; /* Breaks long words */
+    overflow-wrap: break-word; /* Alternative to word-wrap for modern browsers */
+    white-space: pre-wrap; /* Preserves whitespace and wraps text */
+}
+
+
+        .sent {
+            background-color: #45b5e9;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .received {
+            background-color: #ffffff;
+            align-self: flex-start;
+            margin-right: auto;
+        }
+
+        /* Add additional styling for the received messages with a yellow background */
+        .received-yellow {
+            background-color: rgb(255, 255, 255);
+        }
+
+        .message-content {
+            margin-left: 8px;
+            margin-right: 8px;
+        }
+
+        /* Updated styles for the footer */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            padding: 8px;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer .container {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Pour centrer horizontalement */
+        }
+
+        .footer form {
+            flex: 1;
+            max-width: 80%; /* Largeur de la zone d'envoi de message */
+            display: flex;
+            align-items: center;
+        }
+
+        .footer form input {
+            flex: 1;
+            margin-right: 8px;
+        }
+
+          /* Updated styles for the header */
+
+    </style>
+</head>
+<body>
+
+    
+    <div class="container mt-5" style="font-family: 'Kanit';">
+        <div id="messages-container" style="margin-top: 100px;">
+            {% for message in messages %}
+                <div class="message-container">
+                    {% if message.expediteur_id == user_e.id %}
+                        <div class="message sent">{{ message.contenu }}</div>
+                    {% endif %}
+                    {% if message.destinataire_id == user_e.id %}
+                        <div class="message received received-yellow">{{ message.contenu }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Footer for sending new messages -->
+    <div class="footer shadow-lg" style="background-color: #f5f5f5;">
+        <div class="container">
+            <form method="post" action="#">
+                <div class="form-group mb-0" style="width: 100%;">
+                    <label for="new-message" style="font-weight: bold;">Message</label>
+                    <input type="text" class="form-control" id="new-message" name="new_message" value="" required>
+                </div>
+                <button type="submit" class="btn btn ml-2" style="margin-top: 20px;background-color: transparent;color: blue;" onclick="scrollToBottom()"><i class="fa fa-paper-plane"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and jQuery scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+ scrollToBottom()
+});
+        function scrollToBottom() {
+  window.scrollTo({
+    top:document.body.scrollHeight,
+    behavior: 'smooth'
+  });
+}
+
+         // Récupérer le contenu du champ de saisie depuis localStorage, s'il existe
+         const savedMessage = localStorage.getItem('message');
+        if (savedMessage) {
+            document.getElementById('messageInput').value = savedMessage;
+        }
+
+        // Fonction pour sauvegarder le contenu du champ de saisie dans localStorage
+        function saveMessage() {
+            const message = document.getElementById('messageInput').value;
+            localStorage.setItem('message', message);
+            scrollToBottom()
+        }
+
+        // Écouter l'événement de soumission du formulaire et appeler la fonction saveMessage
+        document.getElementById('messageForm').addEventListener('submit', saveMessage);
+
+        // Fonction pour recharger la page toutes les 20 secondes
+        function reloadPage() {
+            location.reload();
+            scrollToBottom()
+        }
+
+        // Appeler la fonction reloadPage toutes les 20 secondes (20000 ms)
+        setInterval(reloadPage, 20000);
+    </script>
+
+   <!-- Importez la bibliothèque Socket.io -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+
+<script>
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+    socket.on('connect', function () {
+        console.log('Connecté au serveur WebSocket');
+    });
+
+    // Écoutez les nouveaux messages et mettez à jour l'interface utilisateur
+    socket.on('new_message', function (data) {
+        // Mettez à jour l'interface utilisateur avec le nouveau message
+        // par exemple, ajoutez-le à la liste des messages existants.
+    });
+</script>
+<script>
+    const eventSource = new EventSource("/conversation/{{ user.id }}");
+    
+    eventSource.addEventListener("new_message", function(event) {
+        const data = JSON.parse(event.data);
+        // Mettez à jour l'interface utilisateur avec le nouveau message
+        // par exemple, ajoutez-le à la liste des messages existants.
+    });
+
+    // Empêcher le formulaire de se soumettre par défaut
+    document.getElementById("messageForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Empêcher le rechargement de la page
+        const messageInput = document.getElementById("new-message").value;
+        // Envoyez le message ici via WebSocket ou Ajax
+        // Mettez à jour l'interface utilisateur avec le nouveau message
+        // Réinitialisez le champ de message
+        document.getElementById("new-message").value = "";
+    });
+</script>
+    {% endblock %}

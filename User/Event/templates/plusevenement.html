@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+
+{% block style %}
+
+<style>
+ 
+ body, html {
+            background-color: #f5f5f5;
+        }
+  .event-block {
+    
+    border-radius: 10px;
+    padding: 0;
+    background-color: #ffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    scale: 0.8;
+  }
+  .event-block:hover {
+    cursor: pointer;
+        scale: 0.82;
+        transition: 0.3s;
+  }
+  .pass-button {
+    background-color: #292727;
+    color: #ffffff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 60px;
+    float: right;
+
+  }
+  #evenement{
+   text-decoration: overline ;
+   color: rgb(0, 0, 0)
+ }
+  .choose-button {
+    background-color: #099c15;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  .img-fluid{
+    height: 80vh;
+    width: 100%;
+  }
+  .plus-button {
+    background-color: blue;
+    color: #ffffff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 60px;
+    float: right;
+    margin-right: 20px;
+  }
+  .stylish-input-group {
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    padding: 5px 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    display: inline-block;
+    width: auto;
+}
+
+.stylish-input-group input[type="text"] {
+    border: none;
+    outline: none;
+    box-shadow: none;
+    padding: 15px;
+    font-size: 14px;
+    width: 120px;
+    transition: width 0.3s ease-in-out;
+    border-radius: 25px 0px 0px 25px;
+}
+
+.stylish-input-group input[type="text"]:focus {
+    width: 100%;
+}
+
+.stylish-input-group .input-group-append button {
+    border: none;
+    outline: none;
+    background-color: blue;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 0px 25px 25px 0px;
+    cursor: pointer;
+}
+
+.stylish-input-group .input-group-append button:hover {
+    background-color: #0056b3;
+}
+
+.pass-button:hover{
+  scale: 1.2;
+  transition: 0.3s;
+}
+.plus-button:hover{
+  scale: 1.2;
+  transition: 0.3s;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+{% if user_type!='professeur' and user_type!='etudiant' %}
+
+<style>
+  #panier{
+    visibility: hidden;
+  }
+  .plus-button{
+    visibility: hidden;
+  }
+  #res{
+    visibility: hidden;
+  }
+  
+ /* Styles pour la barre de recherche */
+
+</style>
+{% endif %}
+<div class="container mt-5">
+  <button id="panier" class="pass-button" style="background-color: transparent;" onclick="window.location.href = '/mesevenements'" data-toggle="tooltip" data-placement="top" title="Voir vos réservations" style="z-index: 1000000000;">
+    <i class="fas fa-shopping-cart" style="color: rgb(0, 0, 255);">
+      <span style="background-color: red;scale: 1;float: right;border-radius: 60%;color: white;font-size: 10px;font-family: 'Kanit';padding: 2px;height: 15px;width: 15px;text-align: center;">{{ne}}</span>
+    </i>
+  </button>
+  <button class="plus-button" style="background-color: transparent;" onclick="window.location.href = '/ajouterevenement'" data-toggle="tooltip" data-placement="top" title="Ajouter un évenement" style="z-index: 10000000000;">
+    <i class="fas fa-plus" style="color: blue;"></i>
+  </button>
+  
+</div>
+<!-- Modale de réservation -->
+
+
+<div class="container " >
+    <a href="/evenement"  style="text-decoration: none;"><i class="fa fa-arrow-alt-circle-left "></i></a>
+  <h3 class="mb-4 mt-5 " data-animation="fadeInUp" style="animation-duration: 1s;color: rgb(0, 0, 0); font-family: 'Kanit';font-size: 38px;">{{typer}}</h3>
+  <div class="input-group stylish-input-group mt-4 mb-3 animate-element" data-animation="fadeInUp" style="animation-duration: 1.8s;">
+    <input type="text" class="form-control" id="searchInput" placeholder="Rechercher par nom">
+  </div>
+</div>
+  <div class="row animate-element" data-animation="fadeInUp" style="animation-duration: 2s;" id="eventCards" >
+    <!-- Blocs des informations d'événement seront insérés ici dynamiquement -->
+  </div>
+ <div style="height: 20px;">
+
+ </div> 
+  
+</div>
+<div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="reservationModalLabel" aria-hidden="true" style="margin-top: 120px;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reservationModalLabel">Réservation effectuée</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Vous avez réservé un événement avec succès !
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Inclure les fichiers Bootstrap JavaScript -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+    
+  $('[data-toggle="tooltip"]').tooltip();
+  const panierButton = document.getElementById("panier");
+  function redirectToAccueil() {
+    // Implémentez ici la logique pour rediriger vers la page d'accueil
+    // Par exemple, vous pouvez utiliser window.location pour rediriger
+    window.location.href = "/accueil";
+  }
+  panierButton.addEventListener("click", function() {
+   // Redirigez l'utilisateur vers la page souhaitée lorsque le bouton est cliqué
+   window.location.href = "/mesevenements";
+ });
+ const typer="{{typer}}"
+    let eventList = []; // Declare eventList variable to store event data
+
+    // Fetch event data from the server
+    function loadUsers() {
+      fetch('/get_event')
+        .then(response => response.json())
+        .then(data => {
+          eventList=data
+          displayUsers(eventList);
+        })
+        .catch(error => {
+          console.error('Error fetching event data:', error);
+        });
+    }
+
+    function displayUsers(eventL) {
+      const eventCardsDiv = document.getElementById("eventCards");
+      eventCardsDiv.innerHTML = "";
+      eventL.forEach(event => {
+        const card = document.createElement("div");
+        card.addEventListener("click", function () {
+          window.location.href = `/details_evenements/${event.id}`;
+        });
+        card.className = "col-lg-4 col-md-6 col-sm-12 event-block";
+        card.innerHTML = `
+  <div class="card shadow-lg">
+    <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+      ${
+        event.photo !== "" ? (
+          event.photo.endsWith(".mp4") || event.photo.endsWith(".avi") || event.photo.endsWith(".mov")
+            ? `<video class="img-fluid" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;" controls>
+                 <source src="${event.photo}" type="video/mp4">
+                 Your browser does not support the video tag.
+               </video>`
+            : `<img src="../${event.photo}" class="img-fluid" alt="Media de l'événement" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">`
+        ) : `<img src="../static/image/2.png" class="img-fluid" alt="Image par défaut" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">`
+      }
+      <a href="#!">
+        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+      </a>
+    </div>
+    <div class="card-body">
+      <p><strong><span style="color: red;">${event.date}</span></strong> </p>
+      <h5 class="card-title font-weight-bold">${event.nomevent}</h5>
+      <p><strong>Type :</strong> ${event.type}</p>
+      <p><strong>Nombre de place total:</strong> ${event.nbplace}</p>
+      <p><strong>Nombre de place restant:</strong> ${event.nbplace - event.nbplace_occupe}</p>
+      <p><strong>En ligne:</strong> ${event.live}</p>
+      <p><strong><i class="fa fa-eye"></i> </strong> ${event.vue}</p>
+      <hr>
+      ${
+        event.organisateurid !== event.ig
+          ? `<a href="/reserver/${event.id}" class="btn btn-primary reserve-button">Réserver</a>`
+          : ''
+      }
+      ${
+        event.organisateurid == event.ig
+          ? `<a href="/supprimerevent/${event.id}" class="btn btn reserve-button" style="background-color:blue;color:white">Supprimer</a>`
+          : ''
+      }
+      <!-- Autres informations de l'événement -->
+    </div>
+  </div>
+`;
+if(event.type==typer)
+        eventCardsDiv.appendChild(card);
+      });
+    }
+
+    function filterUsers(searchText) {
+      const filteredUsers = eventList.filter(event => {
+        const fullName = `${event.nomevent} ${event.nom}`.toLowerCase();
+        return fullName.includes(searchText.toLowerCase());
+      });
+      displayUsers(filteredUsers);
+    }
+
+    // Search event input event listener
+    $('#searchInput').keyup(function() {
+      const searchText = $(this).val().trim();
+      if (searchText === '') {
+        displayUsers(eventList);
+      } else {
+        filterUsers(searchText);
+      }
+    });
+
+    // Call this function to load eventList initially
+    loadUsers();
+
+    // ... (rest of the code for chat functionality, same as before) ...
+  });
+</script>
+{% endblock %}

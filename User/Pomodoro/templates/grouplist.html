@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block style %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choisir une date | Epsilearn</title>
+<!-- Inclure les fichiers Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f5f5f5;
+    }
+
+    .people-nearby .google-maps{
+  background: #f8f8f8;
+  border-radius: 4px;
+  border: 1px solid #f1f2f2;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.people-nearby .google-maps .map{
+  height: 300px;
+  width: 100%;
+  border: none;
+}
+
+.people-nearby .nearby-user{
+  padding: 20px 0;
+  border-top: 1px solid #cacaca;
+  border-bottom: 1px solid #cacaca;
+  margin-bottom: 20px;
+}
+
+img.profile-photo-lg{
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="h1 animate-element mb-2" data-animation="fadeInUp" style="animation-duration: 1s;">
+        <h1 style="font-size: 28px;">Invitation groupe d'etude</h1>
+    </div>
+    <div class="row" >
+        <div class="col-md-12">
+            <div class="people-nearby">
+            {% for g in grp %}
+                {% if g.statut=='attente' %}
+              <div class="nearby-user p-3" style="background-color: rgb(216, 224, 255);">
+                <div class="row">
+                  <div class="col-md-2 col-sm-2">
+                    <img src="../{{g.groupe.utilisateur.photo}}" alt="user" class="profile-photo-lg">
+                  </div>
+                  <div class="col-md-7 col-sm-7">
+                    <h5><a href="#" class="profile-link">{{g.groupe.titre}}</a></h5>
+                    <p>{{g.groupe.utilisateur.nom}} {{g.groupe.utilisateur.prenom}}</p>
+                    <p class="text-muted">{{g.groupe.time_debut}}-{{g.groupe.time_fin}}</p>
+                  </div>
+                  <div class="col-md-3 col-sm-3">
+                    <a href="/statut_change/{{g.id}}" class="btn btn-success pull-right">Accepter</a>
+                    <a href="/refuser_etud/{{g.id}}" class="btn btn-danger pull-right">Refuser</a>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+              {% endfor %}
+            </div>
+    	</div>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'index.html'%}
+<style>
+    .ml-auto-custom {
+            margin-left: auto !important;
+        }
+        .body{
+            overflow: visible;
+        }
+        .card-body:hover{
+            cursor: pointer;
+        }
+</style>
+{% block content %}
+<div class="container mt-4">
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Demande payer
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title" style="text-align: center; font-size: 50px; font-weight: bold; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">{{ demande_payer }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Refus
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title" style="text-align: center; font-size: 50px; font-weight: bold; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">{{ demande_refuse }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Demande en attente
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title" style="text-align: center; font-size: 50px; font-weight: bold; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">{{ demande_en_attente}}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Terminee
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title" style="text-align: center; font-size: 50px; font-weight: bold; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">{{ demande_terminee }}</h3>
+                </div>
+            </div>
+        </div>
+        <!-- Ajoutez ici le quatrième panneau -->
+    </div>
+    
+</div>
+{% endblock %}
+{% block script %}
+{% endblock %}

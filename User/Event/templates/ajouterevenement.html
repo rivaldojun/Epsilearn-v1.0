@@ -1,0 +1,329 @@
+{% extends "base.html" %}
+
+{% block style %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ajouter un événement | Epsilearn</title>
+  <!-- Inclure les fichiers Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+   body{
+      background-color: #f5f5f5;
+    }
+
+    .container {
+      margin-top: 50px;
+    }
+    .form-wrapper {
+      background-color: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .form-wrapper label {
+      font-weight: bold;
+    }
+    .form-wrapper input[type="text"],
+    .form-wrapper select,
+    .form-wrapper textarea,
+    .form-wrapper input[type="number"],
+    .form-wrapper input[type="url"] {
+      width: 100%;
+      height: 40px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      padding: 5px;
+      margin-bottom: 10px;
+    }
+    .description-wrapper textarea {
+      height: 120px;
+    }
+    .upload-profile-picture {
+      margin-top: 10px;
+    }
+    #upload-link {
+      font-weight: bold;
+      color: #007bff;
+    }
+    .buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .cancel-button {
+      background-color: #6c757d;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .cancel-button:hover {
+      background-color: #5a6268;
+    }
+    #evenement{
+   text-decoration: overline ;
+   color: rgb(0, 0, 0)
+ }
+    .next-button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .next-button:hover {
+      background-color: #0056b3;
+    }
+    #upload-link:hover{
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    /* Ajoutez ces styles CSS pour masquer le point et ajouter une barre de défilement */
+#emailList {
+    list-style: none; /* Masque le point avant les éléments de la liste */
+    max-height: 200px; /* Définissez la hauteur maximale de la liste avec une barre de défilement */
+    overflow-y: auto; /* Ajoute une barre de défilement vertical si nécessaire */
+    padding-left: 0; /* Supprimez le padding gauche par défaut pour la liste */
+}
+#ml{
+  padding: 20px;
+}
+#ml:hover{
+  cursor: pointer;
+  background-color:antiquewhite;
+}
+
+  </style>
+  {% endblock %}
+
+  {% block content %}
+  <div class="container">
+    <h1 style="color: #000000;">Ajouter un événement</h1>
+    <div class="form-wrapper">
+      <form method="post" enctype="multipart/form-data" action="/ajouterevenement">
+        <div class="form-group">
+          <label for="nom">Nom de l'événement</label>
+          <input name="nom" type="text" class="form-control" id="nom" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="type">Type</label>
+            <select name="type" class="form-control" id="type" required>
+              <option value="Seminaire">Masterclass</option>
+              <option value="Cours">Cours</option>
+              <option value="Presentation">Présentation de projet</option>
+              <option value="Essai de soutenance">Essai de soutenance</option>
+              <option value="Competition">Competition</option>
+              <option value="Genie en Herbe">Genie en Herbe</option>
+              <option value="Football">Football</option>
+              <option value="Party">Party</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="live">Live en ligne</label>
+            <select name="live" class="form-control" id="live" required>
+              <option value="Oui">Oui</option>
+              <option value="Non">Non</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="dateHeure">Date et heure</label>
+          <input name="date" type="datetime-local" class="form-control" id="dateHeure" required>
+        </div>
+        <div class="form-group">
+          <label for="numInput">Pays & ville :</label>
+          <input type="text" class="form-control" id="numInput" name="paysville" placeholder="Entrez le pays et la ville (pays/Ville)" required>
+        </div>
+        <div class="form-group">
+          <label for="numInput">Nombre de place</label>
+          <input type="number" class="form-control" id="numInput" name="nbplace" min="0" max="100" step="1" required>
+        </div>
+        <div class="form-group">
+          <label for="urlInput">Entrez un lien (URL)</label>
+          <input type="url" class="form-control" id="urlInput" name="lien" placeholder="Lien de l'evenement ou de la position maps(https://www.exemple.com)">
+        </div>
+        <div class="form-group description-wrapper">
+          <label for="description">Description</label>
+          <textarea name="description" class="form-control" id="description" rows="4" style="resize: none;" required></textarea>
+        </div>
+        <div class="upload-profile-picture">
+          <input type="file" id="profile-picture" name="photo" style="display: none;">
+          <label for="profile-picture" id="upload-link">Ajouter un media (Image ou Video)</label>
+        </div>
+
+        <div class="form-group">
+          <label for="public">visibilite</label>
+          <div class="form-check">
+            <input type="radio" class="form-check-input" id="public" name="public_prive" value="public" checked required>
+            <label class="form-check-label" for="public">Public</label>
+          </div>
+          <div class="form-check">
+            <input type="radio" class="form-check-input" id="prive" name="public_prive" value="prive"  >
+            <label class="form-check-label" for="prive">Privé</label>
+          </div>
+        </div>
+
+        
+        <div id="participants-fields" style="display: none;">
+          <div class="form-group">
+            <label for="participants">Nombre de place préreserver</label>
+            <input type="number" class="form-control" id="participants" name="participants" min="0" >
+          </div>
+          <div id="dynamic-email-fields"></div> <!-- Conteneur pour les champs d'adresse e-mail générés -->
+          <button type="button" id="add-email-field" class="btn btn-secondary">Ajouter une adresse e-mail</button>
+        </div>
+
+
+        <div class="buttons">
+          <a href="/evenement" class="cancel-button">Annuler</a>
+          <button type="submit" class="next-button">Valider</button>
+        </div>
+        <!-- Modale de réservation -->
+     <!-- Le champ de recherche -->
+<!-- Le modal -->
+<div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="reservationModalLabel" aria-hidden="true" style="margin-top: 120px;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <input type="text" id="searchEmail" class="form-control" placeholder="Rechercher un e-mail">
+            </div>
+            <div class="modal-body">
+                <!-- La liste des e-mails -->
+                <ul id="emailList">
+                    {% for mail in mails %}
+                    <li id="ml">{{mail}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+      </form>
+    </div>
+    <!-- Modale de réservation -->
+
+
+  </div>
+
+  <!-- Inclure les fichiers Bootstrap JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+ <script>
+
+const currentDate = new Date();
+    
+    // Calculate the minimum date for the date picker
+    const minDate = new Date(currentDate.getTime() + (24 * 60 * 60 * 1000)); // Add one day
+    
+    // Format the minimum date for the date picker input
+    const minDateFormatted = `${minDate.getFullYear()}-${String(minDate.getMonth() + 1).padStart(2, '0')}-${String(minDate.getDate()).padStart(2, '0')}T00:00`;
+    // Set the min attribute for both inputs
+    const startDateInput = document.getElementById('dateHeure');
+    startDateInput.min = minDateFormatted;
+  document.addEventListener("DOMContentLoaded", function () {
+    const publicRadio = document.getElementById("public");
+    const priveRadio = document.getElementById("prive");
+    const participantsFields = document.getElementById("participants-fields");
+    const participantsInput = document.getElementById("participants");
+    const emailFieldsContainer = document.getElementById("dynamic-email-fields");
+    const addEmailButton = document.getElementById("add-email-field");
+
+    publicRadio.addEventListener("change", function () {
+      participantsFields.style.display = "none";
+      // Supprimez les champs d'adresse e-mail existants s'il y en a
+      while (emailFieldsContainer.firstChild) {
+        emailFieldsContainer.removeChild(emailFieldsContainer.firstChild);
+      }
+    });
+
+    priveRadio.addEventListener("change", function () {
+      participantsFields.style.display = "block";
+      // Générez les champs d'adresse e-mail en fonction du nombre de participants actuel
+      generateEmailFields();
+    });
+
+    addEmailButton.addEventListener("click", function () {
+      generateEmailFields();
+    });
+
+    function generateEmailFields() {
+      const numParticipants = parseInt(participantsInput.value);
+
+      // Supprimez les champs d'adresse e-mail existants s'il y en a
+      while (emailFieldsContainer.firstChild) {
+        emailFieldsContainer.removeChild(emailFieldsContainer.firstChild);
+      }
+
+      // Créez des champs d'adresse e-mail en fonction du nombre de participants
+      for (let i = 0; i < numParticipants; i++) {
+        const emailField = document.createElement("div");
+        emailField.classList.add("form-group");
+        emailField.innerHTML = `
+          <label for="participantEmail${i}">Adresse e-mail du participant ${i + 1}</label>
+          <input type="email" class="form-control c" id="participantEmail${i}" name="participantEmails[]" required>
+        `;
+        emailFieldsContainer.appendChild(emailField);
+      }
+    }
+
+    // Lorsque le champ d'adresse e-mail est cliqué
+document.addEventListener('click', function (event) {
+    if (event.target && event.target.matches('.c')) {
+        const emailField = event.target;
+        $('#reservationModal').modal('show');
+        
+    
+    $('#emailList li').click(function () {
+        // Obtenez le texte de l'élément cliqué (c'est-à-dire l'adresse e-mail)
+        const selectedEmail = $(this).text();
+
+        // Mettez à jour la valeur du champ d'adresse e-mail avec l'adresse sélectionnée
+        emailField.value = selectedEmail
+
+        // Fermez le modal après avoir sélectionné l'e-mail
+        $('#reservationModal').modal('hide');
+    });
+  }
+});
+$(document).ready(function () {
+    // Lorsqu'un utilisateur tape dans le champ de recherche
+    $('#searchEmail').on('input', function () {
+        const searchText = $(this).val().toLowerCase(); // Texte de recherche en minuscules
+
+        // Parcours des éléments de la liste des e-mails
+        $('#emailList li').each(function () {
+            const emailText = $(this).text().toLowerCase(); // Texte de l'e-mail en minuscules
+
+            // Affiche ou masque les éléments de la liste en fonction de la correspondance avec le texte de recherche
+            if (emailText.indexOf(searchText) === -1) {
+                $(this).hide();
+            } else {
+                $(this).show();
+            }
+        });
+    });
+});
+
+    
+  });
+</script>
+
+  {% endblock %}

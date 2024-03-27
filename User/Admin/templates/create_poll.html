@@ -1,0 +1,476 @@
+{% extends "base.html" %}
+
+{% block title %}Sondages|Epsilearn{% endblock %}
+
+{% block content %}
+
+<div class="formbold-main-wrapper">
+    <div >
+      <div class="mainButton" onclick="toggleSubButtons()" style="z-index: 99999999999;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
+            <path opacity="0.4" d="M17.5401 8.81014C19.1748 8.81014 20.5001 7.4849 20.5001 5.85014C20.5001 4.21537 19.1748 2.89014 17.5401 2.89014C15.9053 2.89014 14.5801 4.21537 14.5801 5.85014C14.5801 7.4849 15.9053 8.81014 17.5401 8.81014Z" fill="#292D32"/>
+            <path d="M6.46 8.81014C8.09476 8.81014 9.42 7.4849 9.42 5.85014C9.42 4.21537 8.09476 2.89014 6.46 2.89014C4.82524 2.89014 3.5 4.21537 3.5 5.85014C3.5 7.4849 4.82524 8.81014 6.46 8.81014Z" fill="#292D32"/>
+            <path d="M17.5401 21.1099C19.1748 21.1099 20.5001 19.7847 20.5001 18.1499C20.5001 16.5152 19.1748 15.1899 17.5401 15.1899C15.9053 15.1899 14.5801 16.5152 14.5801 18.1499C14.5801 19.7847 15.9053 21.1099 17.5401 21.1099Z" fill="#292D32"/>
+            <path opacity="0.4" d="M6.46 21.1099C8.09476 21.1099 9.42 19.7847 9.42 18.1499C9.42 16.5152 8.09476 15.1899 6.46 15.1899C4.82524 15.1899 3.5 16.5152 3.5 18.1499C3.5 19.7847 4.82524 21.1099 6.46 21.1099Z" fill="#292D32"/>
+            </svg>
+      </div>
+      
+      <div class="subButtons" id="subButtons" style="z-index: 9999999999999;">
+        <div class="subButton" ><a style="text-decoration: none;color: white;" href="/furum"><svg xmlns="http://www.w3.org/2000/svg" fill="#ffffff" width="20px" height="20px" viewBox="0 0 24 24" version="1.2" baseProfile="tiny"><path d="M21 4h-18c-1.104 0-2 .896-2 2v12c0 1.104.896 2 2 2h18c1.104 0 2-.896 2-2v-12c0-1.104-.896-2-2-2zm-18 2h8v12h-8v-12zm18 12h-9v-12h9.003l-.003 12zM20 13.5c0-.275-.225-.5-.5-.5h-1c-.275 0-.5.225-.5.5v3c0 .275.225.5.5.5h1c.275 0 .5-.225.5-.5v-3zM17 7.5c0-.275-.225-.5-.5-.5h-3c-.275 0-.5.225-.5.5v5c0 .275.225.5.5.5h3c.275 0 .5-.225.5-.5v-5zM18.5 10h1c.275 0 .5-.225.5-.5s-.225-.5-.5-.5h-1c-.275 0-.5.225-.5.5s.225.5.5.5zM18.5 12h1c.275 0 .5-.225.5-.5s-.225-.5-.5-.5h-1c-.275 0-.5.225-.5.5s.225.5.5.5zM13.5 15h3c.275 0 .5-.225.5-.5s-.225-.5-.5-.5h-3c-.275 0-.5.225-.5.5s.225.5.5.5zM16.5 16h-3c-.275 0-.5.225-.5.5s.225.5.5.5h3c.275 0 .5-.225.5-.5s-.225-.5-.5-.5zM18.5 8h1c.275 0 .5-.225.5-.5s-.225-.5-.5-.5h-1c-.275 0-.5.225-.5.5s.225.5.5.5zM10 7.5c0-.275-.225-.5-.5-.5h-5c-.275 0-.5.225-.5.5v3c0 .275.225.5.5.5h5c.275 0 .5-.225.5-.5v-3zM9.501 14h-5c-.274 0-.5.225-.5.5s.226.5.5.5h5c.274 0 .499-.225.499-.5s-.225-.5-.499-.5zM9.501 12h-5c-.274 0-.5.225-.5.5s.226.5.5.5h5c.274 0 .499-.225.499-.5s-.225-.5-.499-.5zM9.501 16h-5c-.274 0-.5.225-.5.5s.226.5.5.5h5c.274 0 .499-.225.499-.5s-.225-.5-.499-.5z"/></svg>  Actualites</a></div>
+        <div class="subButton" ><a style="text-decoration: none;color: white;" href="/mapage/{{current_user.id}}"><svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="#ffffff">
+            <path d="M11 20H6C5.60218 20 5.22064 19.842 4.93934 19.5607C4.65804 19.2794 4.5 18.8978 4.5 18.5V6.03516" stroke="#71717A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M1.5 8L10.281 1.82002C10.5518 1.59081 10.8952 1.46503 11.25 1.46503C11.6048 1.46503 11.9482 1.59081 12.219 1.82002L19.9455 7.95669" stroke="#71717A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M18 12C19.0609 12 20.0783 12.4346 20.8284 13.2082C21.5786 13.9817 22 15.0309 22 16.1249C22 17.8858 19.6107 21.304 18.5253 22.7358C18.463 22.8181 18.3833 22.8846 18.2922 22.9304C18.2012 22.9762 18.1013 23 18 23C17.8987 23 17.7988 22.9762 17.7078 22.9304C17.6167 22.8846 17.537 22.8181 17.4747 22.7358C16.3893 21.304 14 17.8858 14 16.1249C14 15.0309 14.4214 13.9817 15.1716 13.2082C15.9217 12.4346 16.9391 12 18 12V12Z" stroke="#71717A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M17.5 16H18.5" stroke="#71717A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 11V8H11V11H8Z" stroke="#71717A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>  Ma page</a></div>
+        <div class="subButton" ><a style="text-decoration: none;color: white;" href="/sondage"><svg xmlns="http://www.w3.org/2000/svg" fill="#ffffff" width="20px" height="20px" viewBox="-32 0 512 512"><path d="M448 432V80c0-26.5-21.5-48-48-48H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48zM112 192c-8.84 0-16-7.16-16-16v-32c0-8.84 7.16-16 16-16h128c8.84 0 16 7.16 16 16v32c0 8.84-7.16 16-16 16H112zm0 96c-8.84 0-16-7.16-16-16v-32c0-8.84 7.16-16 16-16h224c8.84 0 16 7.16 16 16v32c0 8.84-7.16 16-16 16H112zm0 96c-8.84 0-16-7.16-16-16v-32c0-8.84 7.16-16 16-16h64c8.84 0 16 7.16 16 16v32c0 8.84-7.16 16-16 16h-64z"/></svg>  Sondages</a></div>
+        <div class="subButton" onclick="toggleSubSubButtons()"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff" height="20px" width="20px" version="1.1" id="Layer_1" viewBox="0 0 511.999 511.999" xml:space="preserve">
+            <g>
+                <g>
+                    <path d="M291.242,220.759c4.147,4.146,6.551,9.369,7.272,14.776c19.348,14.497,42.444,21.724,65.539,21.73V147.947l-182.026,0.001    L0,329.973l182.026,182.025l182.026-182.024v-34.089c-32.18-0.001-64.361-10.393-91.003-31.195    c-6.596,0.003-13.192-2.507-18.213-7.527c-10.037-10.037-10.037-26.368,0-36.405C264.874,210.722,281.205,210.722,291.242,220.759    z"/>
+                </g>
+            </g>
+            <g>
+                <g>
+                    <path d="M468.716,43.284c-57.712-57.712-151.617-57.712-209.33-0.001c-18.609,18.608-31.644,41.3-38.287,66.052l40.554-0.001    c5.414-14.371,13.852-27.561,25.037-38.746c42.658-42.656,112.065-42.656,154.723,0c42.655,42.656,42.655,112.064,0,154.721    c-21.329,21.33-49.345,31.963-77.362,31.956v38.62c37.904,0.003,75.808-14.416,104.666-43.273    C526.426,194.9,526.426,100.996,468.716,43.284z"/>
+                </g>
+            </g>
+            </svg>  Sujets
+        </div>
+        <div class="subButton" onclick="toggleSubSubButtons1()"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff" height="20px" width="20px" version="1.1" id="Capa_1" viewBox="0 0 612 612" xml:space="preserve">
+            <g>
+                <path d="M467.373,159.781c1.641,9.371,9.815,16.188,19.328,16.188h25.466c10.844,0,19.634-8.791,19.634-19.635v-136.7   C531.802,8.791,523.011,0,512.167,0H99.834C88.99,0,80.199,8.791,80.199,19.634v49.45c0,3.7,1.045,7.324,3.016,10.456   l74.956,119.141l69.968,111.211L158.17,421.104L83.214,540.245c-1.97,3.132-3.016,6.756-3.016,10.456v41.664   c0,10.844,8.791,19.635,19.635,19.635h412.333c10.844,0,19.634-8.791,19.634-19.635v-192.76c0-10.844-8.791-19.635-19.634-19.635   h-25.466c-9.513,0-17.687,6.817-19.328,16.188c-14.891,85.034-77.281,85.034-77.281,85.034h-118.46l118.063-161.347   c4.451-6.083,5.027-14.179,1.481-20.831L271.632,74.748h118.46C390.092,74.748,452.482,74.748,467.373,159.781z"/>
+            </g>
+            </svg>  Espace EPSILEARN</div>
+      </div>
+      
+      
+      <div class="subButtons" id="subSubButtons" style="display: none;z-index: 9999999999;">
+        <div class="subButton" ><a style="text-decoration: none;color: white;" href="/topic/culture_et_loisirs">Culture et Loisirs</a></div>
+        <div class="subButton" ><a style="text-decoration: none;color: white;" href="/topic/education_et_science">Éducation et Science</a></div>
+        <div class="subButton" ><a style="text-decoration: none;color: white;" href="/topic/entrepreneuriat_et_affaires">Entrepreneuriat et Affaires</a></div>
+        <div class="subButton" ><a style="text-decoration: none;color: white;" href="/topic/sante_et_bien-etre">Santé et Bien-être</a></div>
+        <div class="subButton" ><a style="text-decoration: none;color: white;" href="/topic/actualites_et_societe">Actualités et Société</a></div>
+      </div>
+      <div class="subButtons" id="subSubButtons1" style="display: none;z-index: 9999999999;">
+        <div class="subButton" ><a style="text-decoration: none;color: white;" href="/epsifurum">Publication</a></div>
+        <div class="subButton" ><a style="text-decoration: none;color: white;" href="/epsisondage">Sondage</a></div>
+      </div>
+        
+        <div id="corps" >
+    <!-- Author: FormBold Team -->
+    <!-- Learn More: https://formbold.com -->
+      <div class="formbold-form-wrapper" >
+        <div class="formbold-form-header">
+          <h3>Creation de sondage</h3>
+        </div>
+        <form
+          action="/create_poll"
+          method="POST"
+          class="formbold-chatbox-form"
+        >
+          <div class="formbold-mb-5">
+            <label for="question">Question :</label>
+                <input type="text" class="form-control" name="question" required>
+          </div>
+  
+          <div class="formbold-mb-5">
+            <label for="options">Options (séparées par des points virgules ';') :</label>
+            <textarea
+              rows="6"
+              name="options"
+              id="message"
+              placeholder="Entrez les options"
+              class="formbold-form-input"
+            ></textarea>
+          </div>
+  
+          <div>
+            <button class="formbold-btn w-full">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    </div>
+  </div>
+  <style>
+      @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+ 
+  
+.components a{
+    color: inherit;
+      text-decoration: none;
+      transition: all 0.3s;
+}
+  
+  .line {
+      width: 100%;
+      height: 1px;
+      border-bottom: 1px dashed #ddd;
+      margin: 40px 0;
+  }
+  
+  /* ---------------------------------------------------
+      SIDEBAR STYLE
+  ----------------------------------------------------- */
+  .petit{
+        display: none;
+      }
+      .grand{
+        display: block;
+      }
+  .wrapper {
+      display: block;
+      width: 100%;
+      align-items: stretch;
+      
+  }
+  
+  #sidebar {
+      min-width: 250px;
+      max-width: 250px;
+      background: transparent;
+      color: #fff;
+      transition: all 0.3s;
+      color: black;
+      scale: 0.8;
+  }
+  
+  #sidebar.active {
+      margin-left: -1650px;
+  }
+  
+  #sidebar .sidebar-header {
+      padding: 20px;
+      background: transparent;
+      color: black;
+  }
+  
+  #sidebar ul.components {
+      padding: 20px 0;
+      border-bottom: 1px solid transparent;
+  }
+  
+  #sidebar ul p {
+      color: #fff;
+      padding: 10px;
+  }
+  
+  #sidebar ul li a {
+      padding: 10px;
+      font-size: 1.1em;
+      display: block;
+  }
+  
+  #sidebar ul li a:hover {
+      color: #98abf8;
+      background: #fff;
+  }
+  
+
+  a[data-toggle="collapse"] {
+      position: relative;
+  }
+  
+  
+  
+  ul ul a {
+      font-size: 0.9em !important;
+      padding-left: 30px !important;
+      background: blue;
+      color: white;
+  }
+  
+  ul.CTAs {
+      padding: 20px;
+  }
+  
+  ul.CTAs a {
+      text-align: center;
+      font-size: 0.9em !important;
+      display: block;
+      border-radius: 5px;
+      margin-bottom: 5px;
+  }
+  
+ 
+  
+  /* ---------------------------------------------------
+      CONTENT STYLE
+  ----------------------------------------------------- */
+  
+  #content {
+      width: 100%;
+      padding: 20px;
+      min-height: 100vh;
+      transition: all 0.3s;
+  }
+  
+  /* ---------------------------------------------------
+      MEDIAQUERIES
+  ----------------------------------------------------- */
+  
+  @media (max-width: 768px) {
+      #sidebar {
+          margin-left: -250px;
+          z-index: 9999999999;
+      }
+      
+      #sidebar.active {
+          margin-left: 0;
+      }
+      #sidebarCollapse span {
+          display: none;
+      }
+      .petit{
+        display: flex;
+      }
+      .grand{
+        display: none;
+      }
+  }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Inter", sans-serif;
+      background-color: #f5f5f5;
+    }
+    .formbold-mb-5 {
+      margin-bottom: 20px;
+    }
+    .formbold-pt-3 {
+      padding-top: 12px;
+    }
+    .formbold-main-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px;
+    }
+  
+    .formbold-form-wrapper {
+      margin: 0 auto;
+      max-width: 90vw;
+      width: 70vw;
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+    }
+  
+    .formbold-form-wrapper.active {
+      display: block;
+    }
+  
+    .formbold-form-label {
+      display: block;
+      font-weight: 500;
+      font-size: 16px;
+      color: #07074d;
+      margin-bottom: 12px;
+    }
+    .formbold-form-label-2 {
+      font-weight: 600;
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+  
+    .formbold-form-input {
+      width: 100%;
+      padding: 12px 24px;
+      border-radius: 6px;
+      border: 1px solid #e0e0e0;
+      background: white;
+      font-weight: 500;
+      font-size: 16px;
+      color: #6b7280;
+      outline: none;
+      resize: none;
+    }
+    .formbold-form-input:focus {
+      border-color: blue;
+      box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+    }
+  
+    .formbold-btn {
+      text-align: center;
+      font-size: 16px;
+      border-radius: 6px;
+      padding: 14px 32px;
+      border: none;
+      font-weight: 600;
+      background-color: blue;
+      color: white;
+      cursor: pointer;
+    }
+    .formbold-btn:hover {
+      box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+    }
+  
+    .formbold--mx-3 {
+      margin-left: -12px;
+      margin-right: -12px;
+    }
+    .formbold-px-3 {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+    .flex {
+      display: flex;
+    }
+    .flex-wrap {
+      flex-wrap: wrap;
+    }
+    .w-full {
+      width: 100%;
+    }
+    .formbold-form-header {
+      background: blue;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 36px;
+      border-radius: 8px 8px 0px 0px;
+    }
+    .formbold-form-header h3 {
+      font-weight: 700;
+      font-size: 20px;
+      color: white;
+    }
+    .formbold-form-header button {
+      color: white;
+      background: transparent;
+      border: none;
+    }
+    .formbold-chatbox-form {
+      padding: 32px 36px;
+    }
+    .formbold-action-buttons {
+      max-width: 550px;
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: 48px;
+    }
+    .formbold-action-btn {
+      width: 70px;
+      height: 70px;
+      background: blue;
+      color: white;
+      border-radius: 50%;
+      margin-left: 20px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  
+    .formbold-action-btn .formbold-cross-icon {
+      display: none;
+    }
+  
+    .formbold-action-btn.active .formbold-cross-icon {
+      display: block;
+    }
+  
+    .formbold-action-btn.active .formbold-chat-icon {
+      display: none;
+    }
+    @media (min-width: 540px) {
+      .sm\:w-half {
+        width: 50%;
+      }
+    }
+    .mainButton {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s;
+    }
+
+    .mainButton:hover {
+      background-color: #0056b3;
+    }
+
+    .subButtons {
+      display: none;
+      position: fixed;
+      bottom: 80px;
+      left: 20px;
+      text-align: right;
+      flex-direction: column;
+      color: white;
+    }
+
+    .subButton {
+      background-color:rgb(131, 177, 255);
+      color: #ffffff;
+      border: none;
+      border-radius: 50px;
+      width: fit-content;
+      padding: 3px;
+      height: 40px;
+      font-size: 16px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s;
+    }
+
+    .subButton:hover {
+      background-color: #138496;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script>
+      $(document).ready(function () {
+              $('#sidebarCollapse').on('click', function () {
+                  $('#sidebar').toggleClass('active');
+              });
+          });
+          const mainButton = document.getElementById('mainButton');
+  const subButtons = document.getElementById('subButtons');
+
+  mainButton.addEventListener('click', () => {
+    subButtons.style.display = (subButtons.style.display === 'none' || subButtons.style.display === '') ? 'flex' : 'none';
+  });
+  function toggleSubButtons() {
+    const subButtons = document.getElementById('subButtons');
+    subButtons.style.display = (subButtons.style.display === 'none' || subButtons.style.display === '') ? 'flex' : 'none';
+  }
+
+
+  function toggleSubSubButtons() {
+    const subSubButtons = document.getElementById('subSubButtons');
+    subSubButtons.style.display = (subSubButtons.style.display === 'none' || subSubButtons.style.display === '') ? 'flex' : 'none';
+  }
+
+  function toggleSubSubButtons1() {
+    const subSubButtons1 = document.getElementById('subSubButtons1');
+    const subSubButtons = document.getElementById('subButtons');
+    subSubButtons.style.display = (subSubButtons.style.display === 'none' || subSubButtons.style.display === '') ? 'flex' : 'none';
+    subSubButtons1.style.display = (subSubButtons1.style.display === 'none' || subSubButtons1.style.display === '') ? 'flex' : 'none';
+  }
+  
+  </script>
+  {% endblock %}

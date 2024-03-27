@@ -1,0 +1,197 @@
+{% extends "index.html" %}
+<head>
+    <title>Ajouter un nouvel étudiant</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+{% block content %}
+<div class="container mt-5">
+    <h2>Ajouter un nouvel étudiant</h2>
+    <form method="POST" action="{{ url_for('Admin.ajouter_etudiant') }}" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="nom">Nom:</label>
+            <input type="text" class="form-control" id="nom" name="nom" required>
+        </div>
+        <div class="form-group">
+            <label for="prenom">Prénom:</label>
+            <input type="text" class="form-control" id="prenom" name="prenom" required>
+        </div>
+        <div class="form-group">
+            <label for="nationalite">Nationalité:</label>
+            <select class="form-control" id="nationality" name="nationalite" required>
+                <option value="" disabled selected>Sélectionnez votre nationalité</option>
+                {% for nation in nationalites_disponibles %}
+                <option value="{{ nation[0] }}">{{ nation[0] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="mail">Email:</label>
+            <input type="email" class="form-control" id="mail" name="mail" required>
+        </div>
+        <div class="form-group">
+            <label for="motdepass">Mot de passe:</label>
+            <input type="text" class="form-control" id="motdepasse" name="motdepasse" required>
+        </div>
+        <div class="mb-3">
+            <label for="formation" class="form-label">Formation :</label>
+            <select id="formationetud" name="formationetud" class="form-select" onchange="afficherNiveauEtud()" required>
+              <option value="" disabled selected>Choisir une formation</option>
+              <option value="Cycle ingenieur">Cycle ingenieur</option>
+              <option value="Parcours/Prepa">Parcours/Prepa</option>
+              <option value="L-M-D">LMD</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="niveauEtudiant" class="form-label">Niveau d'études :</label>
+            <select id="niveauEtudiant" name="niveauEtudiant" class="form-select" required>
+              <option value="" disabled selected>Choisir un niveau d'études</option>
+              <option value="1">1ère année</option>
+              <option value="2">2ème année</option>
+              <option value="3">3ème année</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="filiereEtudiant" class="form-label">Filière :</label>
+            <input type="text" id="filiereEtudiant" name="filiereEtudiant" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="ecoleEtudiant" class="form-label">École :</label>
+            <input type="text" id="ecoleEtudiant" name="ecoleEtudiant" class="form-control" required>
+          </div>
+          
+          <div class="mb-3">
+            <label for="ageEtudiant" class="form-label">Âge :</label>
+            <input type="number" id="ageEtudiant" name="ageEtudiant" class="form-control" required min="12" max="100">
+          </div>
+    
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+    </form>
+</div>
+{% endblock %}
+<!-- Include Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+     // Générer 30 disciplines aléatoires
+     var disciplines = ["Mathématiques", "Physique", "Chimie", "Informatique",  "Biologie",  "Économie", "Autres"];
+
+var disciplineGrid = document.getElementById("disciplineGrid");
+
+for (var i = 0; i < disciplines.length; i++) {
+  var disciplineLabel = document.createElement("label");
+  disciplineLabel.classList.add("btn", "btn-secondary");
+  disciplineLabel.innerHTML = '<input type="checkbox" name="discipline[]" value="' + disciplines[i] + '"> ' + disciplines[i];
+  disciplineGrid.appendChild(disciplineLabel);
+}
+
+// Fonction pour changer la couleur du bouton Professeur
+function afficherFormProfesseur() {
+  document.getElementById("formProfesseur").style.display = "block";
+  document.getElementById("formEtudiant").style.display = "none";
+  document.getElementById("formProfesseurBtn").classList.add("active");
+  document.getElementById("formEtudiantBtn").classList.remove("active");
+}
+
+// Fonction pour changer la couleur du bouton Étudiant
+function afficherFormEtudiant() {
+  document.getElementById("formProfesseur").style.display = "none";
+  document.getElementById("formEtudiant").style.display = "block";
+  document.getElementById("formProfesseurBtn").classList.remove("active");
+  document.getElementById("formEtudiantBtn").classList.add("active");
+}
+
+function afficherNiveauProf() {
+  var formationSelected = document.getElementById("formation").value;
+  var niveauSelect = document.getElementById("Nvdetud");
+  niveauSelect.innerHTML = ""; // Réinitialiser les options
+
+  if (formationSelected === "Cycle ingenieur") {
+    var optionsCycle = ["1ERE ANNEE", "2EME ANNEE", "3EME ANNEE"];
+    for (var i = 0; i < optionsCycle.length; i++) {
+      var option = document.createElement("option");
+      option.value = optionsCycle[i];
+      option.text = optionsCycle[i];
+      niveauSelect.appendChild(option);
+    }
+  } else if (formationSelected === "Parcours/Prepa") {
+    var optionsParcours = ["1ERE ANNEE", "2EME ANNEE"];
+    for (var j = 0; j < optionsParcours.length; j++) {
+      var option = document.createElement("option");
+      option.value = optionsParcours[j];
+      option.text = optionsParcours[j];
+      niveauSelect.appendChild(option);
+    }
+  } else if (formationSelected === "L-M-D") {
+    var optionsLMD = ["1", "2", "3", "4", "5", "6", "7", "8"];
+    for (var k = 0; k < optionsLMD.length; k++) {
+      var option = document.createElement("option");
+      option.value = optionsLMD[k];
+      option.text = optionsLMD[k] + "ème année";
+      niveauSelect.appendChild(option);
+    }
+  }
+}
+function afficherNiveauEtud() {
+  var formationSelected = document.getElementById("formationetud").value;
+  var niveauSelect = document.getElementById("niveauEtudiant");
+  niveauSelect.innerHTML = ""; // Réinitialiser les options
+
+  if (formationSelected === "Cycle ingenieur") {
+    var optionsCycle = ["1ERE ANNEE", "2EME ANNEE", "3EME ANNEE"];
+    for (var i = 0; i < optionsCycle.length; i++) {
+      var option = document.createElement("option");
+      option.value = optionsCycle[i];
+      option.text = optionsCycle[i];
+      niveauSelect.appendChild(option);
+    }
+  } else if (formationSelected === "Parcours/Prepa") {
+    var optionsParcours = ["1ERE ANNEE", "2EME ANNEE"];
+    for (var j = 0; j < optionsParcours.length; j++) {
+      var option = document.createElement("option");
+      option.value = optionsParcours[j];
+      option.text = optionsParcours[j];
+      niveauSelect.appendChild(option);
+    }
+  } else if (formationSelected === "L-M-D") {
+    var optionsLMD = ["L1", "Master1", "Master2", "6eme anne", "7eme anne", "8eme annee"];
+    for (const optionText of optionsLMD) {
+      var option = document.createElement("option");
+      option.value = optionText;
+      option.text = optionText;
+      niveauSelect.appendChild(option);
+    }
+  }
+}
+
+function genererListeAge() {
+  var ageSelect = document.getElementById("age");
+  ageSelect.innerHTML = ""; // Réinitialiser les options
+
+  var ageMin = 12;
+  var ageMax = 40;
+  for (var i = ageMin; i <= ageMax; i++) {
+    var option = document.createElement("option");
+    option.value = i;
+    option.text = i + " ans";
+    ageSelect.appendChild(option);
+  }
+}
+
+// Appeler la fonction pour générer la liste déroulante de l'âge lors du chargement de la page
+genererListeAge();
+
+function terminerInscription(type) {
+  // Ici, vous pouvez ajouter le code pour traiter les données du formulaire et les soumettre à un serveur, une base de données, etc.
+  // Dans cet exemple, nous affichons simplement un message indiquant que l'inscription est terminée.
+  document.getElementById("formProfesseur").style.display = "none";
+  document.getElementById("formEtudiant").style.display = "none";
+  document.getElementById("inscriptionComplete").style.display = "block";
+  document.getElementById("typeInscription").innerText = (type === 'prof') ? 'Professeur' : 'Étudiant';
+  return false; // Pour empêcher le formulaire de se soumettre normalement
+}
+</script>
+
+{% block script %}
+{% endblock %}

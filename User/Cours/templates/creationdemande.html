@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block style %}
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Details demande | Epsilearn</title>
+  <!-- Inclure les fichiers Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+  body{
+      background-color: #f5f5f5;
+    }
+
+
+    .container {
+      margin-top: 50px;
+    }
+
+    .demand-info {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .return-button {
+      margin-top: 20px;
+    }
+  </style>
+  {% endblock %}
+
+  {% block content %}
+  <div class="container">
+    <h3 class="mb-4" style="color: rgb(60, 68, 219);">Voici les details de votre demande </h3>
+    <div class="demand-info">
+      <p><strong>Numéro de la demande:</strong> {{demande.id_demande}}</p>
+      <p><strong>Discipline:</strong> {{demande.discipline}}</p>
+      <p><strong>Matière:</strong>{{demande.matiere}}</p>
+      <p><strong>Chapitre:</strong> {{demande.chapiter}}</p>
+      <p><strong>Professeur:</strong> {{nom}}</p>
+    </div>
+    <a href="/accueil" class="btn btn return-button" style="background-color: blue;color: white;">Retour à l'accueil</a>
+  </div>
+
+  <!-- Inclure les fichiers Bootstrap JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  {% endblock %}

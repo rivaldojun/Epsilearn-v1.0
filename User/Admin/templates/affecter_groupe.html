@@ -1,0 +1,110 @@
+{% extends "index.html" %}
+<head>
+    <title>Affecter un groupe aux abonnés</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<style>
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    label {
+        font-weight: bold;
+    }
+    select, input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    .small-text {
+        font-size: 12px;
+        color: #999;
+    }
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        padding: 10px 20px;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+</style>
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Affecter un groupe aux abonnés</h1>
+    <form method="POST" action="{{ url_for('Admin.affecter_groupe') }}">
+        <div class="form-group">
+            <label for="utilisateur">Sélectionnez un utilisateur :</label>
+            <select id="utilisateur" name="utilisateur" class="form-control">
+                <option value="" disabled selected>Choisissez un utilisateur</option>
+                {% for utilisateur in utilisateurs %}
+                    <option data-nom="{{ utilisateur.nom }}" data-point="{{utilisateur.point}}" value="{{ utilisateur.id_abonne }}">{{ utilisateur.util.nom }} {{ utilisateur.util.prenom }} ({{ utilisateur.util.age }} ans)</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="langue">Langue:</label>
+            <input type="text" id="langue" name="langue" readonly class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="point">Point:</label>
+            <input type="text" id="point" name="point" readonly class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="groupe">Sélectionnez ou saisissez l'ID du groupe :</label>
+            <div class="input-group">
+                <select id="groupe" name="groupe" class="form-control">
+                </select>
+                <input type="number" id="groupeinput" name="groupeinput" class="form-control" placeholder="Saisissez l'ID du groupe">
+            </div>
+            <small class="small-text">Si le groupe n'est pas dans la liste, saisissez son ID.</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Affecter</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var utilisateurSelect = document.getElementById("utilisateur");
+        var langueSelect = document.getElementById("langue");
+        var pointSelect = document.getElementById("point");
+        var groupeSelect = document.getElementById("groupe");
+    
+        utilisateurSelect.addEventListener("change", function () {
+            var selectedOption = utilisateurSelect.options[utilisateurSelect.selectedIndex];
+            var selectedNom = selectedOption.getAttribute("data-nom");
+            var selectedPoint = selectedOption.getAttribute("data-point");
+            langueSelect.value = selectedNom;
+            pointSelect.value=selectedPoint;
+            groupeSelect.innerHTML = '<option value="" disabled selected>Choisissez un groupe</option>';
+            // Filtrer les options du menu déroulant des groupes
+            fetch(`/getlangue/${selectedNom}`)
+            .then(response => response.json())
+            .then(data => {
+                data.groupe_ids.forEach(function (groupeId) {
+                    var option = document.createElement("option");
+                    option.value = groupeId;
+                    option.text = groupeId;
+                    groupeSelect.appendChild(option);
+                });
+            });
+            // Mettre à jour les sélections des menus déroulants
+            
+            // groupeSelect.value = selectedGroupeId;
+        });
+    });
+    </script>
+    
+{% endblock %}
+{% block script %}
+{% endblock %}

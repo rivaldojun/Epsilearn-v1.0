@@ -1,0 +1,48 @@
+{% extends 'index.html'%}
+
+{% block content %}
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                Manage Users
+            </div>
+            <div class="card-body">
+                <!-- Add User Form -->
+                <form>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" placeholder="Enter username">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add User</button>
+                </form>
+                
+                <!-- User List -->
+                <ul class="list-group mt-3">
+                    <li class="list-group-item">User 1 <button class="btn btn-danger btn-sm float-right">Delete</button></li>
+                    <li class="list-group-item">User 2 <button class="btn btn-danger btn-sm float-right">Delete</button></li>
+                    <!-- More users can be added here -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                Manage Requests
+            </div>
+            <div class="card-body">
+                <!-- Request List -->
+                <ul class="list-group">
+                    <li class="list-group-item">Request 1 <button class="btn btn-danger btn-sm float-right">Delete</button></li>
+                    <li class="list-group-item">Request 2 <button class="btn btn-danger btn-sm float-right">Delete</button></li>
+                    <!-- More requests can be added here -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block script %}
+{% endblock %}

@@ -1,0 +1,356 @@
+{% extends "index.html" %}
+<head>
+    <title>Ajouter un nouvel étudiant</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+{% block content %}
+<div class="formbold-main-wrapper">
+    <div class="row mt-0" >
+
+        <div id="corps" class="col-md-12" >
+    <!-- Author: FormBold Team -->
+    <!-- Learn More: https://formbold.com -->
+      <div class="formbold-form-wrapper" >
+        <div class="formbold-form-header">
+          <h3>Sondage</h3>
+        </div>
+        <form
+          action="/create_epsi_poll"
+          method="POST"
+          class="formbold-chatbox-form"
+        >
+          <div class="formbold-mb-5">
+            <label for="question">Question :</label>
+                <input type="text" class="form-control" name="question" required>
+          </div>
+  
+          <div class="formbold-mb-5">
+            <label for="options">Options (séparées par des points virgules ';') :</label>
+            <textarea
+              rows="6"
+              name="options"
+              id="message"
+              placeholder="Entrez les options"
+              class="formbold-form-input"
+            ></textarea>
+          </div>
+  
+          <div>
+            <button class="formbold-btn w-full">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    </div>
+  </div>
+  <style>
+      @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+ 
+  
+.components a{
+    color: inherit;
+      text-decoration: none;
+      transition: all 0.3s;
+}
+  
+  .line {
+      width: 100%;
+      height: 1px;
+      border-bottom: 1px dashed #ddd;
+      margin: 40px 0;
+  }
+  
+  /* ---------------------------------------------------
+      SIDEBAR STYLE
+  ----------------------------------------------------- */
+  .petit{
+        display: none;
+      }
+      .grand{
+        display: block;
+      }
+  .wrapper {
+      display: block;
+      width: 100%;
+      align-items: stretch;
+      
+  }
+  
+  #sidebar {
+      min-width: 250px;
+      max-width: 250px;
+      background: transparent;
+      color: #fff;
+      transition: all 0.3s;
+      color: black;
+      scale: 0.8;
+  }
+  
+  #sidebar.active {
+      margin-left: -650px;
+  }
+  
+  #sidebar .sidebar-header {
+      padding: 20px;
+      background: transparent;
+      color: black;
+  }
+  
+  #sidebar ul.components {
+      padding: 20px 0;
+      border-bottom: 1px solid transparent;
+  }
+  
+  #sidebar ul p {
+      color: #fff;
+      padding: 10px;
+  }
+  
+  #sidebar ul li a {
+      padding: 10px;
+      font-size: 1.1em;
+      display: block;
+  }
+  
+  #sidebar ul li a:hover {
+      color: #98abf8;
+      background: #fff;
+  }
+  
+  #sidebar ul li.active>a,
+  a[aria-expanded="true"] {
+      color: #fff;
+      background: blue;
+  }
+  
+  a[data-toggle="collapse"] {
+      position: relative;
+  }
+  
+  
+  
+  ul ul a {
+      font-size: 0.9em !important;
+      padding-left: 30px !important;
+      background: blue;
+      color: white;
+  }
+  
+  ul.CTAs {
+      padding: 20px;
+  }
+  
+  ul.CTAs a {
+      text-align: center;
+      font-size: 0.9em !important;
+      display: block;
+      border-radius: 5px;
+      margin-bottom: 5px;
+  }
+  
+ 
+  
+  /* ---------------------------------------------------
+      CONTENT STYLE
+  ----------------------------------------------------- */
+  
+  #content {
+      width: 100%;
+      padding: 20px;
+      min-height: 100vh;
+      transition: all 0.3s;
+  }
+  
+  /* ---------------------------------------------------
+      MEDIAQUERIES
+  ----------------------------------------------------- */
+  
+  @media (max-width: 768px) {
+      #sidebar {
+          margin-left: -250px;
+          z-index: 9999999999;
+      }
+      
+      #sidebar.active {
+          margin-left: 0;
+      }
+      #sidebarCollapse span {
+          display: none;
+      }
+      .petit{
+        display: flex;
+      }
+      .grand{
+        display: none;
+      }
+  }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Inter", sans-serif;
+      background-color: #f5f5f5;
+    }
+    .formbold-mb-5 {
+      margin-bottom: 20px;
+    }
+    .formbold-pt-3 {
+      padding-top: 12px;
+    }
+    .formbold-main-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px;
+    }
+  
+    .formbold-form-wrapper {
+      margin: 0 auto;
+      max-width: 550px;
+      width: 100%;
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+    }
+  
+    .formbold-form-wrapper.active {
+      display: block;
+    }
+  
+    .formbold-form-label {
+      display: block;
+      font-weight: 500;
+      font-size: 16px;
+      color: #07074d;
+      margin-bottom: 12px;
+    }
+    .formbold-form-label-2 {
+      font-weight: 600;
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+  
+    .formbold-form-input {
+      width: 100%;
+      padding: 12px 24px;
+      border-radius: 6px;
+      border: 1px solid #e0e0e0;
+      background: white;
+      font-weight: 500;
+      font-size: 16px;
+      color: #6b7280;
+      outline: none;
+      resize: none;
+    }
+    .formbold-form-input:focus {
+      border-color: #6a64f1;
+      box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+    }
+  
+    .formbold-btn {
+      text-align: center;
+      font-size: 16px;
+      border-radius: 6px;
+      padding: 14px 32px;
+      border: none;
+      font-weight: 600;
+      background-color: #6a64f1;
+      color: white;
+      cursor: pointer;
+    }
+    .formbold-btn:hover {
+      box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+    }
+  
+    .formbold--mx-3 {
+      margin-left: -12px;
+      margin-right: -12px;
+    }
+    .formbold-px-3 {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+    .flex {
+      display: flex;
+    }
+    .flex-wrap {
+      flex-wrap: wrap;
+    }
+    .w-full {
+      width: 100%;
+    }
+    .formbold-form-header {
+      background: #6a64f1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 36px;
+      border-radius: 8px 8px 0px 0px;
+    }
+    .formbold-form-header h3 {
+      font-weight: 700;
+      font-size: 20px;
+      color: white;
+    }
+    .formbold-form-header button {
+      color: white;
+      background: transparent;
+      border: none;
+    }
+    .formbold-chatbox-form {
+      padding: 32px 36px;
+    }
+    .formbold-action-buttons {
+      max-width: 550px;
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: 48px;
+    }
+    .formbold-action-btn {
+      width: 70px;
+      height: 70px;
+      background: #6a64f1;
+      color: white;
+      border-radius: 50%;
+      margin-left: 20px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  
+    .formbold-action-btn .formbold-cross-icon {
+      display: none;
+    }
+  
+    .formbold-action-btn.active .formbold-cross-icon {
+      display: block;
+    }
+  
+    .formbold-action-btn.active .formbold-chat-icon {
+      display: none;
+    }
+    @media (min-width: 540px) {
+      .sm\:w-half {
+        width: 50%;
+      }
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script>
+      $(document).ready(function () {
+              $('#sidebarCollapse').on('click', function () {
+                  $('#sidebar').toggleClass('active');
+              });
+          });
+  </script>
+
+{% endblock %}

@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% block style %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choix de matiere|Epsilearn</title>
+  <!-- Inclure les fichiers Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f5f5f5;
+    }
+
+    .discipline-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      justify-content: center;
+      opacity: 0;
+      transform: translateX(-100%);
+      animation: slideInFromRight 1s forwards;
+    }
+
+    .discipline-item {
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 5px;
+      text-align: center;
+      color: #333;
+      background-color: #f9f9f9;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    }
+
+    .discipline-item:hover {
+      background-color: #e0e0e0;
+      color: #111;
+    }
+
+    .discipline-item.selected {
+      background-color: #0073e6;
+      color: #fff;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    #btn {
+      background-color: blue;
+      color: white;
+      transition: transform 0.2s;
+    }
+
+    #btn:active {
+      transform: scale(0.95);
+    }
+
+    .btn-prev {
+      background-color: #000000;
+      color: white;
+      transition: transform 0.2s;
+    }
+
+    .btn-prev:active {
+      transform: scale(0.95);
+    }
+
+    @keyframes slideInFromRight {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  </style>
+{% endblock %}
+{% block content %}
+  <div class="container mt-5">
+    
+    {% if discipline=="Mathematiques" %}
+    <h3 class="mb-5 text-center" style="color: rgb(163, 163, 163);" >Choisissez une matiere</h3>
+    <ul class="discipline-list">
+      <li class="discipline-item" data-discipline="Analyse">Analyse</li>
+      <li class="discipline-item" data-discipline="Algebre">Algebre</li>
+      <li class="discipline-item" data-discipline="Probabilite">Probabilite</li>
+      <li class="discipline-item" data-discipline="Statistique">Statistique</li>
+      <li class="discipline-item" data-discipline="Geometrie">Geometrie</li>
+      <li class="discipline-item" data-discipline="Arithmetique">Arithmetique</li>
+      <!-- Ajoutez d'autres disciplines ici -->
+    </ul>
+    {% endif %}
+    {% if discipline=="Physique" %}
+    <h3 class="mb-5 text-center" style="color: rgb(0, 0, 0);">Choisissez une matiere</h3>
+    <ul class="discipline-list">
+      <li class="discipline-item" data-discipline="Mécanique du point">Mécanique du point</li>
+      <li class="discipline-item" data-discipline="Mécanique du solide">Mécanique du solide</li>
+      <li class="discipline-item" data-discipline="Mécanique des fluides">Mécanique des fluides</li>
+      <li class="discipline-item" data-discipline="Thermodynamique">Thermodynamique</li>
+      <li class="discipline-item" data-discipline="Electricité">Electricité</li>
+      <li class="discipline-item" data-discipline="Electromagnetisme">Electromagnetisme</li>
+      <!-- Ajoutez d'autres disciplines ici -->
+    </ul>
+    {% endif %}
+    {% if discipline=="Chimie" %}
+    <h3 class="mb-5 text-center" style="color: rgb(0, 0, 0);">Choisissez une matiere</h3>
+    <ul class="discipline-list">
+      <li class="discipline-item" data-discipline="Réactivité chimique">Réactivité chimique</li>
+      <li class="discipline-item" data-discipline="Atomistique">Atomistique</li>
+      <li class="discipline-item" data-discipline="Chimie1">Chimie1</li>
+      <li class="discipline-item" data-discipline="Chimie2">Chimie2</li>
+      <li class="discipline-item" data-discipline="Chimie3">Chimie3</li>
+      <li class="discipline-item" data-discipline="Autre">Autre</li>
+      <!-- Ajoutez d'autres disciplines ici -->
+    </ul>
+    {% endif %}
+
+    {% if discipline=="Biologie" %}
+    <h3 class="mb-5 text-center" style="color: rgb(0, 0, 0);">Choisissez une matiere</h3>
+    <ul class="discipline-list">
+      <li class="discipline-item" data-discipline="math">Réactivité chimique</li>
+      <li class="discipline-item" data-discipline="phy">Atomistique</li>
+      <li class="discipline-item" data-discipline="chim">Chimie1</li>
+      <li class="discipline-item" data-discipline="info">Chimie2</li>
+      <li class="discipline-item" data-discipline="info">Chimie3</li>
+      <li class="discipline-item" data-discipline="info">Autre</li>
+      <!-- Ajoutez d'autres disciplines ici -->
+    </ul>
+    {% endif %}
+
+    {% if discipline=="Informatique" %}
+    <h3 class="mb-5 text-center" style="color: rgb(0, 0, 0);">Choisissez une matiere</h3>
+    <ul class="discipline-list">
+      <li class="discipline-item" data-discipline="Python">Python</li>
+      <li class="discipline-item" data-discipline="Langage C">Langage C</li>
+      <li class="discipline-item" data-discipline="Algorithmique">Algorithmique</li>
+      <li class="discipline-item" data-discipline="Java">Java</li>
+      <li class="discipline-item" data-discipline="HTML/CSS">HTML/CSS</li>
+      <li class="discipline-item" data-discipline="JavaScript">JavaScript</li>
+      <!-- Ajoutez d'autres disciplines ici -->
+    </ul>
+    {% endif %}
+  
+    {% if discipline=="Autre" %}
+    <h3 class="mb-5 text-center">Ecrivez votre besoin</h3>
+    <div class="other-discipline" id="other-discipline" style="display: flex;justify-content: center;">
+        <textarea id="myTextarea" class="form-control" rows="8"  placeholder="Entrez votre besoin ici" style="width: 400px;"></textarea>
+    </div>
+    {% endif %}
+    <div class="d-flex justify-content-between">
+      <button type="button" class="btn btn-prev mt-5 m-3" onclick="goBack()">Précédent</button>
+      <form id="discipline-form" method="post">
+        <input type="hidden" name="selected_discipline" id="selected-discipline" value="">
+        <button id="sub" type="submit" class="btn mt-5 m-3"  style="background-color: blue; color: white;">Suivant</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Inclure les fichiers Bootstrap JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    const disciplineItems = document.querySelectorAll(".discipline-item");
+    const selectedDisciplineInput = document.getElementById("selected-discipline");
+    const submitButton = document.getElementById("sub");
+   let choose=false
+    disciplineItems.forEach(item => {
+      item.addEventListener("click", () => {
+        disciplineItems.forEach(item => item.classList.remove("selected"));
+        submitButton.style.display = "block";
+        item.classList.add("selected");
+        selectedDisciplineInput.value = item.getAttribute("data-discipline");
+      });
+    });
+
+    if (choose==false){
+      submitButton.style.display = "none";
+        } 
+  const textarea = document.getElementById("myTextarea");
+
+  textarea.addEventListener("input", function () {
+  // Récupérez la valeur actuelle du textarea
+  const textareaValue = textarea.value;
+
+  // Vérifiez si le textarea est vide et affichez/masquez le bouton en conséquence
+  if (textareaValue.trim() === "") {
+    submitButton.style.display = "none";
+  } else {
+    submitButton.style.display = "block";
+  }
+});
+    function goBack() {
+      window.location.href = "/discipline";
+    }
+  </script>
+{% endblock %}

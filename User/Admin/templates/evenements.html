@@ -1,0 +1,215 @@
+{% extends "index.html" %}
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Événements | Lernender</title>
+<!-- Inclure les fichiers Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
+
+
+{% block content %}
+<style>
+    body {
+      background-color: #f5f5f5;
+    }
+    .event-block {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 10px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .event-block:hover {
+      cursor: pointer;
+          scale: 1.05;
+          background-color:#f9b872; ;
+          transition: 0.7s;
+    }
+    .pass-button {
+      background-color: #292727;
+      color: #ffffff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 60px;
+      float: right;
+  
+    }
+    .choose-button {
+      background-color: #099c15;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .plus-button {
+      background-color: #099c15;
+      color: #ffffff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 60px;
+      float: right;
+      margin-right: 20px;
+    }
+  </style>
+<div class="container">
+  <h3 class="mb-4" style="color: rgb(0, 13, 251);">Liste des Événements</h3>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" id="searchInput" placeholder="Rechercher par nom d'événement">
+    <div class="input-group-append">
+      <button class="btn btn-primary" type="button" onclick="searchEvents()">Rechercher</button>
+    </div>
+  </div>
+  <div class="row" id="eventCards" >
+    <!-- Blocs des informations d'événement seront insérés ici dynamiquement -->
+  </div>
+  
+  
+</div>
+
+<!-- Inclure les fichiers Bootstrap JavaScript -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+//   fetch('/get_event')
+//   .then(response => response.json())
+//   .then(data => {
+//     const eventList=data
+//     console.log(eventList)
+//     const eventCardsDiv = document.getElementById("eventCards");
+//     eventCardsDiv.innerHTML = "";
+//     eventList.forEach(event => {
+//       const card = document.createElement("div");
+//       card.addEventListener("click", function () {
+//         window.location.href = `/details_evenements/${event.id}`;
+
+//       }
+//       )
+//       card.className = "col-md-12 event-block";
+// card.innerHTML = `
+//   <h4>${event.nomevent}</h4>
+//   <p><strong>Nom de l'organisateur:</strong> ${event.nom}  ${event.prenom}</p>
+//   <p><strong>Date de l'événement:</strong> ${event.date}</p>
+//   <p><strong>Statut:</strong> ${event.statut}</p>
+//   <p><strong>Nombre de place:</strong> ${event.nbplace}</p>
+//   <p><strong>Nombre de place restantes:</strong> ${event.nbplace - event.nbplace_occupe}</p>
+//   <p><strong>En ligne:</strong> ${event.live}</p>
+//   <p><strong>Description:</strong> ${event.desciption}</p>
+//   <p><strong>Nombre de vues:</strong> ${event.vue}</p>
+//   ${
+//     event.organisateurid!==event.ig
+//       ? `<a href="/reserver/${event.id}" class="btn btn-primary reserve-button">Réserver</a>`
+//       : ''
+//   }
+//   <img src="${event.photo}" alt="Image de l'événement" style="width: 250px; height: 200px; float: right; margin-top: -200px; border-radius: 20px">
+//   <!-- Autres informations de l'événement -->
+// `;
+
+
+//       eventCardsDiv.appendChild(card);
+//     });
+
+//   function searchEvents() {
+//     const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+//     const filteredEvents = events.filter(event => event.name.toLowerCase().includes(searchTerm));
+//     displayEvents(filteredEvents);
+//   }
+
+
+
+  // Afficher tous les événements lors du chargement de la page
+  // document.addEventListener("DOMContentLoaded", function() {
+  //   displayEvents(events);
+  // });
+
+
+ // Ajoutez un événement de clic (click event) au bouton
+
+
+
+$(document).ready(function() {
+   
+    let eventList = []; // Declare eventList variable to store event data
+
+    // Fetch event data from the server
+    function loadUsers() {
+      fetch('/get_events')
+        .then(response => response.json())
+        .then(data => {
+          eventList=data
+      
+          displayUsers(eventList);
+        })
+        .catch(error => {
+          console.error('Error fetching event data:', error);
+        });
+    }
+
+    function displayUsers(eventL) {
+      const eventCardsDiv = document.getElementById("eventCards");
+    eventCardsDiv.innerHTML = "";
+    eventL.forEach(event => {
+      const card = document.createElement("div");
+      card.addEventListener("click", function () {
+        window.location.href = `/details_evenement/${event.id}`;
+      }
+      )
+      card.className = "col-md-12 event-block";
+card.innerHTML = `
+  <h4>${event.nomevent}</h4>
+  <p><strong>Nom de l'organisateur:</strong> ${event.nom}  ${event.prenom}</p>
+  <p><strong>Date de l'événement:</strong> ${event.date}</p>
+  <p><strong>Statut:</strong> ${event.statut}</p>
+  <p><strong>Nombre de place:</strong> ${event.nbplace}</p>
+  <p><strong>Nombre de place restantes:</strong> ${event.nbplace - event.nbplace_occupe}</p>
+  <p><strong>En ligne:</strong> ${event.live}</p>
+  <p><strong>Description:</strong> ${event.description}</p>
+  <p><strong>Nombre de vues:</strong> ${event.vue}</p>
+  <a href="/effacerevent/${event.id}" class="btn btn-primary reserve-button">Effacer evenement</a>
+  <!-- Autres informations de l'événement -->
+`;
+        eventCardsDiv.appendChild(card);
+      });
+    }
+
+    function filterUsers(searchText) {
+      const filteredUsers = eventList.filter(event => {
+        const fullName = `${event.nomevent} ${event.nom}`.toLowerCase();
+        return fullName.includes(searchText.toLowerCase());
+      });
+      displayUsers(filteredUsers);
+    }
+
+    // Search event input event listener
+    $('#searchInput').keyup(function() {
+      const searchText = $(this).val().trim();
+      if (searchText === '') {
+        displayUsers(eventList);
+      } else {
+        filterUsers(searchText);
+      }
+    });
+
+    // Call this function to load eventList initially
+    loadUsers();
+
+    // ... (rest of the code for chat functionality, same as before) ...
+  });
+</script>
+{% endblock %}
+{% block script %}
+{% endblock %}

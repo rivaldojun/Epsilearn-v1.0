@@ -1,0 +1,306 @@
+{% extends "base.html" %}
+{% block conecter %}
+{% endblock %}
+{% block nav %}
+<nav class="navbar navbar-expand-lg navbar-light bg-transparent" style="display: flex; justify-content: center; height: 40px;">
+  <div class="container" style="background-color: none; border-radius: 20px; z-index: 999999; opacity: 0.8; margin-top: 20px; padding: 0 12px;">
+      <a class="navbar-brand" href="/accueil" style="color: blue; font-size: 24px;">Epsilearn</a>
+  </div>
+</nav>
+
+{% endblock %}
+{% block content %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page d'Inscription | Epsilearn</title>
+  <!-- Inclure les fichiers Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Inclure les fichiers Font Awesome CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      background-color: #f5f5f5;
+
+    }
+
+
+    .register-container {
+      margin-top: 0px;
+    }
+    .card {
+      border: none;
+      border-radius: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .card-header {
+      background-color: blue;
+      color: #fff;
+      text-align: center;
+      border-radius: 10px 10px 0 0;
+    }
+    .info-container {
+      border-radius: 15px;
+      margin-top: 50px;
+      background-color: #f1f1f1;
+      height: 120vh;
+      padding: 30px;
+    }
+    .info-container h2 {
+      margin-bottom: 20px;
+    }
+    .info-container p {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .password-criteria {
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    padding: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+.criteria-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.criteria-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.criteria-item {
+    margin: 5px 0;
+}
+
+.criteria-item::before {
+    content: "•";
+    margin-right: 5px;
+    color: red;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container" style="scale: 0.9;">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-4 register-container">
+  
+            <br>
+        <div class="card" >
+          <div class="card-header" style="border-radius: 20px 20px 0 0;">
+            <h3 style="font-family: 'Kanit';">Inscription</h3>
+          </div>
+          <div class="card-body" style="font-family: 'Kanit';border-radius: 20px;">
+            <form  action="{{ url_for('Main.inscription') }}" method="post">
+              <div class="form-group">
+                <label for="firstName">Nom</label>
+                <input type="text" class="form-control" id="firstName" placeholder="Votre Nom" name="nom" value="{{ request.form['nom']|default('') }}" required>
+              </div>
+              <div class="form-group">
+                <label for="lastName">Prenom</label>
+                <input type="text" class="form-control" id="lastName" placeholder="Votre prenom" name="prenom" value="{{ request.form['prenom']|default('') }}" required>
+              </div>
+              <div class="form-group">
+                <label for="nationality">Nationalité</label>
+                <select class="form-control" id="nationality" name="nationalite" required>
+                  <option value="" disabled selected>Sélectionnez votre nationalité</option>
+                  {% for nation in nationalites_disponibles %}
+                  <option value="{{ nation[0] }}" {% if nation[0] == request.form['nationalite'] %}selected{% endif %}>{{ nation[0] }}</option>
+                  {% endfor %}
+              </select>
+              </div>
+              <div class="form-group">
+                <label for="email">Adresse e-mail</label>
+                <input type="email" class="form-control" id="email" placeholder="Votre adresse e-mail" name="email" value="{{ request.form['email']|default('') }}" required>
+              </div>
+              <div class="form-group">
+                <label for="password" >Mot de passe</label>
+                <input type="password" class="form-control" id="password" placeholder="Votre mot de passe" name="password" required>
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                      <i class="fa fa-eye-slash" id="togglePassword"></i>
+                    </span>
+                  </div>
+              </div>
+              <div class="form-group">
+                <label for="password" >Confirmer mot de passe</label>
+                <input type="password" class="form-control" id="passwordconfirmation" placeholder="Confirmer votre mot de passe" name='Confirm_password' required>
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                      <i class="fa fa-eye-slash" id="togglePassword1"></i>
+                    </span>
+                  </div>
+              </div>
+              <div class="password-criteria">
+                <p class="criteria-title">Votre mot de passe doit :</p>
+                <ol class="criteria-list">
+                    <li class="criteria-item"> Contenir une lettre majuscule</li>
+                    <li class="criteria-item"> Contenir au moins huit caractères</li>
+                    <li class="criteria-item"> Contenir au moins un chiffre</li>
+                    <li class="criteria-item"> Les mots de passe se correspondent</li>
+                </ol>
+            </div>
+            
+              <button type="submit" class="btn btn-block" style="background-color: blue; color: white; border-radius: 20px;">S'inscrire</button>
+              <br>
+              <p id="errorMessage" class="error-message hidden" style="text-align: center;" >Veuillez remplir toutes les informations.</p>
+              <p class="inscription-link" style="text-align: center;margin-top: 10px;">Vous un compte? <a href="/connexion" class="inscription-register-link">Se connecter</a></p>
+            </form>
+     
+
+    {% if error_message %}
+    <p style="color: red; margin-top: -5px;text-align: center;">{{ error_message }}</p>
+    {% endif %}
+
+    {% if error_message  and error_message == "Ce mail existe déjà."  %}
+    <p class="changermotdepass"> <a href="/password_reset_request" class="inscription-register-link">Mot de passe oublié ?</a></p>
+    {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div id="cnt" class="col-md-8 col-lg-8 info-container" style="font-family: 'Kanit';" >
+        <div class="d-flex align-items-center justify-content-center h-100">
+          <div style="margin-left: 0%;">
+            <div id="texte" style="width: 400px;scale: 0.8;margin-left: 25%;margin-top: 0px;font-weight: bolder;font-family: 'Kanit';background-color: rgb(255, 255, 255);padding: 20px;border-radius: 20px;opacity: 0.5;text-align: center;">
+            </div>
+            <div class="info-content" id="infoContent" style="scale: 1;margin-left: 60px;" >
+              <!-- Le contenu sera généré dynamiquement ici -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <!-- Inclure les fichiers Bootstrap JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    const passwordInput = document.getElementById("password");
+    const togglePassword = document.getElementById("togglePassword");
+    const passwordInput1 = document.getElementById("passwordconfirmation");
+    const togglePassword1 = document.getElementById("togglePassword1")
+
+    togglePassword.addEventListener("click", function () {
+      const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+      passwordInput.setAttribute("type", type);
+      togglePassword.classList.toggle("fa-eye");
+      togglePassword.classList.toggle("fa-eye-slash");
+    });
+    ;
+
+    togglePassword1.addEventListener("click", function () {
+      const type1 = passwordInput1.getAttribute("type") === "password" ? "text" : "password";
+      passwordInput1.setAttribute("type", type1);
+      togglePassword1.classList.toggle("fa-eye");
+      togglePassword1.classList.toggle("fa-eye-slash");
+    });
+    const infoContent = document.getElementById("infoContent");
+    const texte = document.getElementById("texte");
+    const contents = [
+      {
+        title: "BOOKEZ DES COURS",
+        image: "/static/image/laptop.png",
+        text: "Le savoir est une source de lumière inépuisable. BOOKEZ DES COURS pour élargir votre horizon et embrasser les opportunités de demain....",
+        color: "transparent"
+      },
+      {
+        title: "PUBLIEZ DES EVENEMENTS",
+        image: "/static/image/evenement1.png",
+        text: "Les événements sont les étincelles qui illuminent nos vies. En publiant des événements, vous partagez des moments magiques avec le monde, créant ainsi des souvenirs inoubliables pour vous et les autres....",
+        color: "transparent"
+      },
+      {
+        title: "APPRENEZ DES LANGUES",
+        image: "/static/image/conf.png",
+        text: "Apprendre une langue, c'est s'ouvrir à un monde nouveau. C'est embrasser une nouvelle culture, comprendre ses nuances et élargir ses horizons. Chaque mot est une fenêtre sur un nouvel univers, chaque phrase une invitation à explorer l'inconnu...",
+          color: "transparent"
+      },
+    ];
+
+    // Choisir un contenu aléatoire lors du chargement de la page
+    const randomIndex = Math.floor(Math.random() * contents.length);
+    const randomContent = contents[randomIndex];
+    const el=document.getElementById("cnt")
+
+    const infoImage = document.createElement("img");
+    infoImage.setAttribute("src", randomContent.image);
+    infoImage.setAttribute("alt", randomContent.title);
+    infoImage.classList.add("info-image");
+    el.style.backgroundColor=randomContent.color
+
+
+    const infoTitle = document.createElement("h3");
+    infoTitle.style.fontFamily='Kanit'
+    infoTitle.style.fontWeight='bold'
+    infoTitle.style.color='blue'
+    infoTitle.textContent = randomContent.title;
+
+    const infoText = document.createElement("p");
+    infoText.textContent = randomContent.text;
+    texte.appendChild(infoTitle);
+    texte.appendChild(infoText);
+    infoContent.appendChild(infoImage);
+   
+  </script>
+   
+   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const passwordInput = document.getElementById('password');
+      const confirmPasswordInput = document.getElementById('passwordconfirmation');
+      const criteriaItems = document.querySelectorAll('.criteria-item');
+      const passwordMatchItem = criteriaItems[3]; // Le quatrième critère
+    
+      passwordInput.addEventListener('input', function() {
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+        
+        const criteria = [
+          /[A-Z]/.test(password),
+          password.length >= 8,
+          /[0-9]/.test(password),
+          password === confirmPassword  // Vérifie si les mots de passe correspondent
+        ];
+        
+        criteriaItems.forEach((item, index) => {
+          if (criteria[index]) {
+            item.style.color = 'green';  // Si le critère est respecté, changer la couleur en vert
+          } else {
+            item.style.color = 'red';    // Sinon, garder la couleur en rouge
+          }
+        });
+      });
+    
+      confirmPasswordInput.addEventListener('input', function() {
+        // Mettre à jour la vérification des critères lorsque le champ de confirmation du mot de passe est modifié.
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+        
+        const criteria = [
+          /[A-Z]/.test(password),
+          password.length >= 8,
+          /[0-9]/.test(password),
+          password === confirmPassword  // Vérifie si les mots de passe correspondent
+        ];
+        
+        criteriaItems.forEach((item, index) => {
+          if (criteria[index]) {
+            item.style.color = 'green';  // Si le critère est respecté, changer la couleur en vert
+          } else {
+            item.style.color = 'red';    // Sinon, garder la couleur en rouge
+          }
+        });
+      });
+    });
+    </script>
+    
+    
+  </body>
+{% endblock %}

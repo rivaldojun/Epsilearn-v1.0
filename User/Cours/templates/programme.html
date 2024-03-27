@@ -1,0 +1,294 @@
+{% extends "base.html" %}
+
+{% block style %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mes programmes | Epsilearn</title>
+  <!-- Inclure les fichiers Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .panel-container:hover{
+      background-color: cornflowerblue;
+      cursor: pointer;
+  }
+  #navbarDropdownMenuLink{
+    text-decoration: overline ;
+    color: rgb(0, 0, 0)
+  }
+  body{
+    background-color: #f5f5f5;
+  }
+/* Utilisez Flexbox pour centrer les demandes et styliser le panel */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.panel-container {
+    width: 300px; /* Largeur du conteneur */
+    border-radius: 30px;
+    margin: 30px;
+    scale: 0.85;
+    padding: 10px;
+    background-color: #ffffff; /* Fond du panel en gris */
+    position: relative; /* Pour positionner les boutons à l'intérieur */
+}
+
+.panel-container button {
+    position: absolute;
+    border: none;
+    cursor: pointer;
+}
+
+.panel-container button.confirm-btn {
+    bottom: -30px; /* Bouton "Confirmer" en bas du panel */
+  
+     /* Pour centrer par rapport à la largeur du panel */
+    background-color: blue; /* Bouton "Confirmer" en vert */
+    color: #fff; /* Couleur du texte en blanc */
+    margin-left: 18px;
+    height: 30px;
+    width: 250px;
+    border-radius: 10px;
+}
+
+.panel-container button.cancel-btn {
+    top: 25px; /* Bouton "Annuler" sur le côté supérieur du panel */
+    right: -100px; /* Collé à l'extrémité droite du panel */
+    background-color: red; /* Bouton "Annuler" en rouge */
+    color: #fff; /* Couleur du texte en blanc */
+    height: 30px;
+    width: 170px;
+    border-radius: 10px;
+    transform: rotate(90deg); /* Tourner le bouton "Annuler" de 90 degrés (verticalement) */
+    transform-origin: center; /* Point de rotation au centre du bouton */
+    margin-top: 70px;
+    margin-left: 1000px;
+
+}
+.h1{
+    margin-top: 50px;
+    color: black;
+    display: flex;
+    display: flex;
+   justify-content: center;
+   align-items: center;
+   
+}
+.countdown-panel {
+  margin-top: 10px;
+  border: 2px solid #ffffff;
+  padding: 20px;
+  border-radius: 5px;
+  width: 250px;
+  height: 15px;
+  line-height: 0px;
+  margin: 10px auto;
+  background-color: #ffffff;
+}
+
+#countdown-timer {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: -8px;
+  justify-content: center;
+}
+
+.time-segment {
+  font-size: 20px;
+  padding: 5px;
+}
+  </style>
+  {% endblock %}
+  
+
+  {% block content %}
+  <div class="h1 animate-element" data-animation="fadeInUp" style="animation-duration: 1s;">
+    <h1 style="font-size: 28px;">Mes Programmes</h1>
+</div>
+<!-- Les demandes seront affichées ici -->
+{% if user_type=="etudiant" %}
+<!-- Les demandes seront affichées ici -->
+<div class='demandes-container flex-container'>
+    {% for demand in programmeetudiant %}
+    <div class="panel-container animate-element" data-animation="fadeInUp" style="animation-duration: 1s;" data-demand-id="{{ demand.id_demande }}">
+      <div class="pan" data-demand-id="{{ demand.id_demande }}">
+        <p><strong>Code : {{demand.id_demande}}</strong></p>
+        {% if demand.statut_demande !="refuse" %}
+        {% if demand.statut_demande !="report_demande" %}
+        {% if demand.date_acc|string > date_act|string %}
+        <div class="countdown-panel" data-demand-id="{{ demand.date_acc }}">
+          <div id="countdown-timer">
+            <span class="time-segment" id="days">00</span>
+            <span class="time-segment">J</span>
+            <span class="time-segment" id="hours">00</span>
+            <span class="time-segment">H</span>
+            <span class="time-segment" id="minutes">00</span>
+            <span class="time-segment">min</span>
+          </div>
+        </div>
+        {% endif %}
+        {% endif %}
+        {% endif %}
+        <p><strong>Statut de payement : </strong>{{demand.statut_payement}}</p>
+        <p><strong>Statut de la demande : </strong>{{demand.statut_demande}}</p>
+        <p><strong>Matiere :</strong>{{demand.matiere}}<span id="date2"></span></p>
+        {% if demand.statut_demande =="report_demande" %}
+        <p><strong>Date propose : </strong>{{demand.date_propose}}</p>
+        {% endif %}
+        {% if demand.statut_demande !="report_demande" %}
+        <p><strong>Date acceptee :</strong> {{demand.date_acc}}</p>
+        <p><strong>Date fin : </strong>{{demand.date_fin}}</p>
+        {% endif %}
+        </div>
+
+        {% if demand.statut_demande =="refuse" %}
+        {% else %}
+        {% if demand.statut_demande !="refuse" and demand.statut_demande =="report_demande"  %}
+        <button class='cancel-btn' data-demand-id="{{ demand.id_demande }}">Refuser report</button>
+        <button class='confirm-btn' data-demand-id="{{ demand.id_demande }}" >Accepter report</button>
+        {% else %}
+        {% if demand.statut_payement =="impayer"   %}
+        <button id="cancel-button" class='cancel-btn' data-demand-id="{{ demand.id_demande }}">Annuler</button>
+        <button class='confirm-btn' data-demand-id="{{ demand.id_demande }}" onclick="window.location.href = '/checkoutdemande/{{demand.id_demande}}'">Payer</button>
+        {% elif  date_act1|string > demand.date_acc|string  %}
+        <button class='confirm-btn' data-demand-id="{{ demand.id_demande }}" data-live-id="{{ demand.code }}">Commencer</button>
+        {% else %}
+        <button class='confirm-btn' disabled >Commencer bientot</button>
+        {% endif %}
+        {% endif %}
+        {% endif %}
+        <!-- <button class='cancel-btn' data-demand-id="{{ demand.id_demande }}">Annuler</button> -->
+        
+       
+    </div>
+    <div id="confirmationModal" class="modal" tabindex="-1" style="margin-top: 120px;">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirmation de l'annulation</h5>
+          </div>
+          <div class="modal-body">
+            <p>Veuillez entrer le code de confirmation :<strong style="color: red;">{{ demand.id_demande }}</strong></p>
+            <input type="text" id="confirmationCode" class="form-control">
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="cancelReload" class="btn btn-secondary"  >Annuler</button>
+            <button type="button" class="btn btn-primary" id="confirmCancellation">Confirmer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+</div>
+<script src="{{ url_for('static', filename='JS/programmeetudiant.js') }}"></script>
+{% endif %}
+
+{% if user_type=="professeur" %}
+<style>
+
+.panel-container:hover{
+    background-color: cornflowerblue;
+    cursor: pointer;
+}
+
+
+.countdown-panel {
+  margin-top: 10px;
+  padding: 20px;
+  border-radius: 5px;
+  width: 250px;
+  height: 15px;
+  line-height: 10px;
+  margin: 10px auto;
+  background-color: #ffffff;
+}
+
+#countdown-timer {
+  display: flex;
+  margin-top: -8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.time-segment {
+  font-size: 20px;
+  padding: 5px;
+}
+
+h2 {
+  margin-top: 0;
+}
+.sidebar-collapsed .sidebar-menu li .home7  {
+    margin-top: 360px;
+    padding-left: -20px;
+  
+  }
+
+</style>
+<div class='demandes-container flex-container'>
+  {% for demand in programmeprof %}
+  <div class='panel-container' data-demand-id="{{ demand.id_demande }}">
+    <div class="pan" data-demand-id="{{ demand.id_demande }}">
+      <p><strong>Code : {{demand.id_demande}}</strong></p>
+      {% if demand.statut_demande !="refuse" %}
+      {% if demand.statut_demande !="report_demande" %}
+      {% if demand.date_acc|string > date_act|string %}
+      <div class="countdown-panel" data-demand-id="{{ demand.date_acc }}">
+        <div id="countdown-timer">
+          <span class="time-segment" id="days">00</span>
+          <span class="time-segment">J</span>
+          <span class="time-segment" id="hours">00</span>
+          <span class="time-segment">H</span>
+          <span class="time-segment" id="minutes">00</span>
+          <span class="time-segment">min</span>
+        </div>
+      </div>
+      {% endif %}
+      {% endif %}
+      {% endif %}
+          <p><strong>Statut de payement : </strong>{{demand.statut_payement}}</p>
+          <p><strong>Statut de demande :</strong> {{demand.statut_demande}}</p>
+          <p><strong>Matiere :</strong>{{demand.matiere}}<span id="date2"></span></p>
+          {% if demand.statut_demande =="report_demande" %}
+          <p><strong>Date propose:</strong>{{demand.date_propose}}</p>
+          {% endif %}
+          {% if demand.statut_demande !="report_demande" %}
+          <p><strong>Date acceptee : </strong>{{demand.date_acc}}</p>
+          <p><strong>Date fin :</strong> {{demand.date_fin}}</p>
+          {% endif %}
+      </div>
+      {% if  demand.statut_payement =="impayer"  %}
+      {% if  demand.statut_demande !="report_demande" and demand.statut_demande !="refuse"  %}
+      <button class='cancel-btn' data-demand-id="{{ demand.id_demande }}">Annuler</button>
+      <button class='confirm-btn' data-demand-id="{{ demand.id_demande }}" style="background-color: red;">Reporter</button>
+      {% endif %}
+      {% elif  date_act1|string > demand.date_acc|string %}
+        <button class='confirm-btn' data-demand-id="{{ demand.id_demande }}" data-live-id="{{ demand.code }}">Commencer</button>
+      {% else %}
+        <button class='confirm-btn' disabled>Commencer bientot</button>
+        {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+
+<script src="{{ url_for('static', filename='JS/programmeprof.js') }}"></script>
+{% endif %}
+  <!-- Inclure les fichiers Bootstrap JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    // Votre code JavaScript ici si nécessaire
+  </script>
+{% endblock %}

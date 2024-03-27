@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block style %}
+
+  <style>
+    /* Ajoutez ici votre propre CSS pour personnaliser l'esthétique */
+    .entete {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .event {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 0px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      margin-bottom: 20px;
+    }
+
+    .event-image {
+      width: 100%;
+      height: 80vh;
+      object-fit: cover;
+      border-radius: 0px 0px 0 0;
+    }
+
+    .comment-form textarea {
+      width: 100%;
+      height: 100px;
+      resize: none;
+      margin-bottom: 10px;
+    }
+
+    .comment-form button {
+      padding: 10px 20px;
+    }
+
+    #commentaires-container {
+      height: 200px;
+      overflow-y: auto;
+    }
+
+    .reserve-button {
+      margin-bottom: 10px;
+      background-color: black;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+
+    body {
+      background-color: #f5f5f5;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+  <div style="margin-top: 70px;margin-bottom: 20px;"><a href="/evenement"  style="text-decoration: none;background-color:transparent;"><i class="fa fa-arrow-alt-circle-left"></i></a></div>
+  <div class="row">
+    <!-- Colonne pour la carte -->
+    <div class="col-lg-7">
+      <div class="card event shadow-lg" style="background-color: white;">
+        <div class="card-header" style="background-color: transparent;">
+          <h3><strong>{{ evenement.Nom }}</strong><br></h3>
+          <p><strong>Type de l'événement :</strong> {{ evenement.type_ev }}</p>
+          <p><strong>Organisateur :</strong> {{ evenement.organizer.nom }} {{ evenement.organizer.prenom }}</p>
+          <span style="color: rgb(0, 0, 0);font-weight: bolder;float: right;">{{ evenement.date }}</span>
+          
+        </div>
+        <div class="card-body">
+          {% if evenement.photo %}
+            {% if evenement.photo.endswith(".mp4") or evenement.photo.endswith(".avi") or evenement.photo.endswith(".mov") %}
+              <video class="card-img-top" controls>
+                <source src="../{{ evenement.photo }}" type="video/mp4" style="height: 70vh; width: 100%;">
+                Your browser does not support the video tag.
+              </video>
+            {% else %}
+              <img src="../{{ evenement.photo }}" alt="Media de l'événement" class="card-img-top" style="height: 70vh; width: 100%;">
+            {% endif %}
+          {% else %}
+            <img src="../static/image/2.png" alt="Image par défaut" class="card-img-top" style="height: 70vh; width: 100%;">
+          {% endif %}
+          <br>
+          <p class="description" style="color: rgb(75, 75, 75);"> {{ evenement.description }}</p>
+          {% if evenement.lien %}
+          <p><strong><a href="{{ evenement.lien }}">Cliquer pour aller à la référence</a></strong></p>
+          {% endif %}
+          {% if evenement.cd %}
+            <button class="btn btn session-button" style="background-color: blue; color: white;" onclick="window.location.href='/room/{{ evenement.cd }}'">Accéder</button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <!-- Colonne pour le contenu -->
+    <div class="container" style="width: fit-content;background-color: white;height: fit-content;padding-left: 100px;padding-right: 100px;padding-top: 30px;text-align: center;">
+      
+          <p><strong>Localisation :</strong> {{ evenement.pays_ville }}</p>
+          <p><strong>Statut :</strong> {{ evenement.statut }}</p>
+          <p><strong>Nombre de place :</strong> {{ evenement.nbplace }}</p>
+          <p><strong>En ligne :</strong> {{ evenement.live }}</p>
+          <hr>
+          <p><i class="fa fa-eye"></i> {{ evenement.vue }}</p>
+    </div>
+    <br>
+  </div>
+  <br>
+</div>
+<br>
+
+  <div class="container">
+  <form method="POST" >   
+    <div class="comment-form" style="margin-bottom: 20px;">
+      <textarea name="commentaire" placeholder="Write a comment..."></textarea>
+      <button class="btn btn" style="background-color: blue;color: white;scale: 0.8;"><i class="fa fa-paper-plane" ></i></button>
+    </div>
+  </form>  
+<hr>
+<div id="comment-container"  >
+  {% for commentaire in commentaires %}
+  <div class="commentaire" style="background-color: white; border-radius: 10px; padding: 10px 20px 20px 20px;width: 66%;margin-bottom: 10px;" data-comment-id="{{ commentaire.id }}">
+    <div class="auteur"><strong>{{ commentaire.commentateur.nom }} {{ commentaire.commentateur.prenom }}</strong></div>
+    <div class="contenu">{{ commentaire.commentaire }}</div>
+  </div>
+  {% endfor %}
+  <button id="load-more" style="background-color: transparent;color: blue;text-decoration: underline;border: none;">Voir plus</button>
+</div>
+</div>
+<!-- Ajoutez le lien vers le fichier Bootstrap JS -->
+
+<script>
+  // Fonction pour afficher le commentaire sélectionné
+  function afficherCommentaire(event) {
+    const commentaireIndex = event.target.value;
+    const commentaire = commentaires[commentaireIndex];
+
+    const commentairesDiv = document.getElementById("commentaires");
+    commentairesDiv.textContent = commentaire.commentaire;
+  }
+  const commentContainer = document.getElementById("comment-container");
+  const loadMoreButton = document.getElementById("load-more");
+  const comments = document.querySelectorAll(".commentaire");
+  let visibleComments = 3;
+  const commentsPerLoad = 3;
+
+  loadMoreButton.addEventListener("click", function () {
+    for (let i = visibleComments; i < visibleComments + commentsPerLoad && i < comments.length; i++) {
+      comments[i].style.display = "block";
+    }
+    visibleComments += commentsPerLoad;
+
+    // Vérifie si tous les commentaires ont été affichés
+    if (visibleComments >= comments.length) {
+      loadMoreButton.style.display = "none";
+    }
+  });
+
+  // Cache les commentaires initialement
+  for (let i = visibleComments; i < comments.length; i++) {
+    comments[i].style.display = "none";
+  }
+
+  if (comments.length <= visibleComments) {
+    loadMoreButton.style.display = "none";
+  }
+</script>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{
+    "posts": [
+        {
+            "id": "1bf4d4a2-415",
+            "user_id": 666,
+            "content": "opouiy",
+            "replies": [],
+            "username": "Epsilearn",
+            "file": [
+                "static\\Forum\\S7A4015_jpg_20231024133356.jpg"
+            ],
+            "profil": "../static/image/2.png",
+            "role": "Founder",
+            "likeuser": [
+                "personne"
+            ],
+            "likenumber": 0,
+            "date_added": "01:33 PM | Oct 24",
+            "tags": [
+                "#AI"
+            ],
+            "top_topics": "none"
+        },
+        {
+            "id": "aec084cf-52d",
+            "user_id": 666,
+            "content": "Zaminan",
+            "replies": [],
+            "username": "Epsilearn",
+            "file": [
+                "static\\Forum\\2023-04-07_1_png_20231031235941.png"
+            ],
+            "profil": "../static/image/2.png",
+            "role": "Founder",
+            "likeuser": [
+                "personne"
+            ],
+            "likenumber": 0,
+            "date_added": "11:59 PM | Oct 31",
+            "tags": [
+                "#AI"
+            ],
+            "top_topics": "none"
+        }
+    ]
+}

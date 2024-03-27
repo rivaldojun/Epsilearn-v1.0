@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block style %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choisir une date | Epsilearn</title>
+<!-- Inclure les fichiers Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f5f5f5;
+    }
+
+  .container {
+    margin-top: 50px;
+  }
+
+  .animate-panel {
+    animation: slide-in-left 0.5s ease-in-out;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  @keyframes slide-in-left {
+    0% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .form-group label {
+    font-weight: bold;
+  }
+
+  .btn-secondary {
+    background-color: #000000;
+    border-color: #000000;
+  }
+
+  .btn-primary {
+    background-color: blue;
+    border-color: blue;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="animate-panel">
+      <h3 class="mb-4 text-center">Choisissez deux dates</h3>
+      <form method="post">
+        <div class="form-group">
+          <label for="startDate">Date 1 </label>
+          <input type="datetime-local" class="form-control" id="startDate" name="startDate" required>
+        </div>
+        <div class="form-group">
+          <label for="endDate">Date 2 (Au cas ou le prof n'est pas disponible pour la Date 1)</label>
+          <input type="datetime-local" class="form-control" id="endDate" name="endDate" required>
+        </div>
+        <div class="text-center mt-4">
+          <button type="button" class="btn btn-secondary mr-3" onclick="goBack()">Previous</button>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Inclure les fichiers Bootstrap JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    const currentDate = new Date();
+    
+    // Calculate the minimum date for the date picker
+    const minDate = new Date(currentDate.getTime() + (24 * 60 * 60 * 1000)); // Add one day
+    
+    // Format the minimum date for the date picker input
+    const minDateFormatted = `${minDate.getFullYear()}-${String(minDate.getMonth() + 1).padStart(2, '0')}-${String(minDate.getDate()).padStart(2, '0')}T00:00`;
+
+    // Set the min attribute for both inputs
+    const startDateInput = document.getElementById('startDate');
+    const endDateInput = document.getElementById('endDate');
+    startDateInput.min = minDateFormatted;
+    endDateInput.min = minDateFormatted;
+    
+   function goBack() {
+      window.location.href = "/chapitre";
+    }
+
+    document.querySelector('form').addEventListener('submit', function (event) {
+  event.preventDefault(); // Prevent the form from submitting normally
+    const dt1Value = document.querySelector('#startDate').value;
+    const dt2Value = document.querySelector('#endDate').value;
+    var data={"dt1":dt1Value,
+    "dt2":dt2Value
+  }
+    fetch('/date', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    .then(function (response) {
+      // Rediriger l'utilisateur en fonction du rôle sélectionné
+      if (dt1Value.trim() !== '' && dt2Value.trim() !== '') {
+        window.location.href = "/heure";
+      }
+    })
+    .catch(function (error) {
+      // Gérer les erreurs de requête
+    });
+   
+  });
+  </script>
+{% endblock %}

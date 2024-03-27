@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <style>
+        body {
+    font-family: 'Kanit';
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+header {
+    background-color: rgb(0, 0, 0);
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.service-category {
+    margin: 2rem;
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.service-category h2 {
+    margin-bottom: 0.5rem;
+}
+
+.tarif-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.tarif-panel {
+    flex: 1;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    text-align: center;
+    padding: 1rem 0;
+    background-color: rgb(0, 0, 0);
+    color: white;
+}
+
+    </style>
+<div class="container mt-5">
+
+    <header class=" animate-element" data-animation="fadeInUp" style="animation-duration: 1s;">
+        <h1 class=" animate-element" data-animation="fadeInUp" style="animation-duration: 1s;text-align: center;">Tarifs de Services</h1>
+    </header>
+    <section class="service-category animate-element" data-animation="fadeInUp" style="animation-duration: 1.5s;">
+        <h2 style="text-align: center;">Cours de Langue</h2>
+        <div class="tarif-row">
+            <div class="tarif-panel shadow">
+                <h2>Basic</h2>
+                <h5 style="font-weight: bold;">1 mois</h5>
+                <p  style="font-size: 40px;font-weight: bolder;color: blue;">80 DHS</p>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                      <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                    </svg> Une seance chaque week-end</li>
+                    <li class="list-group-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                      <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                    </svg> Groupe de 5 personnes maximum</li>
+                    <li class="list-group-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                      <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                    </svg> Un sujet de discussion par seance</li>
+                  </ul>
+                  <a href="/langue" class="btn btn-dark btn-lg" style="background-color: rgb(0, 0, 0);border: none;color: white;border-radius: 30px;">S'abonner maintenant</a>
+            </div>
+            <div class="tarif-panel shadow">
+                <h2>Standard</h2>
+                <h5 style="font-weight: bold;">3 mois</h5>
+                <p  style="font-size: 40px;font-weight: bolder;color: blue;">200 DHS</p>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                      <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                    </svg> Une seance chaque week-end</li>
+                    <li class="list-group-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                      <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                    </svg> Groupe de 5 personnes maximum</li>
+                    <li class="list-group-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                      <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                    </svg> Un sujet de discussion par seance</li>
+                  </ul>
+                  <a href="/langue" class="btn btn-dark btn-lg" style="background-color: rgb(0, 0, 0);border: none;color: white;border-radius: 30px;">S'abonner maintenant</a>
+            </div>
+            <div class="tarif-panel shadow">
+                <h2>Full</h2>
+                <h5 style="font-weight: bold;">6 mois</h5>
+                <p style="font-size: 40px;font-weight: bolder;color: blue;">300 DHS</p>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                      <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                    </svg> Une seance chaque week-end</li>
+                    <li class="list-group-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                      <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                    </svg> Groupe de 5 personnes maximum</li>
+                    <li class="list-group-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                      <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                    </svg> Un sujet de discussion par seance</li>
+                  </ul>
+                  <a href="/langue" class="btn btn-dark btn-lg" style="background-color: rgb(0, 0, 0);border: none;color: white;border-radius: 30px;">S'abonner maintenant</a>
+            </div>
+        </div>
+    </section>
+    <section class="service-category">
+        <h2>Cours personnalisé</h2>
+        <div class="tarif-row">
+            <div class="tarif-panel shadow-lg">
+                <h2>Flex</h2>
+                <h5 style="font-weight: bold;">Session de 30 minute</h5>
+                <p  style="font-size: 40px;font-weight: bolder;color: blue;">10 DHS/30min</p>
+                <p>Bookez un cours personnalise avec l'enseignant de votre choix</p>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                      <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                    </svg>Vous avez le choix de la duree de la seance</li>
+                    <li class="list-group-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                      <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                    </svg>Le paiement effectif du prof se fais apres la seance.Sous reserve que la seance s'est bien deroule.A l'inverse vos sous vous sont restitue</li>
+                    <li class="list-group-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                      <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                    </svg>Vous ete le seul aprenant de a seance</li>
+                  </ul>
+                  <a href="/discipline" class="btn btn-dark btn-lg" style="background-color: rgb(0, 0, 0);border: none;color: white;border-radius: 30px;">Booker maintenant</a>
+            </div>
+        </div>
+    </section>
+  </div>
+    <footer>
+        <p><a href="/accueil#contact">Contactez-nous</a> pour plus d'informations.</p>
+    </footer>
+
+{% endblock %}

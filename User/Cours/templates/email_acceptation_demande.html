@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                /* Stylize the email with CSS */
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                    margin: 0;
+                    padding: 0;
+                }
+                
+                .container {
+                    max-width: 600px;
+                    margin: 20px auto;
+                    padding: 20px;
+                    background-color: #ffffff; /* Lernender blue */
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    color: white;
+                    text-align: center;
+                }
+                
+                h1 {
+                    color: #3498db; /* Lernender blue */
+                    font-size: 36px;
+                    margin-bottom: 10px;
+                }
+                
+                p {
+                    color: rgb(0, 0, 0);
+                    font-size: 18px;
+                    line-height: 1.6;
+                    text-align: center;
+                }
+                
+                .code {
+                    font-size: 42px;
+                    font-weight: bold;
+                }
+                
+                .thank-you { 
+                    margin-top: 30px;
+                    font-style: italic;
+                    font-size: 20px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1><span>EPSILEARN</span></h1>
+                <p>Bonjour {{etudiant.nom}} {{etudiant.prenom}},</p><br>
+                <p>Votre demande Numero {{demande.id_demande}} vient d'être acceptée</p>
+                <p>Connectez-vous pour plus de details</p>
+                <div class="thank-you">
+                    <p>Merci encore et à bientôt chez <span style="color: blue;">EPSILEARN</span> !</p>
+                </div>
+            </div>
+        </body>
+        </html>

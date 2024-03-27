@@ -1,0 +1,39 @@
+{% extends "index.html" %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réclamations non traitées</title>
+
+    <!-- Intégration de Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Centrage horizontal */
+        .center {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+{% block content %}
+<div class="container mt-5 center">
+    <h1 class="mb-4">Réclamations non traitées</h1>
+    {% for reclamation in reclamations %}
+        <div class="card mb-4" style="max-width: 800px;">
+            <div class="card-body">
+                <h5 class="card-title">{{ reclamation.util.nom}} {{ reclamation.util.prenom}}</h5>
+                <p class="card-text">{{ reclamation.contenu | safe | truncate(100) }}</p>
+                <h5 class="card-title">{{ reclamation.date.strftime('%Y-%m-%d %H:%M:%S') }}</h5>
+                <a href="{{ url_for('Admin.traiter_reclamation', reclamation_id=reclamation.id) }}" class="btn btn-primary">Traiter</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}
+    
+
+

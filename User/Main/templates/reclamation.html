@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Reclamation | Epsilearn{% endblock %}
+
+
+{% block content %}
+    <style>
+        body{
+      background-color: #f5f5f5;
+      color: black;
+    }
+
+
+        .style {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        .btn {
+            font-size: 16px;
+            padding: 10px 20px;
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container style mt-5">
+        <h1 class="text-center mb-4">Formulaire de réclamation</h1>
+        <p class="text-center">Veuillez choisir le mode d'envoi de la réclamation :</p>
+        <div class="d-flex justify-content-center">
+            <!-- Buttons to trigger the modals -->
+            <button class="btn  mr-3" data-toggle="modal" data-target="#chatbotModal" style="background-color: blue; color: white;">Reclamation avec Chatbot</button>
+            <button class="btn " data-toggle="modal" data-target="#directReclamationModal" style="background-color: blue; color: white;">Reclamation Directe</button>
+        </div>
+    </div>
+
+    
+    <!-- Modal for Reclamation with Chatbot -->
+    <div class="modal fade" id="chatbotModal" tabindex="-1" role="dialog" aria-labelledby="chatbotModalLabel" aria-hidden="true" style="margin-top: 100px;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="chatbotModalLabel">Réclamation avec Chatbot</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="background-color: transparent;border: none;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Add your chatbot here (e.g., iframe or chatbot widget) -->
+                    <p>Ici, vous pouvez écrire votre réclamation avec l'aide du chatbot.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Direct Reclamation -->
+    <div class="modal fade" id="directReclamationModal" tabindex="-1" role="dialog" aria-labelledby="directReclamationModalLabel" aria-hidden="true" style="margin-top: 100px;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="directReclamationModalLabel">Réclamation Directe</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="background-color: transparent;border: none;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Form to submit direct reclamation -->
+                    <form method="post">
+                        <div class="form-group">
+                            <label for="contenu">Contenu de la réclamation :</label>
+                            <textarea class="form-control" id="contenu" name="contenu" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Envoyer la réclamation</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Link to Bootstrap JS (jQuery and Popper.js included) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+ {% endblock %}

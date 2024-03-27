@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Historique des Retraits|Epsilearn</title>
+  <!-- Ajouter les liens vers les fichiers CSS de Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body{
+      background-color: #f5f5f5;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+    }
+
+    .card {
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+    }
+
+    .card-header {
+      background-color: #007bff;
+      color: white;
+      padding: 10px;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    .card-title {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="text-center my-4">Historique des Retraits</h1>
+    <div class="card">
+        {% for retrait in retraits %}
+      <div class="card-header">
+        <h3 class="card-title">Retrait du {{retrait.date}}</h3>
+      </div>
+      <div class="card-body">
+        <p><strong>Nom:</strong> {{retrait.nom}}</p>
+        <p><strong>Montant:</strong> {{retrait.montant_retrait}}</p>
+        <p><strong>Statut:</strong> {{retrait.statut}}</p>
+      </div>
+    {% endfor %}
+    </div>
+    <!-- Ajouter d'autres cartes pour plus d'historique -->
+  </div>
+
+  <!-- Ajouter le lien vers le fichier JavaScript de Bootstrap -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

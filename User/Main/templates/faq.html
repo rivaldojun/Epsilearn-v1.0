@@ -1,0 +1,754 @@
+{% extends "base.html" %}
+
+{% block title %}FAQ|Epsilearn{% endblock %}
+
+{% block content %}
+  <style>
+    #faq{
+   text-decoration: overline ;
+   color: rgb(0, 0, 0)
+ }
+    body,html{
+        background-color: #F5F5F5F5;
+    }
+    .tabs {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 0px;
+      width: 100%;
+    }
+
+    .tab {
+      text-align: center;
+      flex: 0.2;
+      padding: 10px;
+      background-color: transparent;
+      border: none;
+      border-radius: 28px 28px ;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    }
+
+    .tab.active {
+      background-color: rgb(0, 0, 0);
+      border:none;
+      color: rgb(255, 255, 255);
+    }
+
+    .cont-container {
+      text-align: center;
+      border-radius: 0 0 8px 8px;
+      padding: 20px;
+    }
+
+    .cont {
+      display: none;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .cont.active {
+      display: block;
+    }
+
+
+  /* Style pour le footer */
+  footer {
+  padding-top: 40px; /* Espacement en haut du footer */
+  color: #5c5555; /* Couleur du texte */
+  background-color: nONE; /* Couleur de fond bleu nuit */
+}
+
+/* Style pour la section des réseaux sociaux */
+.footer-social {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px; /* Espacement en bas pour séparer des autres sections */
+}
+
+.footer-social span {
+  font-size: 16px; /* Taille de police du texte des réseaux sociaux */
+}
+
+.footer-social a {
+  font-size: 20px; /* Taille de police des icônes des réseaux sociaux */
+  color: #5c5555; /* Couleur jaune doré pour les icônes des réseaux sociaux */
+  margin: 0 5px; /* Espacement horizontal entre les icônes des réseaux sociaux */
+}
+
+/* Style pour les liens du footer */
+.footer-links {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px; /* Espacement en bas pour séparer des autres sections */
+}
+
+.footer-links a {
+  font-size: 14px; /* Taille de police des liens du footer */
+  color: #5c5555; /* Couleur du texte des liens du footer */
+  margin: 0 15px; /* Espacement horizontal entre les liens du footer */
+}
+
+/* Style pour le titre des sections du footer */
+.footer-title {
+  font-size: 18px; /* Taille de police des titres des sections du footer */
+  font-weight: bold; /* Gras pour mettre en évidence */
+  color: #5c5555; /* Couleur jaune doré pour les titres des sections du footer */
+  margin-bottom: 15px; /* Espacement en bas pour séparer des autres éléments */
+}
+
+/* Style pour le texte du footer */
+.footer-text {
+  font-size: 14px; /* Taille de police du texte du footer */
+  line-height: 1.6; /* Hauteur de ligne pour un meilleur espacement du texte */
+  color: #5c5555; /* Couleur du texte du footer */
+}
+
+/* Style pour le lien du nom de l'entreprise */
+.footer-logo {
+  font-size: 18px; /* Taille de police du lien du nom de l'entreprise */
+  font-weight: bold; /* Gras pour mettre en évidence */
+  color: #ffffff; /* Couleur jaune doré pour le lien du nom de l'entreprise */
+}
+
+/* Style pour le copyright */
+.footer-copyright {
+  font-size: 14px; /* Taille de police du texte du copyright */
+  color: #5c5555; /* Couleur du texte du copyright */
+  background-color: rgba(0, 0, 0, 0.025); /* Couleur de fond pour le copyright */
+  padding: 10px 0; /* Espacement intérieur pour le copyright */
+  text-align: center; /* Centrer le texte du copyright */
+}
+
+    
+/* Style pour la section FAQ */
+.FAQ__list__container {
+  width: 100%;
+  padding: 40px 0; /* Espacement intérieur pour les éléments à l'intérieur de la section */
+
+}
+
+/* Style pour le titre de la FAQ */
+.FAQ__heading {
+  width: 100%;
+  font-size: 28px; /* Taille de police du titre */
+  text-align: center; /* Centrer le texte */
+  font-weight: bold; /* Gras pour mettre en évidence */
+  color: #CBD0D8; /* Couleur du texte */
+  margin-bottom: 20px; /* Espacement en bas pour séparer le titre des questions */
+}
+
+/* Style pour chaque question */
+.FAQ__accordian {
+  width: 100%;
+  margin-bottom: 20px; /* Espacement entre chaque question */
+}
+
+/* Style pour le bouton de la question */
+.FAQ__title {
+  font-family: 'Kanit';
+  width: 100%;
+  display: flex;
+  min-height: 90px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  font-size: 20px; /* Taille de police du bouton */
+  background-color: rgb(0, 0, 0); /* Couleur de fond pour le bouton */
+  border: 1px solid #000000; /* Bordure autour du bouton */
+  color: #ffffff; /* Couleur du texte du bouton */
+  cursor: pointer; /* Curseur pointer pour indiquer que c'est cliquable */
+}
+
+/* Style pour l'icône (plus/moins) du bouton */
+.FAQ__title i {
+  font-size: 20px; /* Taille de l'icône */
+}
+
+/* Style pour la section visible (réponse à la question) */
+.FAQ__visible {
+  background-color: #1a1919; /* Couleur de fond pour la réponse */
+  padding: 0px 20px; /* Espacement intérieur pour le contenu de la réponse */
+  max-height: 0; /* Réponse initialement cachée */
+  overflow: hidden; /* Cacher le contenu débordant de la zone de réponse */
+  transition: max-height 0.5s ease-in-out; /* Animation pour afficher/cacher la réponse */
+}
+
+/* Style pour le texte de la réponse */
+.FAQ__visible > p {
+  margin: 1rem 0; /* Marge autour du texte de la réponse */
+  color: #ffffff; /* Couleur du texte de la réponse */
+}
+
+/* Media query pour les écrans de taille moyenne (tablettes, ordinateurs portables) */
+@media (min-width: 768px) {
+  .FAQ__list {
+    padding: 1rem 5rem; /* Espacement intérieur plus grand sur les écrans plus grands */
+  }
+}
+
+/* Media query pour les écrans plus grands (ordinateurs de bureau, grands écrans) */
+@media (min-width: 1024px) {
+  .FAQ__list {
+    padding: 1rem 15rem; /* Espacement intérieur encore plus grand sur les écrans plus grands */
+  }
+}
+
+  </style>
+
+  <div class="container mt-5  animate-element" data-animation="fadeInUp" style="animation-duration: 1.4s;">
+    <h1 class="text-center" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">FAQ</h1>
+    <div style="height: 50px;"></div>
+    <div style="background-color: transparent;padding: 6px;border-radius: 28px;">
+    <div class="card shadow" style="border-radius: 26px;scale: 0.8;">
+      <div class="tab active" data-content="contenu1">Cours</div>
+      <div class="tab" data-content="contenu2">Centre de langue</div>
+      <div class="tab" data-content="contenu3">Work Room</div>
+      <div class="tab" data-content="contenu4">Stud Hub</div>
+      <div class="tab" data-content="contenu5">Live stream chat room</div>
+      <div class="tab" data-content="contenu6">Evenements</div>
+    </div>
+  </div>
+    <div class="cont-container">
+      <div class="cont active" id="contenu1">
+        <section class="FAQ__list__container">
+            <h1 class="FAQ__heading" style="color: rgb(0, 0, 0);font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Cours</h1>
+            <div class="FAQ__list">
+              <div class="FAQ__accordian">
+                <button class="FAQ__title" >
+                  Qu'est-ce que votre service de réservation de cours de soutien en ligne ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Notre service de réservation de cours de soutien personnalisé en ligne permet aux étudiants de demander des cours de soutien sur des sujets spécifiques, à des dates et heures précises. Les enseignants peuvent consulter ces demandes, les accepter, puis les séances sont programmées pour être effectuées à distance via une visioconférence.
+                  </p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Comment fonctionne la réservation de cours sur Epsilearn ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Pour réserver un cours sur Epsilearn, les étudiants peuvent choisir une matière spécifique, sélectionner le chapitre sur lequel ils ont besoin d'aide, puis choisir un tuteur parmi ceux disponibles. Une fois réservé, ils auront une séance en ligne en face à face avec leur tuteur pour étudier le sujet en profondeur.
+                  </p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Quels sujets sont disponibles pour les cours de soutien en ligne ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Nous proposons des cours de soutien en ligne dans une grande variété de matières, notamment les mathématiques, les sciences, la langue, la programmation, etc. Les sujets disponibles dépendent des enseignants inscrits sur notre plateforme.
+                  </p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Puis-je choisir un enseignant spécifique pour mes cours de soutien en ligne ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Oui, vous avez la possibilité de choisir un enseignant en fonction de ses qualifications et de son domaine d'expertise. Vous pouvez parcourir les profils des enseignants et sélectionner celui qui vous convient le mieux.
+                  </p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Comment puis-je m'inscrire pour utiliser ce service ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Pour vous inscrire, rendez-vous sur notre site web, créez un compte, puis suivez les étapes pour remplir votre profil. Une fois inscrit, vous pourrez commencer à soumettre des demandes de cours.
+                  </p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Y a-t-il des frais pour l'utilisation de ce service de réservation de cours en ligne ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Oui, nos cours de soutien en ligne sont facturés en fonction du temps de séance et de l'enseignant sélectionné. Vous trouverez des détails sur les tarifs sur notre site web.
+                  </p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Puis-je annuler ou reporter un cours que j'ai réservé ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Vous pouvez annuler ou reporter un cours réservé en respectant notre politique d'annulation. Les détails sur la politique d'annulation sont disponibles sur notre site.
+                  </p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Comment puis-je devenir enseignant sur votre plateforme et proposer des cours de soutien en ligne ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Si vous êtes intéressé à devenir enseignant sur notre plateforme, créez un compte en tant qu'enseignant, remplissez votre profil avec vos qualifications et suivez les étapes pour proposer des cours. Une fois approuvé, vous pourrez accepter des demandes de cours.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+    </div>
+      <div class="cont" id="contenu2">
+        <section class="FAQ__list__container">
+            <h1 class="FAQ__heading" style="color: rgb(0, 0, 0);font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Centre de langue</h1>
+            <div class="FAQ__list">
+              <div class="FAQ__accordian">
+                <button class="FAQ__title" >
+                  Qu'est-ce que le service "centre de langue" que vous proposez ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Ce service est un programme d'abonnement qui permet aux utilisateurs de participer à des discussions interactives dans la langue de leur choix. Ces sessions de débats offrent une opportunité unique d'améliorer la maîtrise d'une langue en pratiquant la communication réelle avec d'autres participants.
+                  </p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Comment fonctionnent les sessions de débats linguistiques ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Une fois abonné, vous aurez accès à notre calendrier de sessions de débats. Vous pouvez choisir la langue et la session qui vous intéressent, puis vous rejoignez la discussion à l'heure programmée.
+                  </p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Pourquoi devrais-je m'abonner à vos sessions de débats linguistiques ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Nos sessions de débats offrent une occasion unique d'améliorer vos compétences linguistiques en pratiquant la langue de manière interactive avec des locuteurs natifs et d'autres apprenants. C'est un moyen efficace et amusant d'acquérir une maîtrise linguistique.
+                  </p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Comment puis-je m'abonner et combien coûte l'abonnement ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Pour vous abonner, rendez-vous sur notre site web, sélectionnez le plan qui vous convient, puis suivez les instructions pour l'achat. Les prix varient en fonction de la durée de l'abonnement, veuillez consulter notre page Tarifs pour plus de détails.
+                  </p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Quel est le niveau de compétence linguistique requis pour participer aux sessions de débats ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Nos sessions de débats sont adaptées à différents niveaux, des débutants aux locuteurs avancés. Vous pouvez choisir des sessions qui correspondent à votre niveau de compétence.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+      </div>
+      <div class="cont" id="contenu3">
+        <section class="FAQ__list__container">
+            <h1 class="FAQ__heading" style="color: rgb(0, 0, 0);font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Work Room</h1>
+            <div class="FAQ__list">
+              <div class="FAQ__accordian">
+                <button class="FAQ__title" >
+                  Qu'est-ce que le service Workroom basé sur la technique Pomodoro ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Notre service Workroom est conçu pour aider les utilisateurs à rester concentrés et productifs lors de leurs tâches en utilisant la technique Pomodoro. Pendant les sessions de travail, les utilisateurs peuvent saisir les tâches qu'ils souhaitent accomplir, suivre des sessions de travail de 25 minutes, suivies de courtes pauses de 5 minutes pendant lesquelles ils peuvent choisir de regarder des vidéos de relaxation.
+                  </p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Quels types de tâches puis-je gérer avec Workroom ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Vous pouvez gérer une variété de tâches avec Workroom, qu'il s'agisse de travail professionnel, d'études, de projets personnels ou de tâches quotidiennes. Les utilisateurs sont libres de définir leurs propres objectifs.
+                  </p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Dois-je suivre les vidéos de relaxation pendant les pauses de 5 minutes ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Non, les vidéos de relaxation sont facultatives. Pendant les pauses de 5 minutes, vous avez la liberté de choisir si vous souhaitez regarder ces vidéos pour vous détendre ou si vous préférez faire autre chose pour vous relaxer.
+                  </p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Comment puis-je commencer une session de travail avec Workroom ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Pour commencer une session de travail, il vous suffit de saisir la tâche que vous souhaitez accomplir, puis de démarrer la minuterie Pomodoro. Workroom vous guidera à travers les cycles de travail et de pause.
+                  </p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Puis-je utiliser Workroom sur différentes plateformes, comme mon ordinateur, ma tablette et mon smartphone ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Oui, Workroom est conçu pour être compatible avec divers appareils, ce qui vous permet de l'utiliser sur votre ordinateur, votre tablette et votre smartphone, et de synchroniser vos tâches et vos sessions.
+                  </p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Quels sont les avantages de l'utilisation de la technique Pomodoro avec Workroom pour améliorer la productivité ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Les avantages incluent une meilleure concentration, la gestion efficace du temps, la réduction de la procrastination et la réalisation de tâches plus rapidement. La technique Pomodoro peut aider à maintenir un équilibre entre travail et repos.
+                  </p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Comment puis-je contacter le support client de Epsilearn en cas de problème ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Si vous rencontrez un problème ou avez des questions concernant Epsilearn, vous pouvez nous contacter via la section "Support" de notre site. Nous sommes là pour vous aider et nous nous efforçons de répondre à toutes les demandes dans les plus brefs délais.
+                  </p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Puis-je utiliser Epsilearn sur mon téléphone portable ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Oui, absolument ! Epsilearn est compatible avec les smartphones, les tablettes, les ordinateurs portables et les Smart TV. Vous pouvez télécharger notre application sur iOS, Android ou Windows 10 pour accéder à nos services où que vous soyez et à tout moment.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+      </div>
+      <div class="cont" id="contenu4">
+        <section class="FAQ__list__container">
+            <h1 class="FAQ__heading" style="color: rgb(0, 0, 0);font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Stud Hub</h1>
+            <div class="FAQ__list">
+              <div class="FAQ__accordian">
+                <button class="FAQ__title" >
+                  Comment puis-je publier du contenu sur StudyHub ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Pour publier du contenu, connectez-vous à votre compte Epsilearn. Ensuite, allez dans  "StudyHub", rédigez votre publication ou votre question, ajoutez des photos , puis appuyez sur "Publier". Votre publication sera instantanément visible pour la communauté.</p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Comment puis-je interagir avec les publications d'autres membres sur StudyHub ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Vous pouvez aimer, commenter et partager les publications d'autres membres en utilisant les icônes correspondantes sous chaque publication. Cela encourage l'interaction et la discussion.</p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Puis-je  supprimer mes publications après les avoir publiées sur StudyHub ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Oui, vous pouvez  supprimer vos propres publications à tout moment. Cliquez simplement sur l'icone poubelle juste au dessus de la publication</p>
+                </div>
+              </div>
+              </div>
+            </div>
+          </section>
+      </div>
+      <div class="cont" id="contenu5">
+        <section class="FAQ__list__container">
+            <h1 class="FAQ__heading" style="color: rgb(0, 0, 0);font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Live stream chat room</h1>
+            <div class="FAQ__list">
+              <div class="FAQ__accordian">
+                <button class="FAQ__title" >
+                  Comment puis-je rejoindre une salle de discussion existante ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Accédez à la section "Liste des rooms", explorez les différentes salles disponibles, puis cliquez sur celle qui vous intéresse. Vous pouvez rejoindre la discussion de manière anonyme.</p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Comment puis-je créer ma propre salle de discussion ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Créer une salle est facile. Cliquez sur "Créer une salle", donnez-lui un nom,. Une fois créée, invitez d'autres utilisateurs à la rejoindre.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+      </div>
+      <div class="cont" id="contenu6">
+        <section class="FAQ__list__container">
+            <h1 class="FAQ__heading" style="color: rgb(0, 0, 0);font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Evenements</h1>
+            <div class="FAQ__list">
+              <div class="FAQ__accordian">
+                <button class="FAQ__title" >
+                  Comment puis-je créer un événement sur la plateforme ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Pour créer un événement, accédez à la section "Événements" et cliquez sur "Créer un événement". Remplissez les détails de l'événement, y compris la date, l'heure, le lieu et une brève description. </p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Comment puis-je participer à un événement existant ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Parcourez la liste des événements à venir, sélectionnez celui qui vous intéresse, puis cliquez sur "Reserver". Vous serez ajouté à la liste des participants.
+                  </p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Puis-je créer des événements privés pour un groupe restreint d'amis ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Oui, vous pouvez créer des événements privés et inviter uniquement les personnes que vous souhaitez. Choisissez l'option privé  lors de la création de l'événement et indiquer le mail des participants.
+                  </p>
+                </div>
+              </div>
+        
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Quels types d'événements puis-je trouver sur Epsilearn ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Epsilearn propose une variété d'événements, tels que des conférences, des séances d'essais de soutenance, des fêtes, des activités sportives, des rencontres culturelles et bien d'autres. Les utilisateurs peuvent également créer leurs propres événements et inviter d'autres membres à y participer.
+                  </p>
+                </div>
+              </div>
+              <div class="FAQ__accordian">
+                <button class="FAQ__title">
+                  Puis-je annuler un événement auquel je me suis inscrit ?
+                  <i class="fal fa-plus"></i>
+                </button>
+                <div class="FAQ__visible">
+                  <p>
+                    Oui, vous pouvez annuler votre participation à un événement en vous rendant sur la page de l'événement et en cliquant sur le bouton d'annulation. Nous vous encourageons à le faire dès que possible pour permettre aux autres membres de s'inscrire à la place disponible.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+      </div>
+    </div>
+    <footer class="text-center text-lg-start  text-muted container-fluid" style="background-color: rgb(22, 22, 22);color: white;">
+
+      <section class="footer-links">
+        <div class="container text-center text-md-start mt-5">
+          <!-- Grid row -->
+          <div class="row mt-3">
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+              <!-- Content -->
+              <h6 class="text-uppercase fw-bold mb-4 footer-title" style="color: rgb(255, 255, 255);font-family: 'Kanit';">
+                Un produit de WELPCOM
+              </h6>
+              <p class="footer-text">
+                <img src="static/image/2.png" alt="WELP Logo" style="width: 100px; height: 100px; margin-right: 10px;border-radius: 10px;">
+                <img src="static/image/1.png" alt="WELP Logo" style="width: 100px; height: 100px; margin-right: 10px;border-radius: 10px;">
+              </p>
+            </div>
+            <!-- Grid column -->
+    
+            <!-- Grid column -->
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold mb-4 footer-title" style="color: rgb(255, 255, 255);">
+                etudiant
+              </h6>
+              <p style="color: rgb(255, 255, 255);">
+                <a href="/discipline" class="text-reset footer-link" style="text-decoration: none;">Booker un Cours</a>
+              </p>
+              <p style="color: rgb(255, 255, 255);">
+                <a href="/offreprof" class="text-reset footer-link" style="text-decoration: none;">S'abonner a un cours</a>
+              </p>
+              <p style="color: rgb(255, 255, 255);">
+                <a href="/langue" class="text-reset footer-link" style="text-decoration: none;">Centre de langue</a>
+              </p>
+    
+              <!-- <p>
+                <a href="#!" class="text-reset footer-link">React</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset footer-link">Vue</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset footer-link">Laravel</a>
+              </p> -->
+            </div>
+    
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold mb-4 footer-title" style="color: rgb(255, 255, 255);">
+                Prof
+              </h6>
+              <p style="color: rgb(255, 255, 255);">
+                <a href="/offreprof" class="text-reset footer-link" style="text-decoration: none;">Offrir un service</a>
+              </p>
+              <p style="color: rgb(255, 255, 255);">
+                <a href="/offre" class="text-reset footer-link" style="text-decoration: none;">Voir mes offres</a>
+              </p>
+              <p style="color: rgb(255, 255, 255);">
+                <a href="/langue" class="text-reset footer-link" style="text-decoration: none;">Centre de langue</a>
+              </p>
+              <!-- <p>
+                <a href="#!" class="text-reset footer-link">React</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset footer-link">Vue</a>
+              </p>
+              <p>
+                <a href="#!" class="text-reset footer-link">Laravel</a>
+              </p> -->
+            </div>
+            <!-- Grid column -->
+    
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold mb-4 footer-title" style="color: rgb(255, 255, 255);">
+                Liens
+              </h6>
+              <p style="color: rgb(255, 255, 255);">
+                <a href="/pricing" class="text-reset footer-link" style="color: rgb(0, 0, 0);text-decoration: none;">Pricing</a>
+              </p>
+              <p style="color: rgb(255, 255, 255);">
+                <a href="/faq" class="text-reset footer-link" style="color: rgb(0, 0, 0);text-decoration: none;">FAQ</a>
+              </p>
+              <p style="color: rgb(255, 255, 255);">
+                <a href="/" class="text-reset footer-link" style="color: rgb(0, 0, 0);text-decoration: none;">Conditions generales</a>
+              </p>
+            </div>
+            <!-- Grid column -->
+    
+            <!-- Grid column -->
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4" style="color: white;">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold mb-4 footer-title" style="color: rgb(255, 255, 255);">Contact</h6>
+              <p class=""><i class="fas fa-home me-3 "></i> Maroc ,  MA</p>
+              <p class="">
+                <i class="fas fa-envelope me-3 "></i>
+                pergoladiy@gmail.com
+              </p>
+              <p class=""><i class="fas fa-phone me-3 "></i>+212633704064</p>
+            </div>
+            <!-- Grid column -->
+          </div>
+          <!-- Grid row -->
+        </div>
+      </section>
+      <!-- Section: Links  -->
+    
+      <!-- Copyright -->
+      <div class="text-center p-4 footer-copyright">
+        
+          <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom footer-social" id="contact">
+            <!-- Left -->
+            <div class="me-5 d-none d-lg-block">
+              <span style="color: rgb(255, 255, 255);">Rejoignez nous sur nos reseaux sociaux:</span>
+            </div>
+            <!-- Left -->
+        
+            <!-- Right -->
+            <div>
+              <!-- Social media links -->
+              <a href="#" class="me-4 link-secondary" >
+                <i class="fab fa-facebook-f" style="color: blue;"></i>
+              </a>
+              <a href="#" class="me-4 link-secondary">
+                <i class="fab fa-twitter" style="color: rgb(89, 89, 255);"></i>
+              </a>
+              <a href="#" class="me-4 link-secondary">
+                <i class="fab fa-instagram" style="color: rgb(226, 147, 29);"></i>
+              </a>
+              <a href="#" class="me-4 link-secondary">
+                <i class="fab fa-linkedin" style="color: blue;"></i>
+              </a>
+            </div>
+            <!-- Right -->
+          </section>
+          <p class="">Paiements sécurisés par PayPal.</p>
+          <div class="col">
+            <img src="/static/image/carte.png" alt="" style="scale: 2;padding: 10px;">
+            <img src="/static/image/visa.png" style="scale: 2;padding: 10px;" alt="">
+          </div>
+        © 2023 Epsilearn. Tous droits réservés.
+      </div>
+      <!-- Copyright -->
+    </footer>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $(".tab").click(function () {
+        $(".tab").removeClass("active");
+        $(this).addClass("active");
+
+        $(".cont").removeClass("active");
+        $("#" + $(this).data("content")).addClass("active");
+      });
+    });
+  </script>
+{% endblock %}

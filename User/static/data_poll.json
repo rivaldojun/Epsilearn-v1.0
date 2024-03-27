@@ -1,0 +1,28 @@
+{
+    "surveys": [
+        {
+            "id": 1,
+            "question": "vous voulez quoi",
+            "user_id": 2,
+            "date": "02:31 PM | Oct 24",
+            "options": {
+                "1": 1,
+                "2": 0
+            },
+            "username": "BIB Rivaldo",
+            "profil": "static/Profil/unknown.jpg",
+            "role": "\u00e9tudiant",
+            "voteuser": {
+                "personne": {
+                    "checked": false,
+                    "option": null
+                },
+                "BIB Rivaldo": {
+                    "checked": true,
+                    "option": "1"
+                }
+            },
+            "total": 1
+        }
+    ]
+}

@@ -1,0 +1,171 @@
+{% extends "index.html" %}
+
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recherche d'Utilisateurs | Lernender</title>
+  <!-- Inclure les fichiers Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+  {% block content %}
+  <style>
+    body {
+      background-color: #ffffff;
+    }
+    .container {
+      margin-top: 50px;
+    }
+    .user-card {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 10px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(25, 25, 25, 0.1);
+    }
+    .user-card:hover{
+        cursor: pointer;
+        scale: 1.05;
+        background-color:#f9b872; ;
+        transition: 0.7s;
+    }
+
+  .choose-button {
+    background-color: #000000;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+   /* Style pour le bouton "Passer" */
+   .pass-button {
+    background-color: #000000;
+    color: #fff;
+    border: none;
+    padding: 5px 50px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 60px;
+    float: right;
+  }
+  .user-photo {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.user-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+  </style>
+  <div class="container">
+    <h3 class="mb-4" style="color: rgb(0, 13, 251);">Liste des prof </h3>
+    <div class="input-group mb-3">
+        <div class="dropdown" >
+            <ul class="dropdown-menu" id="suggestions" style="display: none;"></ul>
+          </div>
+      <input type="text" class="form-control" id="searchUserInput" placeholder="Rechercher par nom">
+      <div class="input-group-append">
+        <button class="btn btn-primary" type="button" id="searchButton">
+            <i class="fa fa-search"></i> <!-- Font Awesome search icon -->
+          </button>
+
+      </div>
+      <!-- Suggestions sous forme de dropdown -->
+      
+    </div>
+    <div class="row" id="userCards">
+      <!-- Blocs des informations d'utilisateur seront insérés ici dynamiquement -->
+    </div>
+  </div>
+
+  
+  
+
+{% block script %}
+<!-- Inclure les fichiers Bootstrap JavaScript -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  function pass() {
+    window.location.href = "/creationdemande/0";
+  }
+
+  $(document).ready(function() {
+  let users = []; // Declare users variable to store user data
+
+  // Fetch user data from the server
+  function loadUsers() {
+    fetch('/get_professeurs')
+      .then(response => response.json())
+      .then(data => {
+        users = data; // Store the fetched user data
+        displayUsers(users);
+      })
+      .catch(error => {
+        console.error('Error fetching user data:', error);
+      });
+  }
+
+  function displayUsers(userList) {
+    const userCards = document.getElementById("userCards");
+    userCards.innerHTML = ""; // Clear existing user cards
+
+    userList.forEach(user => {
+      const card = document.createElement("div");
+      card.className = "col-md-4 user-card";
+      card.innerHTML = `
+        <h5>${user.nom} ${user.prenom}</h5>
+        <p>Nationality: ${user.mail}</p>
+        <p>Nationality: ${user.nationalite}</p>
+        <p>Discipline: ${user.discipline}</p>
+        <p>Formation: ${user.formation}</p>
+        <p>Niveau: ${user.niveau}</p>
+        <p>Note: ${user.note}</p>
+        <button class="choose-button" onclick="window.location.href='/effacer/${user.id}'">Effacer Prof</button>
+      `;
+      userCards.appendChild(card);
+    });
+  }
+
+  function filterUsers(searchText) {
+    const filteredUsers = users.filter(user => {
+      const fullName = `${user.nom} ${user.prenom}`.toLowerCase();
+      return fullName.includes(searchText.toLowerCase());
+    });
+    displayUsers(filteredUsers);
+  }
+
+  // Search user input event listener
+  $('#searchUserInput').keyup(function() {
+    const searchText = $(this).val().trim();
+    if (searchText === '') {
+      displayUsers(users);
+    } else {
+      filterUsers(searchText);
+    }
+  });
+
+  // Call this function to load users initially
+  loadUsers();
+
+  // ... (rest of the code for chat functionality, same as before) ...
+});
+  function chooseProf(userId) {
+  
+  const user = users.find(user => user.id === userId);
+  if (user) {
+    window.location.href = `/creationdemande/${userId}`;
+  }
+}
+// })
+</script>
+{% endblock %}
+{% endblock %}
