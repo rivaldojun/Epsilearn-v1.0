@@ -9,7 +9,13 @@ pipeline {
 
     stage('Test') {
       steps {
-        sh 'py.test --junit-xml test-reports/results.xml'
+        sh '''python3 -m pytest -v --tb=no
+
+
+python3 -m pytest --junitxml=results.xml
+python3 -m pytest --cov=src
+python3 -m pytest --cov=src --cov-report=html
+ls -la'''
       }
     }
 
