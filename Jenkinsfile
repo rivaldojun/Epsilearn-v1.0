@@ -24,7 +24,7 @@ pipeline {
 
         stage('pytest') {
           steps {
-            sh 'pip list'
+            sh 'pytest'
           }
         }
 
