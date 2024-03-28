@@ -9,7 +9,6 @@ import uuid
 from sqlalchemy import or_
 from sqlalchemy import func
 import random
-from googletrans import Translator
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from collections import Counter
