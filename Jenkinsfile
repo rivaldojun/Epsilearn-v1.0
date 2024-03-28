@@ -7,9 +7,20 @@ pipeline {
       }
     }
 
-    stage('') {
-      steps {
-        sh 'ls -la'
+    stage('error') {
+      parallel {
+        stage('error') {
+          steps {
+            sh 'ls -la'
+          }
+        }
+
+        stage('Running test') {
+          steps {
+            sh 'pip install -r requirementss.txt'
+          }
+        }
+
       }
     }
 
