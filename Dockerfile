@@ -1,5 +1,5 @@
 # Utilisez une image de base Python
-FROM python:3.7
+FROM python:3.10
 
 # Créez un répertoire de travail dans le conteneur
 WORKDIR /Epsilearn-v1.0
