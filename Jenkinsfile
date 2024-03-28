@@ -24,7 +24,7 @@ pipeline {
 
         stage('pytest') {
           steps {
-            sh 'pytest'
+            pysh(script: '\'echo "Job is starting" \'', returnStatus: true, returnStdout: true)
           }
         }
 
