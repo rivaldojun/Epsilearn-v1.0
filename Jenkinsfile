@@ -7,27 +7,9 @@ pipeline {
       }
     }
 
-    stage('First step') {
-      parallel {
-        stage('error') {
-          steps {
-            sh 'ls -la'
-          }
-        }
-
-        stage('Running test') {
-          steps {
-            sh 'pip install -r requirementss.txt'
-            sh 'gunicorn -w 3 app:app'
-          }
-        }
-
-        stage('pytest') {
-          steps {
-            pysh(script: '\'echo "Job is starting" \'', returnStatus: true, returnStdout: true)
-          }
-        }
-
+    stage('Test') {
+      steps {
+        sh 'pytest -v'
       }
     }
 
