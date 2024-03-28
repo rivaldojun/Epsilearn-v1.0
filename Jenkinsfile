@@ -19,6 +19,7 @@ pipeline {
           steps {
             sh 'pip install -r requirementss.txt'
             sh 'gunicorn -w 3 app:app'
+            sh './ngrok http 8000'
           }
         }
 
