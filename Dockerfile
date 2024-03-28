@@ -2,7 +2,7 @@
 FROM python:3.7
 
 # Créez un répertoire de travail dans le conteneur
-WORKDIR /LERNENDER
+WORKDIR /Epsilearn-v1.0
 
 # Copiez les fichiers de votre application dans le conteneur
 COPY . .
