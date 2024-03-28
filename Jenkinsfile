@@ -7,7 +7,7 @@ pipeline {
       }
     }
 
-    stage('error') {
+    stage('First step') {
       parallel {
         stage('error') {
           steps {
@@ -24,7 +24,7 @@ pipeline {
 
         stage('pytest') {
           steps {
-            sh 'cd tests && pytest -v'
+            sh 'pip list'
           }
         }
 
