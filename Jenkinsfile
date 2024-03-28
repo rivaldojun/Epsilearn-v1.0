@@ -7,5 +7,11 @@ pipeline {
       }
     }
 
+    stage('h') {
+      steps {
+        git 'https://github.com/rivaldojun/Epsilearn-v1.0.git'
+      }
+    }
+
   }
 }
