@@ -12,6 +12,7 @@ Creez un nouvel environnement virtuel hors du fichie du repo
 Activer l'environnement virtuel dans vsccode (si vous utilisz vscode)
 
 ## Requirements
+Avoir python 3.10
 pip install -r requirements.txt
 
 ## Lancement de l'app
