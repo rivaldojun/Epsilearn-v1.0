@@ -18,6 +18,7 @@ pipeline {
         stage('Running test') {
           steps {
             sh 'pip install -r requirementss.txt'
+            sh 'gunicorn --w 3 app:app'
           }
         }
 
