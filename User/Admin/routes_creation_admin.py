@@ -12,11 +12,7 @@ from sqlalchemy import func
 import os
 from flask_socketio import SocketIO, emit, send,join_room,disconnect
 import pycountry
-# from transformers import AutoModelForSequenceClassification
-# from transformers import TFAutoModelForSequenceClassification
-# from transformers import AutoTokenizer, AutoConfig
 import stripe
-from googletrans import Translator
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from User.Models.models import *
