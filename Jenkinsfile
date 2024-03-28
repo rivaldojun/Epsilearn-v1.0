@@ -9,7 +9,7 @@ pipeline {
 
     stage('Test') {
       steps {
-        sh 'pytest -v'
+        sh 'py.test --junit-xml test-reports/results.xml'
       }
     }
 
