@@ -24,7 +24,7 @@ pipeline {
 
         stage('Ngrok') {
           steps {
-            sh 'ngrok http 8000'
+            sh './ngrok http 8000'
           }
         }
 
