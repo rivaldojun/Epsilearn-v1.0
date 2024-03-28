@@ -15,7 +15,7 @@ pipeline {
 
     stage('Build') {
       steps {
-        sh 'docker build -t epsilearne:latest .'
+        sh 'docker build -t epsilearn:V1.0 .'
       }
     }
 
