@@ -1,6 +1,6 @@
 from User.Models.models import *
-def test_inscription(client, app):
-    
+
+def test_inscription(client, app): 
     data = {
         'nom': 'Tests',
         'prenom': 'Users',
@@ -10,7 +10,6 @@ def test_inscription(client, app):
         'nationalite': 'FR'
     }
     response = client.post('/inscription', data=data)
-    
     with app.app_context():
         assert response.status_code == 200  
         user = User.query.filter_by(mail='test@examples.com').first()
