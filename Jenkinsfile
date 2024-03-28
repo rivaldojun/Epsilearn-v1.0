@@ -22,9 +22,9 @@ pipeline {
           }
         }
 
-        stage('Ngrok') {
+        stage('pytest') {
           steps {
-            sh './ngrok http 8000'
+            sh 'pytest'
           }
         }
 
