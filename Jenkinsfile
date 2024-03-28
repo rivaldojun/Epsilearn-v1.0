@@ -24,7 +24,7 @@ pipeline {
 
         stage('pytest') {
           steps {
-            sh 'pytest'
+            sh 'cd tests && pytest -v'
           }
         }
 
