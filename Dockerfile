@@ -8,7 +8,7 @@ WORKDIR /Epsilearn-v1.0
 COPY . .
 
 # Installez les dépendances de l'application
-RUN pip install -r requirements.txt
+RUN pip install -r requirementss.txt
 
 # Exposez le port sur lequel l'application Flask écoute (par défaut : 5000)
 EXPOSE 5000
