@@ -28,4 +28,4 @@ def update_session_time():
         processed_requests[user.id] = True
 
 if __name__=="__main__":  
-    socketio.run(app,port=int(os.getenv("PORT")),debug=os.getenv("DEBUG"))
+    socketio.run(app,host="0.0.0.0",port=int(os.getenv("PORT")),debug=os.getenv("DEBUG"))
