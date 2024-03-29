@@ -19,7 +19,7 @@ pipeline {
       }
     }
 
-    stage('') {
+    stage('Deploy-1 ') {
       steps {
         sh 'docker run -p 4000:4000 epsilearn:latest'
       }
