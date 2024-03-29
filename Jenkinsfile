@@ -15,7 +15,13 @@ pipeline {
 
     stage('Build') {
       steps {
-        sh 'docker build -t epsilearn .'
+        sh 'docker build -t epsilearn:latest .'
+      }
+    }
+
+    stage('') {
+      steps {
+        sh 'docker run -p 4000:4000 epsilearn:latest'
       }
     }
 
