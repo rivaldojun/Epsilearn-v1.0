@@ -1,6 +1,8 @@
-# Mon Projet
+# Nom du projet
 Projet EPSILEARN 
 
+# Version
+V 1.0
 ## Clonage du Projet
 ```bash
 cd repertoire/de/clonage
