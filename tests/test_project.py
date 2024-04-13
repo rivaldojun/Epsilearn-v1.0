@@ -1,4 +1,4 @@
-from User.Models.models import *
+from App.Models.models import *
 
 def test_inscription(client, app): 
     data = {

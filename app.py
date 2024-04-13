@@ -1,6 +1,6 @@
-from User import create_app,socketio,redis_store
+from App import create_app,socketio,redis_store
 import os
-from User.Controllers.fonction import *
+from App.Controllers.fonction import *
 from threading import Thread
 from flask import request
 from flask_redis import FlaskRedis

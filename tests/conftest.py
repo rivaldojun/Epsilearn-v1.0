@@ -1,4 +1,4 @@
-from User import create_app,db
+from App import create_app,db
 import pytest
 
 
