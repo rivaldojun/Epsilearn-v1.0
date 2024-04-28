@@ -13,5 +13,17 @@ pipeline {
       }
     }
 
+    stage('Build') {
+      steps {
+        sh 'docker build -t epsilearn:latest .'
+      }
+    }
+
+    stage('Deploy-1 ') {
+      steps {
+        sh 'docker run -p 6000:7000 epsilearn:latest'
+      }
+    }
+
   }
 }
