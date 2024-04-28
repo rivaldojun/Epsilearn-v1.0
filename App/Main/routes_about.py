@@ -32,7 +32,10 @@ def envoyermail():
         subject = "Message d'un utilisateur"
         body = f'De {nom} mail : {email}.:\n\n{message}'
         sender_email = os.getenv('OUR_MAIL')
-        send_email(sender_email, email, subject, body)
+        try:
+            send_email(sender_email, email, subject, body)
+        except Exception as e:
+            return render_template('error.html')
         return redirect(url_for('confirmation', email=email))
 
 #END ABOUT PART

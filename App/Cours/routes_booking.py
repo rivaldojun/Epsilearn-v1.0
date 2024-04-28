@@ -37,15 +37,18 @@ def epreuve():
     if request.method=="POST":
         file = request.files['file']
         if file:
-            current_date = datetime.now()
-            date_string = current_date.strftime("%Y%m%d%H%M%S")
-            file_extension = file.filename.split('.')[-1]
-            filename = f"{secure_filename(file.filename.replace('.', '_'))}_{date_string}.{file_extension}"
-            path1=os.getenv("Path1")
-            path2="epreuve"
-            file.save(os.path.join(path1,path2, filename))  # Replace with your desired directory path
-            fichier=os.path.join("static",path2, filename)
-            session['fichier']=fichier
+            try:
+                current_date = datetime.now()
+                date_string = current_date.strftime("%Y%m%d%H%M%S")
+                file_extension = file.filename.split('.')[-1]
+                filename = f"{secure_filename(file.filename.replace('.', '_'))}_{date_string}.{file_extension}"
+                path1=os.getenv("Path1")
+                path2="epreuve"
+                file.save(os.path.join(path1,path2, filename))  # Replace with your desired directory path
+                fichier=os.path.join("static",path2, filename)
+                session['fichier']=fichier
+            except Exception as e:
+                render_template('error.html')
             return redirect(url_for("Cours.date"))
     return render_template('epreuve.html')
 
@@ -89,11 +92,9 @@ def get_professeur():
             }
             if prof_dict['valider']=="oui":
                 professeurs_list.append(prof_dict)
-        # Return the data as a JSON response
         return jsonify(professeurs_list)
     except Exception as e:
-        # Handle the exception and return an error response
-        return jsonify({'error': str(e)}), 500
+        return render_template('error.html')
 
 @CoursBp.route('/heure',methods=["POST","GET"])
 @student_login_required_AI
@@ -115,27 +116,34 @@ def creationdemande(idprof):
         nps=userprof.nom +" "+ userprof.prenom
         body = render_template("Mail_demande.html",user=user)
         sender_email = os.getenv("OUR_MAIL")
-        send_email(sender_email, userprof.mail,"Reception de demande", body)
+        try:
+            send_email(sender_email, userprof.mail,"Reception de demande", body)
+        except Exception as e:
+            return render_template('error.html')
     else:
         nps=""
     date_demande = datetime.now()
     date1 = datetime.fromisoformat(session.get("date1")) if session.get("date1") else None
     date2 =datetime.fromisoformat(session.get("date2")) if session.get("date2") else None
-    demande = Demande(
-        id_prof=idprof,
-        id_etudiant=session.get('userid'), 
-        date_demande=date_demande,
-        discipline=session.get('discipline'), 
-        date1=date1,
-        date2=date2,
-        matiere=session.get("matiere"),
-        chapiter=session.get("chapitre"),
-        description=session.get("chapitre"),
-        fichier=session.get('fichier'),
-        prix=session.get("prix"),
-        temps=session.get("temps")
-    )
-    db.session.add(demande)
-    db.session.commit()
+    try:
+        demande = Demande(
+            id_prof=idprof,
+            id_etudiant=session.get('userid'), 
+            date_demande=date_demande,
+            discipline=session.get('discipline'), 
+            date1=date1,
+            date2=date2,
+            matiere=session.get("matiere"),
+            chapiter=session.get("chapitre"),
+            description=session.get("chapitre"),
+            fichier=session.get('fichier'),
+            prix=session.get("prix"),
+            temps=session.get("temps")
+        )
+        db.session.add(demande)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        return render_template('error.html')
     return render_template('creationdemande.html',demande=demande,nom=nps)
 #END COURS BOOKING PART

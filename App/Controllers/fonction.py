@@ -318,22 +318,22 @@ def get_current_user():
         user=User.query.get(session.get("userid"))
         if user:
             _current_user=user
-    if _current_user is None:
-        _current_user=User(
-        nom="Visiteur",
-        prenom="Anonyme",
-        nationalite="Inconnue",
-        mail="",
-        code="Rabver129G@gh%&B&8bg^gtf",
-        pseudo="VisiteurAnonyme",
-        date_naiss=datetime.now(),
-        ter="non",
-        age=0,
-        confirmer="non",
-        mdp="",
-        role="Visiteur",
-        photo="static/Profil/unknown.jpg"
-    )
+    # if _current_user is None:
+    #     _current_user=User(
+    #     nom="Visiteur",
+    #     prenom="Anonyme",
+    #     nationalite="Inconnue",
+    #     mail="",
+    #     code="Rabver129G@gh%&B&8bg^gtf",
+    #     pseudo="VisiteurAnonyme",
+    #     date_naiss=datetime.now(),
+    #     ter="non",
+    #     age=0,
+    #     confirmer="non",
+    #     mdp="",
+    #     role="Visiteur",
+    #     photo="static/Profil/unknown.jpg"
+    # )
     return _current_user
 
 def find_stat(prix):

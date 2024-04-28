@@ -69,6 +69,12 @@ class Prof(db.Model):
     vendervous=db.Column(db.String(500))
     cv=db.Column(db.String(500))
 
+
+class NoteProf(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id_user= db.Column(db.Integer, db.ForeignKey('user.id'))
+    numbre_etoile=db.Column(db.Integer)
+    
 @login_manager.user_loader
 def load_user(user_id):
     return User.get(user_id)

@@ -21,11 +21,12 @@ def set_secure_headers(response):
 
 @app.before_request
 def update_session_time():
-    if user.id not in processed_requests and user.id is not None:
-        last_activity_key = f'last_activity:{user.id}'
-        redis_store.set(last_activity_key, datetime.now().strftime('%Y-%m-%d %H:%M:%S'), ex=3)
-        session['online_users'] = len(redis_store.keys('last_activity:*'))
-        processed_requests[user.id] = True
+    if user:
+        if user.id not in processed_requests and user.id is not None:
+            last_activity_key = f'last_activity:{user.id}'
+            redis_store.set(last_activity_key, datetime.now().strftime('%Y-%m-%d %H:%M:%S'), ex=3)
+            session['online_users'] = len(redis_store.keys('last_activity:*'))
+            processed_requests[user.id] = True
 
 if __name__=="__main__":  
-    socketio.run(app,port=int(os.getenv("PORT")),debug=os.getenv("DEBUG"))
+    socketio.run(app,port=int(os.getenv("PORT")),host='0.0.0.0',debug=os.getenv("DEBUG"))

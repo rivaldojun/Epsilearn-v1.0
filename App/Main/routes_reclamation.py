@@ -9,13 +9,17 @@ from App.Controllers.fonction import *
 def reclamation():  
     user_id = session.get("userid")
     if request.method == "POST":
-        contenu = request.form['contenu'] 
-        # Créer une nouvelle réclamation dans la base de données
-        reclamation = Reclamation(user_id=user_id, contenu=contenu)
-        db.session.add(reclamation)
-        db.session.commit()
-        # Rediriger l'utilisateur vers une page de confirmation ou une autre page appropriée
-        return redirect(url_for('Main.confirmation_reclamation'))
+        try:
+            contenu = request.form['contenu'] 
+            # Créer une nouvelle réclamation dans la base de données
+            reclamation = Reclamation(user_id=user_id, contenu=contenu)
+            db.session.add(reclamation)
+            db.session.commit()
+            # Rediriger l'utilisateur vers une page de confirmation ou une autre page appropriée
+            return redirect(url_for('Main.confirmation_reclamation'))
+        except Exception as e:
+            db.session.rollback()
+            return render_template('error.html')
     return render_template('reclamation.html')
 
 @MainBp.route('/confirmation_reclamation')

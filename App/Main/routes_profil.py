@@ -95,9 +95,7 @@ def profil() :
 @MainBp.route('/profilprof/<int:prof_id>',methods=["POST","GET"])
 @login_required
 def profilprof(prof_id) :
-    
-    user_id = session.get('userid')  # Récupère l'ID de l'utilisateur à partir de la session
-      # Récupère l'utilisateur de la table User
+    user_id = session.get('userid') 
     prof = Prof.query.filter_by(id=prof_id,valider="oui").first()
     userp=User.query.filter_by(id=prof.id_user_p).first()
     nom=userp.nom
@@ -111,28 +109,46 @@ def profilprof(prof_id) :
     note=prof.etoile
     com = Comment.query.filter(and_(Comment.etudiant_id==User.id,Comment.prof_id==prof_id)).all()
     if request.method=="POST":
-        etudiant_id = user_id
-        prof_id = prof_id
-        commentaire = request.form.get('commentaire')
-        if commentaire is not None:
-            comment = Comment(etudiant_id=etudiant_id, prof_id=prof_id, commentaire=commentaire)
-            db.session.add(comment)
+        try:
+            etudiant_id = user_id
+            prof_id = prof_id
+            commentaire = request.form.get('commentaire')
+            if commentaire is not None:
+                comment = Comment(etudiant_id=etudiant_id, prof_id=prof_id, commentaire=commentaire)
+                db.session.add(comment)
+                db.session.commit()
+            response = jsonify(success=True)
+            referrer_url = request.referrer
+            response.headers['Location'] = referrer_url
+            return response, 302
+        except Exception as e:
+            db.session.rollback()
+            return render_template('error.html')
+    return render_template("profilprof.html",nom=nom,Prenom=prenom,Discipline=discipline,Formation=formation,Niveau=niveau,Diplome=diplome,photo=photo,bio=bio,note=note,commentaires=com,nat=userp.nationalite,prof_id=prof_id)
+
+
+@MainBp.route('/submit_rating/<id_user>/<id_prof>', methods=['POST'])
+def submit_rating(id_user,id_prof):
+    rating = request.json.get('rating')
+    prof = Prof.query.filter_by(id=id_prof,valider="oui").first()
+    try:
+        deja=NoteProf.query.filter_by(id_user_noteur=session.get('userid')).first() 
+        if not deja:
+            note=NoteProf(id_user_noteur=id_user,id_prof=id_prof,numbre_etoile=int(rating))
+            db.session.add(note)
+            prof.etoile=round(db.session.query(func.avg(NoteProf.numbre_etoile)).filter_by(id_prof=id_prof).scalar())
             db.session.commit()
-        # Renvoyer une réponse JSON indiquant le succès de la mise à jour
-        response = jsonify(success=True)
-        # Récupérer l'URL de la page actuelle et la renvoyer comme réponse JSON
-        referrer_url = request.referrer
-        response.headers['Location'] = referrer_url
-        # Renvoyer une réponse avec un code de redirection (302) pour recharger la page
-        return response, 302
-    return render_template("profilprof.html",nom=nom,Prenom=prenom,Discipline=discipline,Formation=formation,Niveau=niveau,Diplome=diplome,photo=photo,bio=bio,note=note,commentaires=com,nat=userp.nationalite)
-
-
+            return redirect(url_for('Main.profilprof',prof_id=id_prof))
+        else:
+            return jsonify('deja vote')
+    except Exception as e:
+        print(e)
+        db.session.rollback()
+        return render_template('error.html')
 @MainBp.route('/listeprof')
+@login_required
 def listeprof():
-    # Effectuez une jointure entre les tables User et Prof
     user_id = session.get('userid')
-    # Passez les données à un modèle HTML pour l'affichage
     return render_template('liste_professeurs.html', professeurs=professeurs,user_id=user_id)
 
 

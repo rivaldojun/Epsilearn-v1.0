@@ -63,7 +63,7 @@ def confirmation(email):
                 return render_template('error.html')
             return redirect(url_for('Main.role'))
         else:
-            text="Code errone"
+            text=os.getenv("CODE_ERROR")
     return render_template('confirmation.html',t=text)
 
 @MainBp.route('/role')
@@ -71,9 +71,8 @@ def role():
     return render_template('role.html')
 
 @MainBp.route('/enregistrerprof', methods=['POST','GET'])
+@prof_login_required_AI
 def enregistrerprof():
-    if session.get('role')=="etudiant"  :
-        return redirect(url_for('Main.acces_interdit'))
     if request.method == 'POST':
         try:
             formation=request.form['formation']
@@ -109,7 +108,7 @@ def enregistrerprof():
             user.ter="oui"
             user.age=age
             user.date_naiss=date_naiss
-            user.role="Prof"
+            user.role=os.getenv('PROF_ROLE_NAME')
             db.session.add(user)
             db.session.add(prof)
             db.session.commit()
@@ -120,9 +119,8 @@ def enregistrerprof():
     return render_template('inscriptiontermine.html')
 
 @MainBp.route('/enregistreretudiant', methods=['POST','GET'])
+@student_login_required_AI
 def enregistreretudiant():
-    if session.get('role')=="professeur"  :
-        return redirect(url_for('acces_interdit'))
     if request.method == 'POST':
         niveau=request.form["niveauEtudiant"]
         filiere=request.form['filiereEtudiant']
@@ -142,7 +140,7 @@ def enregistreretudiant():
             user.ter="oui"
             user.age=age
             user.date_naiss=date_naiss
-            user.role="Etudiant"
+            user.role=os.getenv('STUDENT_ROLE_NAME')
             db.session.add(user)
             db.session.commit()
             db.session.add(etud)
@@ -154,9 +152,8 @@ def enregistreretudiant():
     return render_template('inscriptiontermine.html')
 
 @MainBp.route('/enregistrerautre', methods=['POST','GET'])
+@student_login_required_AI
 def enregistrerautre():
-    if session.get('role')=="professeur" :
-        return redirect(url_for('Main.acces_interdit'))
     if request.method == 'POST':
         date_naiss=request.form['age']
         age=calcul_age(date_naiss)
@@ -168,7 +165,7 @@ def enregistrerautre():
         user.ter="oui"
         user.age=age
         user.date_naiss=date_naiss
-        user.role="Autre"
+        user.role=os.getenv('OTHER_ROLE_NAME')
         try:
             db.session.add(user)
             db.session.commit()

@@ -16,6 +16,7 @@ def visiteur():
 
 @MainBp.route('/accueil')
 def accueil(): 
+    print(session.get('role'))
     evenements=[]
     derniere_demande=[]
     if 'online_users' not in session:

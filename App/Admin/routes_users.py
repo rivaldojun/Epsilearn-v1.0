@@ -31,7 +31,6 @@ def vuevaliderprof():
 @AdminBp.route('/listeetudiant')
 def listeetudiant():
     if session.get('admin')=='connect':
-        
         return render_template("listeetudiant.html")
 
 @AdminBp.route('/get_professeurs', methods=['GET'])

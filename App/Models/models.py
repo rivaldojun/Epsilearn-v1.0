@@ -105,7 +105,13 @@ class Prof(db.Model):
     vendervous=db.Column(db.String(500))
     cv=db.Column(db.String(500))
 
-
+class NoteProf(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id_user_noteur= db.Column(db.Integer, db.ForeignKey('user.id'))
+    id_prof= db.Column(db.Integer, db.ForeignKey('user.id'))
+    numbre_etoile=db.Column(db.Integer)
+    
+    
 # Table Demande
 class Demande(db.Model):
     id_demande = db.Column(db.Integer, primary_key=True)

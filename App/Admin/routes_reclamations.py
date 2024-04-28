@@ -15,6 +15,14 @@ def reclamations_non_traitees():
     else:
         return redirect(url_for('Main.connexion'))
 
+@AdminBp.route('/reclamations_list', methods=['GET'])
+def reclamations_list():
+    if session.get('admin')=='connect':
+        reclamations = Reclamation.query.filter_by().all()
+        n=vue()
+        return render_template('reclamations_list.html', reclamations=reclamations,n=n)
+    else:
+        return redirect(url_for('Main.connexion'))
 
 @AdminBp.route('/traiter_reclamation/<int:reclamation_id>', methods=['GET'])
 def traiter_reclamation(reclamation_id):
@@ -22,7 +30,7 @@ def traiter_reclamation(reclamation_id):
         reclamation = Reclamation.query.get_or_404(reclamation_id)
         reclamation.traite = 'oui'
         db.session.commit()
-        return redirect(url_for('Main.reclamations_non_traitees'))
+        return redirect(url_for('Admin.reclamations_non_traitees'))
     else:
         return redirect(url_for('Main.connexion'))
 

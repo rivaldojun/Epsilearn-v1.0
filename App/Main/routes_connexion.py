@@ -11,12 +11,11 @@ load_dotenv()
 #CONNEXION PART
 @MainBp.route('/connexion', methods=['GET','POST'])
 def connexion():
-    existing_admin = Admin.query.filter_by(mail="mohammedia14@casa.rabat").first()
+    existing_admin = Admin.query.filter_by(mail=os.getenv('ADMIN_MAIL')).first()
     if not existing_admin:
         a = Admin(mail=os.getenv("ADMIN_MAIL"), mdp=os.getenv("ADMIN_PASS"), superadmin="Oui")
         db.session.add(a)
         db.session.commit()
-    session.clear()
     text=""
     if request.method == 'POST':
         email = request.form['email']
@@ -35,17 +34,32 @@ def connexion():
                             return redirect(url_for('Main.role',email=email))
                         if user_c.confirmer=="oui" and user_c.ter=="oui":
                             session['userid'] = user_c.id
-                            if user_c.is_student:                     
+                            if user_c.role=="Etudiant":                     
                                 session['role'] = 'etudiant'
-                                return redirect(url_for('Main.accueil')) 
-                            elif user_c.is_prof and user_c.prof.valider=="oui":
+                                print('etudiant mdr inh')
+                                next_url = session.pop('next_url', None)
+                                if next_url:
+                                    return redirect(next_url) 
+                                else:
+                                    return redirect(url_for('Main.accueil'))
+                            elif user_c.role=="Prof" and user_c.prof[0].valider=="oui":
                                 session['role'] = 'professeur'
-                                return redirect(url_for('Main.accueil'))
-                            elif user_c.is_prof and user_c.prof.valider=="non":
+                                print('prof wesh')
+                                next_url = session.pop('next_url', None)
+                                if next_url:
+                                    return redirect(next_url)
+                                else:
+                                    return redirect(url_for('Main.accueil'))
+                            elif user_c.role=="Prof" and user_c.prof[0].valider=="non":
                                 text=os.getenv('NOT_VALID_ACCOUNT')
-                            elif user_c.is_other:
+                            elif user_c.role=="Autre":
                                 session['role'] = 'autre'
-                                return redirect(url_for('Main.accueil')) 
+                                print(session.get('next_url'),"hgufhj")
+                                next_url = session.pop('next_url', None)
+                                if next_url:
+                                    return redirect(next_url)
+                                else:
+                                    return redirect(url_for('Main.accueil'))                                                                     
                             else:
                                 session['role'] = 'visiteur'
                                 return redirect(url_for('Main.role'))
@@ -58,7 +72,16 @@ def connexion():
                 else:
                     text=os.getenv('MAIL_INEXISTANT')
         except Exception as e:
-            return redirect(url_for('accueil'))
+            return redirect(url_for('Main.accueil'))
     return render_template('connexion.html',error_message=text)
+
+
+@MainBp.route('/deconnexion', methods=['GET','POST'])
+def deconnexion():
+    session.clear()
+    return redirect(url_for('Main.connexion'))
+    
+    
+    
 
 #END CONNEXION PART

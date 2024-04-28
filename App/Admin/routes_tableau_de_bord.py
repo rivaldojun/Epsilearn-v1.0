@@ -9,6 +9,8 @@ def dashboard():
     if session.get('admin')=='connect':
         nbuser=User.query.count()
         prix_total = db.session.query(db.func.sum(Demande.prix)).filter(Demande.statut_payement.in_(["payer"])).scalar()
+        if prix_total==None:
+            prix_total=0
         # nombre_demandes = db.session.query(Demande).filter(Demande.statut_demande.in_(["accepte", "report_accepte"])).count()
         demande=Demande.query.count()
         event=Evenement.query.count()

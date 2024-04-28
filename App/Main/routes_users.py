@@ -40,10 +40,11 @@ def listeetudiant():
 @MainBp.route('/get_professeurs', methods=['GET'])
 def get_professeurs():
     if session.get('admin')=='connect':
+        
         try:
             # Perform a join between the User and Prof tables to retrieve the data
             joined_data = db.session.query(User.id,User.nom,User.mail, User.prenom,User.nationalite, Prof.discipline, Prof.formation, Prof.Nvdetud, Prof.Diplome, Prof.etoile,Prof.photo,Prof.valider,Prof.cv).\
-                join(Prof, User.id == Prof.id_user_p,Prof.valider=="oui").all()
+                join(Prof, User.id == Prof.id_user_p).all()
             # Convert the data to a list of dictionaries
             professeurs_list = []
             for data in joined_data:
@@ -66,6 +67,7 @@ def get_professeurs():
             # Return the data as a JSON response
             return jsonify(professeurs_list)
         except Exception as e:
+            print(e)
             return jsonify({'error': str(e)}), 500
 
 

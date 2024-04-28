@@ -83,7 +83,7 @@ def ajouter_etudiant():
             password_hash = generate_password_hash(motdepasse)
             us=User.query.filter_by(mail=mail).first()
             if not us:
-                nouvel_utilisateur = User(nom=nom, prenom=prenom, nationalite=nationalite, mail=mail,mdp=password_hash,ter="oui",confirmer="oui",age=age,pseudo=generate_pseudo())
+                nouvel_utilisateur = User(nom=nom, prenom=prenom, nationalite=nationalite, mail=mail,mdp=password_hash,ter="oui",confirmer="oui",age=age,pseudo=generate_pseudo(),role="Etudiant")
                 db.session.add(nouvel_utilisateur)
                 db.session.commit()
                 nouvel_etudiant = Etudiant(id_user_e=nouvel_utilisateur.id, Nvdetud=niveau, formation=formation, age=age, filiere=filiere, ecole=ecole)
@@ -118,7 +118,7 @@ def ajouter_prof():
             password_hash = generate_password_hash(motdepasse)
             us=User.query.filter_by(mail=mail).first()
             if not us:
-                nouvel_utilisateur = User(nom=nom, prenom=prenom, nationalite=nationalite, mail=mail,mdp=password_hash,ter="oui",confirmer="oui",age=age,pseudo=generate_pseudo())
+                nouvel_utilisateur = User(nom=nom, prenom=prenom, nationalite=nationalite, mail=mail,mdp=password_hash,ter="oui",confirmer="oui",age=age,pseudo=generate_pseudo(),role="Prof")
                 db.session.add(nouvel_utilisateur)
                 db.session.commit()
                 prof=Prof(id_user_p=nouvel_utilisateur.id, discipline=discipline,Nvdetud=niveau,filiere=filiere,Diplome=diplome,formation=formation,ecole=ecole,etoile=etoile,vendervous=vend,age=age,valider="oui")
