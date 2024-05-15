@@ -32,7 +32,7 @@ def tvaliderretrait(id):
         dem.statut = 'valide'
         db.session.commit()
         prof=Prof.query.filter_by(id=dem.id_demandeur).first()
-        prof.solde=prof.solde-dem.montant_retrait
+        prof.solde=float(prof.solde)-float(dem.montant_retrait)
         db.session.commit()
         return redirect(url_for('Main.demanderetrait'))
     else:

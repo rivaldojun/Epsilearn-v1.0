@@ -66,7 +66,8 @@ def conversation(user_id):
     try:
         messages = Message.query.filter(((Message.expediteur == user) & (Message.destinataire == user_dest)) | ((Message.expediteur == user_dest) & (
                         Message.destinataire == user))).order_by(Message.date_envoi).all()
-    except:
+    except Exception as e:
         messages=[]
+        print(e)
     return render_template('conversation.html', user=user_dest, messages=messages, user_e=user)
 #END CONTACT BETWEEN USERS PART

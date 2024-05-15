@@ -27,9 +27,10 @@ def room(cd) :
     warning_threshold = timedelta(minutes=15)
     user_id=session.get('userid')
     cours=Offre.query.filter_by(meet=cd).first()
-    souscriptions = SubscriptionOffre.query.filter_by(id_offre=cours.id,id_participant=user_id).first()
-    if souscriptions:
-        date_fin=datetime.now()+timedelta(hours=5)
+    if cours:
+        souscriptions = SubscriptionOffre.query.filter_by(id_offre=cours.id,id_participant=user_id).first()
+        if souscriptions:
+            date_fin=datetime.now()+timedelta(hours=5)
     abonnement = AbonnementLangue.query.filter_by(id_abonne=user_id).first()
     if abonnement:
         groupe = groupelangue.query.filter_by(id=abonnement.id_groupe, lien=cd).first()

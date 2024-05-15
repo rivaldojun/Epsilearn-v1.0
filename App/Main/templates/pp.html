@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+
+{% block content %} 
+<style>
+    .horizontal-line {
+        display: flex;
+        align-items: center;
+      }
+      
+      .horizontal-line::before,
+      .horizontal-line::after {
+        content: "";
+        flex: 1;
+        border-top: 1px solid black; /* Couleur et style de la ligne */
+        margin: 0 10px; /* Marge entre le texte et la ligne */
+      }
+      
+</style>
+<div class="container mt-5">
+<div class='row mt-4'>
+    <div class="col-md-4">
+        <div class="profile-picture" style="">
+            <img src="../{{ photo }}" alt="Photo de profil" class="img-fluid" style="height: 300px; width: 300px;  overflow: hidden;">
+        </div>
+        <div class="horizontal-line">
+            <span>informations</span>
+        </div>
+          
+
+    </div>
+    <div class="col-md-8">
+
+    </div>
+
+</div>
+</div>
+{% endblock %}

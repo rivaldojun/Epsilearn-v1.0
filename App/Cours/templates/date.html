@@ -79,7 +79,7 @@
     const currentDate = new Date();
     
     // Calculate the minimum date for the date picker
-    const minDate = new Date(currentDate.getTime() + (24 * 60 * 60 * 1000)); // Add one day
+    const minDate = new Date(currentDate.getTime()); // Add one day
     
     // Format the minimum date for the date picker input
     const minDateFormatted = `${minDate.getFullYear()}-${String(minDate.getMonth() + 1).padStart(2, '0')}-${String(minDate.getDate()).padStart(2, '0')}T00:00`;

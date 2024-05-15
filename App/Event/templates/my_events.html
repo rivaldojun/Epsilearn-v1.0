@@ -1,0 +1,355 @@
+{% extends "base.html" %}
+
+{% block title %}Mes evenements|Epsilearn{% endblock %}
+
+{% block content %}
+<style>
+  #faq {
+    text-decoration: overline;
+    color: rgb(0, 0, 0);
+  }
+
+  body,
+  html {
+    background-color: #F5F5F5F5;
+  }
+
+  .tabs {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 0px;
+    width: 100%;
+  }
+
+  .tab {
+    text-align: center;
+    flex: 1;
+    padding: 10px;
+    background-color: transparent;
+    border: none;
+    border-radius: 28px 28px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  }
+
+  .tab.active {
+    background-color: rgb(0, 0, 0);
+    border: none;
+    color: rgb(255, 255, 255);
+  }
+
+  .cont-container {
+    border-radius: 0 0 8px 8px;
+    padding: 20px;
+  }
+
+  .cont {
+    display: none;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  .cont.active {
+    display: block;
+  }
+
+  
+.avatar-lg {
+    height: 5rem;
+    width: 5rem;
+}
+
+.font-size-18 {
+    font-size: 18px!important;
+}
+
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+a {
+    text-decoration: none!important;
+}
+
+.w-xl {
+    min-width: 160px;
+}
+
+.card {
+    margin-bottom: 24px;
+    -webkit-box-shadow: 0 2px 3px #e4e8f0;
+    box-shadow: 0 2px 3px #e4e8f0;
+}
+
+.card {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid #eff0f2;
+    border-radius: 1rem;
+}
+
+.card {
+    box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+}
+.img-md {
+    width: 4rem;
+    height: 4rem;
+}
+.btn-link {
+    transition-property: color,background-color;
+    box-shadow: none;
+    border-radius: 0;
+    text-decoration: none!important;
+}
+
+
+</style>
+
+<div class="container-fluid mt-5  animate-element" data-animation="fadeInUp" style="animation-duration: 1.4s;">
+  <div style="background-color: transparent; padding: 6px; border-radius: 28px;">
+    <div class="card shadow" style="border-radius: 26px; scale: 0.8;">
+      <div class="tabs">
+        <div class="tab active" data-content="contenu1">Mes organisations</div>
+        <div class="tab" data-content="contenu2">Statistiques</div>
+      </div>
+    </div>
+  </div>
+  <div class="cont-container">
+    <div class="cont active" id="contenu1">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+        <div class="container">
+            <div class="row">
+                {% for event in user_events %}
+                <div class="col-md-4  mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="date-label">
+                                <span>{{ event.date }}</span>
+                            </div>
+                            <!-- Profile picture and short information -->
+                            <div class=" align-items-center position-relative">
+                                <div class="text-center">
+                                    <a href="#" class="h5">{{ event.Nom }}</a>
+                                </div>
+                            </div>
+        
+                            <!-- Options buttons -->
+                            <div class="mt-3 pt-2 text-center border-top">
+                                <div class="d-flex justify-content-center gap-3">
+                                    <a href="{{ url_for('event_details', idev=event.id_evenement) }}" class="btn btn-sm btn-primary btn-outline-light btn-lg">
+                                                        Voir Statistiques
+                                                    </a>
+                                    <a href="/supprimerevent/{{event.id_evenement}}" class="btn btn-sm btn-primary btn-outline-light btn-lg">
+                                       Supprimer
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- END : Options buttons -->
+        
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    
+</div>
+    </div>
+    <div class="cont" id="contenu2">
+
+      <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title"><i class="fas fa-eye"></i> Total vues</h5>
+                        <p class="card-text">{{ views_count }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title"><i class="fas fa-users"></i> Total Participations</h5>
+                        <p class="card-text">{{ participations_count }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card">
+                  <div class="card-body text-center">
+                      <h5 class="card-title"><i class="fas fa-percentage"></i>Taux de conversion total</h5>
+                      <p class="card-text">{{ (participations_count / views_count) * 100 }} %</p>
+                  </div>
+              </div>
+          </div>
+        </div>
+    </div>
+      <div class="container">
+        <h1 class="text-center"></h1>
+
+
+        <div class="row">
+              <div class="col-md-6">
+                <canvas id="eventsByTypeChart"></canvas>
+            </div>
+
+            <div class="col-md-6">
+              <canvas id="participationsOverTimeChart"></canvas>
+          </div>
+
+          <div class="col-md-6 mx-auto">
+            <canvas id="viewsByTypeChart"></canvas>
+        </div>
+        
+            
+        </div>
+
+    </div>
+
+    </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $(".tab").click(function () {
+      $(".tab").removeClass("active");
+      $(this).addClass("active");
+
+      $(".cont").removeClass("active");
+      $("#" + $(this).data("content")).addClass("active");
+    });
+  });
+
+</script>
+<script>
+  function generateRandomColors(numColors) {
+      var colors = [];
+      for (var i = 0; i < numColors; i++) {
+          colors.push('#' + Math.floor(Math.random()*16777215).toString(16));
+      }
+      return colors;
+  }
+
+  function updateCharts() {
+      $.ajax({
+          url: '/get_data',
+          type: 'GET',
+          success: function(data) {
+              var ctxViewsByType = document.getElementById('viewsByTypeChart').getContext('2d');
+              var viewsByTypeChart = new Chart(ctxViewsByType, {
+                  type: 'pie',
+                  data: {
+                      labels: data.labels_views_by_type,
+                      datasets: [{
+                          label: 'Répartition des vues par type d\'événement',
+                          backgroundColor: generateRandomColors(data.labels_views_by_type.length),
+                          data: data.data_views_by_type
+                      }]
+                  },
+                  options: {
+                    
+                      // Add options as needed
+                  }
+              });
+
+              var ctxParticipationsOverTime = document.getElementById('participationsOverTimeChart').getContext('2d');
+              var participationsOverTimeChart = new Chart(ctxParticipationsOverTime, {
+                  type: 'line',
+                  data: {
+                      labels: data.labels_participations_over_time,
+                      datasets: [{
+                          label: 'Évolution des participations au fil du temps',
+                          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                          borderColor: 'rgba(75, 192, 192, 1)',
+                          borderWidth: 1,
+                          data: data.data_participations_over_time
+                      }]
+                  },
+                  options: {
+                      scales: {
+                          y: {
+                              beginAtZero: true
+                          }
+                      }
+                  }
+              });
+          },
+          error: function(error) {
+              console.log('Error:', error);
+          }
+      });
+  }
+
+  updateCharts();
+  function updateCharte() {
+      // Ajax request to get data
+      $.ajax({
+          url: '/get_data',
+          type: 'GET',
+          success: function(data) {
+              var labels_events_by_type = data.labels_events_by_type;
+              var data_events_by_type = data.data_events_by_type;
+              var total_views = data.total_data.total_views;
+              var total_participations = data.total_data.total_participations;
+
+              // Update the first chart (Number of Events by Type)
+              eventsByTypeChart.data.labels = labels_events_by_type;
+              eventsByTypeChart.data.datasets[0].data = data_events_by_type;
+              eventsByTypeChart.update();
+
+              // Update the second chart (Total Views and Total Participations)
+              $('#totalViews').text(total_views);
+              $('#totalParticipations').text(total_participations);
+          },
+          error: function(error) {
+              console.log('Error:', error);
+          }
+      });
+  }
+
+  // Initial chart creation
+  var ctxEventsByType = document.getElementById('eventsByTypeChart').getContext('2d');
+  var eventsByTypeChart = new Chart(ctxEventsByType, {
+      type: 'bar',
+      data: {
+          labels: [],
+          datasets: [{
+              label: 'Number of Events',
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 1,
+              data: []
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+
+  // Initial call to update charts
+  updateCharte();
+</script>
+{% endblock %}

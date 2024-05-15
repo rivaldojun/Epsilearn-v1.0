@@ -12,10 +12,12 @@ load_dotenv()
 @MainBp.route('/connexion', methods=['GET','POST'])
 def connexion():
     existing_admin = Admin.query.filter_by(mail=os.getenv('ADMIN_MAIL')).first()
+    #Uniquement dans la phase de deve
     if not existing_admin:
         a = Admin(mail=os.getenv("ADMIN_MAIL"), mdp=os.getenv("ADMIN_PASS"), superadmin="Oui")
         db.session.add(a)
         db.session.commit()
+    #end
     text=""
     if request.method == 'POST':
         email = request.form['email']
@@ -36,7 +38,6 @@ def connexion():
                             session['userid'] = user_c.id
                             if user_c.role=="Etudiant":                     
                                 session['role'] = 'etudiant'
-                                print('etudiant mdr inh')
                                 next_url = session.pop('next_url', None)
                                 if next_url:
                                     return redirect(next_url) 
@@ -54,7 +55,6 @@ def connexion():
                                 text=os.getenv('NOT_VALID_ACCOUNT')
                             elif user_c.role=="Autre":
                                 session['role'] = 'autre'
-                                print(session.get('next_url'),"hgufhj")
                                 next_url = session.pop('next_url', None)
                                 if next_url:
                                     return redirect(next_url)
@@ -80,8 +80,4 @@ def connexion():
 def deconnexion():
     session.clear()
     return redirect(url_for('Main.connexion'))
-    
-    
-    
-
 #END CONNEXION PART

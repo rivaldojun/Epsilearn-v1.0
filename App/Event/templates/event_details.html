@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Details</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>{{ evenement.Nom }}</h2>
+        <!-- Display other event details -->
+
+        <!-- Canvas to display the graph -->
+        <canvas id="eventGraph" width="400" height="200"></canvas>
+
+        <!-- Display participant and view counts -->
+        <p>Participants: <span id="participantCount">{{ participant_count }}</span></p>
+        <p>Views: <span id="viewCount">{{ evenement.vue }}</span></p>
+    </div>
+
+    <!-- Add Bootstrap and Ajax JavaScript links -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.8.2/dist/js/bootstrap.min.js"></script>
+
+    <!-- Add Chart.js initialization and update logic -->
+   <!-- Add Chart.js initialization and update logic -->
+<script>
+    $(document).ready(function() {
+        // Get the canvas element
+        var ctx = document.getElementById('eventGraph').getContext('2d');
+
+        // Create an initial line chart
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [], // Array to store labels (e.g., timestamps)
+                datasets: [
+                    {
+                        label: 'Views Over Time',
+                        data: [], // Array to store view counts
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        fill: false
+                    },
+                    {
+                        label: 'Participants Over Time',
+                        data: [], // Array to store participant counts
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 2,
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom'
+                    },
+                    y: {
+                        min: 0
+                    }
+                }
+            }
+        });
+
+        // Function to update participant and view counts
+        function updateCounts() {
+            // Ajax request to get updated counts from the server
+            $.ajax({
+                url: '{{ url_for("get_counts", idev=evenement.id_evenement) }}',
+                method: 'GET',
+                success: function(data) {
+                    // Update the participant and view counts on the page
+                    $('#participantCount').text(data.participant_count);
+                    $('#viewCount').text(data.view_count);
+
+                    // Update the chart data
+                    var timestamp = new Date().toLocaleTimeString();
+                    chart.data.labels.push(timestamp);
+                    chart.data.datasets[0].data.push(data.view_count);
+                    chart.data.datasets[1].data.push(data.participant_count);
+
+                    // Limit the number of data points to keep the chart readable
+                    if (chart.data.labels.length > 10) {
+                        chart.data.labels.shift();
+                        chart.data.datasets[0].data.shift();
+                        chart.data.datasets[1].data.shift();
+                    }
+
+                    // Update the chart
+                    chart.update();
+
+                    // Call the function recursively for real-time updates
+                    updateCounts();
+                }
+            });
+        }
+
+        // Call the function to initiate real-time updates
+        updateCounts();
+    });
+</script>
+
+</body>
+</html>

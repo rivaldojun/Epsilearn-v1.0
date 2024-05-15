@@ -330,7 +330,7 @@ document.querySelectorAll('.stars').forEach(star => {
 
 // Fonction pour gérer le clic sur le bouton de soumission
 document.getElementById('submitRating').addEventListener('click', () => {
-  const rating = document.getElementById('ratings').value;
+  const rating = document.getElementById('rating').value;
   const userId = "{{ current_user.id }}";
   const profId = "{{ prof_id }}";
   
@@ -352,6 +352,7 @@ document.getElementById('submitRating').addEventListener('click', () => {
         // Si la réponse est "deja vote", afficher le message correspondant dans le modal
         $('.contenu-dynamic').html("<p class='deja-vote'>Vous avez déjà voté</p>");
       } else {
+        alert('mdr')
         // Si la réponse est différente de "deja vote", afficher le message "Vote effectué"
         $('.contenu-dynamic').html("<p class='vote-effectue'>Vote effectué</p>");
         // Ajouter une icône appropriée pour indiquer que le vote a été effectué

@@ -71,7 +71,6 @@ def role():
     return render_template('role.html')
 
 @MainBp.route('/enregistrerprof', methods=['POST','GET'])
-@prof_login_required_AI
 def enregistrerprof():
     if request.method == 'POST':
         try:
@@ -84,6 +83,7 @@ def enregistrerprof():
             age=calcul_age(date_naiss)
             vend=request.form['vendervous']
             cv=request.files['cv']
+            userid=session.get('userid')
             if cv:
                 current_date = datetime.now()
                 date_string = current_date.strftime("%Y%m%d%H%M%S")
@@ -97,11 +97,10 @@ def enregistrerprof():
             for discipline in request.form.getlist('discipline[]'):
                     selected_disciplines.append(discipline)
             selected_disciplines_str = ', '.join(selected_disciplines)
-            autre=Autre.query.filter_by(id_user_a=user.id).first()
+            autre=Autre.query.filter_by(id_user_a=userid).first()
             if autre:
                 db.session.delete(autre)
                 db.session.commit()
-            userid=session.get('userid')
             prof=Prof(id_user_p=int(userid), discipline=selected_disciplines_str,Nvdetud=niveau,filiere=filiere,Diplome=diplome,formation=formation,ecole=ecole,etoile=1,vendervous=vend,age=age,cv=cvpath)
             date_naiss = datetime.strptime(date_naiss, '%Y-%m-%d')
             user = User.query.filter_by(id=userid).first()
@@ -112,14 +111,14 @@ def enregistrerprof():
             db.session.add(user)
             db.session.add(prof)
             db.session.commit()
-        except:
+        except Exception as e:
             db.session.rollback()
+            print(e)
             return render_template('error.html')
         return redirect(url_for('Main.confirmationcompte'))
     return render_template('inscriptiontermine.html')
 
 @MainBp.route('/enregistreretudiant', methods=['POST','GET'])
-@student_login_required_AI
 def enregistreretudiant():
     if request.method == 'POST':
         niveau=request.form["niveauEtudiant"]

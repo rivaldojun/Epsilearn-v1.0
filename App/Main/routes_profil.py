@@ -41,7 +41,7 @@ def modifierprofil() :
                 autre.vendervous=bio
                 profile_picture = request.files['profile-picture']
                 if profile_picture:
-                    save_profile_picture(profile_picture,autre,user)
+                    save_modifier_profil_picture(profile_picture,autre,user)
                 db.session.commit()
         else:
             prof = Prof.query.filter_by(id_user_p=user.id).first()
@@ -61,7 +61,7 @@ def modifierprofil() :
                 prof.vendervous=bio
                 profile_picture = request.files['profile-picture']
                 if profile_picture:
-                    save_profile_picture(profile_picture,prof,user)
+                    save_modifier_profil_picture(profile_picture,prof,user)
                 db.session.commit()
                 return redirect(url_for('Main.profil'))
     except Exception as e:
@@ -127,13 +127,48 @@ def profilprof(prof_id) :
     return render_template("profilprof.html",nom=nom,Prenom=prenom,Discipline=discipline,Formation=formation,Niveau=niveau,Diplome=diplome,photo=photo,bio=bio,note=note,commentaires=com,nat=userp.nationalite,prof_id=prof_id)
 
 
+@MainBp.route('/pp/<int:prof_id>')
+@login_required
+def pp(prof_id) :
+    user_id = session.get('userid') 
+    prof = Prof.query.filter_by(id=prof_id,valider="oui").first()
+    userp=User.query.filter_by(id=prof.id_user_p).first()
+    nom=userp.nom
+    prenom=userp.prenom
+    niveau=prof.Nvdetud
+    formation=prof.formation
+    diplome=prof.Diplome
+    bio=prof.vendervous
+    discipline=prof.discipline
+    photo=prof.photo
+    note=prof.etoile
+    com = Comment.query.filter(and_(Comment.etudiant_id==User.id,Comment.prof_id==prof_id)).all()
+    if request.method=="POST":
+        try:
+            etudiant_id = user_id
+            prof_id = prof_id
+            commentaire = request.form.get('commentaire')
+            if commentaire is not None:
+                comment = Comment(etudiant_id=etudiant_id, prof_id=prof_id, commentaire=commentaire)
+                db.session.add(comment)
+                db.session.commit()
+            response = jsonify(success=True)
+            referrer_url = request.referrer
+            response.headers['Location'] = referrer_url
+            return response, 302
+        except Exception as e:
+            db.session.rollback()
+            return render_template('error.html')
+    return render_template('pp.html',nom=nom,Prenom=prenom,Discipline=discipline,Formation=formation,Niveau=niveau,Diplome=diplome,photo=photo,bio=bio,note=note,commentaires=com,nat=userp.nationalite,prof_id=prof_id)
+
 @MainBp.route('/submit_rating/<id_user>/<id_prof>', methods=['POST'])
 def submit_rating(id_user,id_prof):
     rating = request.json.get('rating')
+    print('ds',rating)
     prof = Prof.query.filter_by(id=id_prof,valider="oui").first()
     try:
         deja=NoteProf.query.filter_by(id_user_noteur=session.get('userid')).first() 
-        if not deja:
+        if deja is None:
             note=NoteProf(id_user_noteur=id_user,id_prof=id_prof,numbre_etoile=int(rating))
             db.session.add(note)
             prof.etoile=round(db.session.query(func.avg(NoteProf.numbre_etoile)).filter_by(id_prof=id_prof).scalar())

@@ -108,7 +108,7 @@ def create_checkout_session_demande(id):
                     'price_data': {
                         'currency': 'usd',
                         'product_data': {
-                            'name':demande.chapiter,
+                            'name':demande.id_demande,
                         },
                         'unit_amount': amount,
                     },
@@ -116,8 +116,8 @@ def create_checkout_session_demande(id):
                 },
             ],
             mode='payment',
-            success_url=YOUR_DOMAIN + '/payementdemande/'+id,
-            cancel_url=YOUR_DOMAIN + '/cancel',
+            success_url=os.getenv('YOUR_DOMAIN') + '/payementdemande/'+id,
+            cancel_url= os.getenv('YOUR_DOMAIN')+ '/cancel',
         )
     except Exception as e:
         return str(e)

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Meeting Warning</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Après 5 secondes, redirige automatiquement vers la page du meeting
+            setTimeout(function () {
+                window.location.replace('{{ meet_url }}');
+            }, 5000); // Redirige après 5 secondes
+        });
+    </script>
+</head>
+<body>
+    <h1>Meeting Alert</h1>
+    <p>This meeting will end in {{ time_until_end }}. Please wrap up your discussion.</p>
+</body>
+</html>

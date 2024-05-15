@@ -177,29 +177,61 @@
     .ime:hover{
       cursor: pointer;
     }
-    /* Votre code CSS */
-/* Style pour la fenêtre modale */
-.modal {
-display: none;
-position: fixed;
-z-index: 1;
-left: 0;
-top: 0;
-width: 100%;
-height: 100%;
-overflow: auto;
-background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
-background-color: #fff;
-border-radius: 5px;
-max-width: 300px;
-margin: 150px auto;
-padding: 20px;
-text-align: center;
-}
-
+    dialog {
+      padding: 1rem 3rem;
+      background: white;
+      max-width: 400px;
+      padding-top: 2rem;
+      border-radius: 20px;
+      border: 0;
+      box-shadow: 0 5px 30px 0 rgba(0, 0, 0, 0.1);
+      -webkit-animation: fadeIn 1s ease both;
+              animation: fadeIn 1s ease both;
+    }
+    dialog::-webkit-backdrop {
+      -webkit-animation: fadeIn 1s ease both;
+              animation: fadeIn 1s ease both;
+      background: rgba(255, 255, 255, 0.4);
+      z-index: 2;
+      -webkit-backdrop-filter: blur(20px);
+              backdrop-filter: blur(20px);
+    }
+    dialog::backdrop {
+      -webkit-animation: fadeIn 1s ease both;
+              animation: fadeIn 1s ease both;
+      background: rgba(255, 255, 255, 0.4);
+      z-index: 2;
+      -webkit-backdrop-filter: blur(20px);
+              backdrop-filter: blur(20px);
+    }
+    dialog .x {
+      filter: grayscale(1);
+      border: none;
+      background: none;
+      position: absolute;
+      top: 15px;
+      right: 10px;
+      transition: ease filter, transform 0.3s;
+      cursor: pointer;
+      transform-origin: center;
+    }
+    dialog .x:hover {
+      filter: grayscale(0);
+      transform: scale(1.1);
+    }
+    dialog h2 {
+      font-weight: 600;
+      font-size: 2rem;
+      padding-bottom: 1rem;
+    }
+    dialog p {
+      font-size: 1rem;
+      line-height: 1.3rem;
+      padding: 0.5rem 0;
+    }
+    dialog p a:visited {
+      color: rgb(var(--vs-primary));
+    }
 </style>
 <div class='demandes-container flex-container'>
   {% for demand in demandeprof %}
@@ -213,16 +245,23 @@ text-align: center;
           <p>Date 2 : {{demand.date2}}</p>
       </div>
       <button class='cancel-btn' data-demand-id="{{ demand.id_demande }}">Refuser</button>
-      <button class='confirm-btn' data-demand-id="{{ demand.id_demande }}" onclick="afficherConfirmation()" >Confirmer</button>
+      <button class='confirm-btn' data-demand-id="{{ demand.id_demande }}" onclick="window.dialog.showModal();" >Confirmer</button>
     </div>
-      <div id="modals" class="modals" style="display: none; background-color: rgb(206, 205, 205);height: 160px;width: 300px;z-index: 9999999;position: fixed;margin-top: 0px;border-radius: 20px;">
-        <div class="modal-contents" >
-          <p id="con" style="text-align: center;font-size: 17px;font-weight: bold;z-index: 999999;"> <span style="color: rgb(14, 14, 64);font-weight: bolder; "></span> <br>Quelle date preferez-vous  ?</p>
-          <button class="dat1" style="height: 50px;width: 300px;background-color: rgb(164, 162, 162);border-radius: 15px;" data-demand-id="{{ demand.id_demande }}" data-date-id="1" data-live-id="{{ demand.lien }}" >Le {{demand.date1}}</button>
-          <button class="dat2" style="height: 50px;width: 300px;background-color: rgb(179, 177, 177);border-radius: 15px;"data-demand-id="{{ demand.id_demande }}" data-date-id="2" data-live-id="{{ demand.lien }}" >Le {{demand.date2}}</button>
+    <dialog id="dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="noteModalLabel">Noter le professeur</h5>
+        </div>
+        <div class="contenu-dynamic modal-body justify-content-center d-flex">
+          <div class="ratings">
+            <button class="dat1" style="height: 50px;width: 300px;background-color: rgb(164, 162, 162);border-radius: 5px;" data-demand-id="{{ demand.id_demande }}" data-date-id="1" data-live-id="{{ demand.lien }}" >Le {{demand.date1}}</button>
+          <button class="dat2" style="height: 50px;width: 300px;background-color: rgb(179, 177, 177);border-radius: 5px;"data-demand-id="{{ demand.id_demande }}" data-date-id="2" data-live-id="{{ demand.lien }}" >Le {{demand.date2}}</button>
           <button style="height: 50px;width: 300px;background-color: rgb(255, 0, 0);border-radius: 15px;" onclick="cacherConfirmation()" >Annuler</button>
+          </div>
         </div>
       </div>
+      <button onclick="window.dialog.close();" aria-label="close" class="x">❌</button>
+    </dialog>
       {% endif %}
   {% endfor %}
 </div>

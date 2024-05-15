@@ -59,7 +59,6 @@ dat1.forEach((button) => {
   button.addEventListener('click', function() {
     // Get the demand ID from the data attribute
     const demandId = this.dataset.demandId;
-    const dateId = this.dataset.dateId;
     const cd=`${uuidv4()}`
     // Send a DELETE request to the Flask route to delete the demand
     fetch(`/accepte_demande/date1/${demandId}/${cd}`, {
@@ -67,10 +66,7 @@ dat1.forEach((button) => {
     })
     .then(response => response.json())
     .then(data => {
-      // Reload the page after successful deletion
-      if (data.success) {
         window.location.reload();
-      }
     })
     .catch(error => {
       console.error('Error deleting demand:', error);
@@ -83,7 +79,6 @@ dat2.forEach((button) => {
   button.addEventListener('click', function() {
     // Get the demand ID from the data attribute
     const demandId = this.dataset.demandId;
-    const dateId = this.dataset.dateId;
     const cd=`${uuidv4()}`
     // Send a DELETE request to the Flask route to delete the demand
     fetch(`/accepte_demande/date2/${demandId}/${cd}`, {
@@ -91,10 +86,7 @@ dat2.forEach((button) => {
     })
     .then(response => response.json())
     .then(data => {
-      // Reload the page after successful deletion
-      if (data.success) {
         window.location.reload();
-      }
     })
     .catch(error => {
       console.error('Error deleting demand:', error);
@@ -108,20 +100,17 @@ return 'xxyxyxxyx'.replace(/[xy]/g, function (c) {
     return v.toString(16);
 });
 }
-function date1(demandId) {
-const deleteButtons = document.querySelectorAll('.cancel-btn');
-// const demandId = deleteButtons.dataset.demandId;
+// function date1(demandId) {
+// // Replace the current URL in the browser's history with '/connexion'
+// history.replaceState({}, '', '/');
+// // Redirect to the 'connexion' page
+// window.location.href = `/accepte_demande/${demandId}/1/${cd}`;
 
-// Replace the current URL in the browser's history with '/connexion'
-history.replaceState({}, '', '/');
-// Redirect to the 'connexion' page
-window.location.href = `/accepte_demande/${demandId}/1/${cd}`;
+// }
 
-}
+// function date2(demandId) {
+// const date2Id =2;
+// window.location.href = `/accepte_demande/${demandId}/2`;
 
-function date2(demandId) {
-const date2Id =2;
-window.location.href = `/accepte_demande/${demandId}/2`;
-
-}
+// }
 

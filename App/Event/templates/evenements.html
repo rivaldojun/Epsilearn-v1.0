@@ -1,0 +1,959 @@
+{% extends "base.html" %}
+
+{% block style %}
+  <style>
+    body, html {
+      background-color: #f5f5f5;
+    }
+
+    div.scrollmenu {
+      background-color: transparent;
+      overflow: auto;
+      white-space: nowrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 5px;
+      text-align: center;
+      text-decoration: none;
+      background-color: #1461d3;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn.active {
+      background-color: black;
+    }
+
+    .col-1 ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .col-1 ul li {
+      margin-bottom: 10px;
+    }
+
+    .col-1 ul li a {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .col-1 ul li a:hover {
+      color: #007bff;
+    }
+
+
+    .btn.active {
+      background-color: rgb(255, 255, 255);
+    }
+
+    .content-section {
+      display: none;
+    }
+
+    h1{
+  text-align:center;
+  margin-bottom:50px;
+  margin-top:50px;
+}
+.blog-card-blog {
+    margin-top: 30px;
+}
+.blog-card {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    margin-bottom: 30px;
+    border-radius: 6px;
+    color: rgba(0, 0, 0, 0.87);
+    background: #fff;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+.blog-card .blog-card-image {
+    height: 60%;
+    position: relative;
+    overflow: hidden;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: -30px;
+    border-radius: 6px;
+    box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+}
+.blog-card .blog-card-image img {
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    pointer-events: none;
+}
+.blog-card .blog-table {
+    padding: 15px 30px;
+}
+.blog-table {
+    margin-bottom: 0px;
+}
+.blog-category {
+    position: relative;
+    line-height: 0;
+    margin: 15px 0;
+}
+.blog-text-success {
+    color: #28a745!important;
+}
+.blog-card-blog .blog-card-caption {
+    margin-top: 5px;
+}
+.blog-card-caption {
+    font-weight: 700;
+    font-family: "Roboto Slab", "Times New Roman", serif;
+}
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.blog-card-caption, .blog-card-caption a {
+    color: #333;
+    text-decoration: none;
+}
+
+p {
+    color: #3C4857;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+.blog-card .ftr {
+    margin-top: 15px;
+}
+.blog-card .ftr .author {
+    color: #888;
+}
+
+.blog-card .ftr div {
+    display: inline-block;
+}
+.blog-card .author .avatar {
+    width: 36px;
+    height: 36px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+.blog-card .ftr .stats {
+    position: relative;
+    top: 1px;
+    font-size: 14px;
+}
+.blog-card .ftr .stats {
+    float: right;
+    line-height: 30px;
+}
+
+.blog-card {
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .blog-card:hover {
+    transform: scale(1.05); /* Augmenter l'échelle au survol */
+  }
+  
+/* Style pour le conteneur de la barre de recherche */
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Style pour le champ de recherche */
+.search-input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 40px 0 0 40px;
+  width: 50%; /* Ajustez la largeur selon vos préférences */
+}
+
+/* Style pour le bouton de recherche */
+.search-button {
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: rgb(185, 185, 185); /* Bleu gris */
+  color: #fff; /* Texte en blanc */
+  border: 1px solid rgb(185, 185, 185); /* Bordure bleue */
+  border-radius: 0 40px 40px 0;
+  cursor: pointer;
+}
+
+/* Style pour le bouton de recherche au survol */
+.search-button:hover {
+  background-color: gray; /* Bleu gris plus foncé au survol */
+  border: 1px solid gray; /* Bordure bleue au survol */
+}
+
+
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+
+
+    <div class="search-container" style="margin-top: 40px;">
+      <input type="text" id="searchInput" class="search-input" placeholder="Rechercher par nom d'événement">
+      <button onclick="searchEvents()" class="search-button"><i class="fas fa-search"></i></button>
+    </div>
+    
+       
+
+    <div class="row">
+      <div class="col-1" style="margin-top: 50px;">
+        <ul>
+          <li>
+            <a href="/ajouterevenement" title="Ajouter un événement">
+              <i class="fas fa-calendar-plus" style="color: blue;"></i>
+            </a>
+          </li>
+          <li>
+            <a href="/my_events" title="Tableau de bord">
+              <i class="fas fa-chart-line" style="color: blue;">
+              </i>
+            </a>
+          </li>
+          <li>
+            <a href="/mesevenements" title="Mes événements">
+              <i class="fas fa-calendar" style="color: blue;">
+                <span style="background-color: red; scale: 1; float: right; border-radius: 60%; color: white; font-size: 10px; font-family: 'Kanit'; padding: 2px; height: 15px; width: 15px; text-align: center;">
+                  {{ne}}
+                </span>
+              </i>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-11">
+        <div class="scrollmenu" id="myTabs" style="margin-top: 50px;">
+          <button class="btn" data-category="all" onclick="showContent(this)">Tous</button>
+          <button class="btn" data-category="seminaire" onclick="showContent(this)">Séminaire</button>
+          <button class="btn" data-category="cours" onclick="showContent(this)">Cours</button>
+          <button class="btn" data-category="projet" onclick="showContent(this)">Présentation de projet</button>
+          <button class="btn" data-category="essai" onclick="showContent(this)">Essai de soutenance</button>
+          <button class="btn" data-category="competition" onclick="showContent(this)">Compétition</button>
+          <button class="btn" data-category="genie" onclick="showContent(this)">Génie en Herbe</button>
+          <button class="btn" data-category="football" onclick="showContent(this)">Football</button>
+          <button class="btn" data-category="party" onclick="showContent(this)">Party</button>
+          <button class="btn" data-category="autre" onclick="showContent(this)">Autre</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-1">
+      </div>
+
+      <div class="col-11">
+        <!-- Content sections for different categories -->
+    <div class="content-section" id="content-all">
+      <div class="row mt-n5">
+        
+      
+        {% for event in events %} 
+        <div class="col-md-4" style=" cursor: pointer;" onclick="redirectToDetailPage('{{ event.id_evenement }}')"> 
+          <div>
+          <div class="blog-card blog-card-blog">
+            <div class="blog-card-image">
+              {% if event.photo != "" %}
+              {% if event.photo.endswith(".mp4") or event.photo.endswith(".avi") or event.photo.endswith(".mov") %}
+                <video class="img-fluid" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;" controls>
+                  <source src="{{ event.photo }}" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              {% else %}
+                <img src="{{ event.photo }}" class="img-fluid" alt="Media de l'événement" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">
+              {% endif %}
+            {% else %}
+              <img src="../static/image/2.png" class="img-fluid" alt="Image par défaut" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">
+            {% endif %}
+                <div class="ripple-cont"></div>
+            </div>
+            <div class="blog-table">
+                    <h6 class="blog-category blog-text-success">{{ event.type_ev }}</h6>
+                    <h4 class="blog-card-caption">
+                        <a data-toggle="tooltip" data-placement="top" title="{{ event.description }}">{{ event.Nom }}</a>
+                        <p class="hidden-description" style="display: none;"  data-toggle="tooltip" data-placement="top" title="{{ event.description }}">
+                          {{ event.description }}
+                        </p>
+                      </h4>
+                    <div class="blog-card-description">
+                      <p><i class="far fa-calendar-alt"></i> <strong><span style="color: red;">{{event.date}}</span></strong></p>
+
+                        {% if event.live == "Oui" %}
+                          <p><i class="fas fa-globe"></i> En ligne</p>
+                        {% else %}
+                          <p><i class="fas fa-map-marker-alt"></i> <strong>{{event.pays}}, {{event.ville}}</strong></p>
+                        {% endif %}
+
+                        <p><i class="far fa-eye"></i> <strong>{{event.vue}}</strong></p>
+
+                  </div>
+            
+              <div class="ftr">
+                  <div class="author">
+                      <a style="text-decoration: none;"> <img src="{{ event.organizer.photo }}"  class="avatar img-raised"> <span class="organizer-name">{{ event.organizer.nom }} {{ event.organizer.prenom }}</span> </a>
+                  </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        {% endfor %}
+      </div>     
+     </div>
+
+     <div class="content-section" id="content-seminaire">
+      <div class="row">
+        {% for event in events %}
+        {% if event.type_ev == "Seminaire" %}
+        <div class="col-md-4" style=" cursor: pointer;" onclick="redirectToDetailPage('{{ event.id_evenement }}')"> 
+          <div>
+          <div class="blog-card blog-card-blog">
+            <div class="blog-card-image">
+              {% if event.photo != "" %}
+              {% if event.photo.endswith(".mp4") or event.photo.endswith(".avi") or event.photo.endswith(".mov") %}
+                <video class="img-fluid" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;" controls>
+                  <source src="{{ event.photo }}" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              {% else %}
+                <img src="{{ event.photo }}" class="img-fluid" alt="Media de l'événement" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">
+              {% endif %}
+            {% else %}
+              <img src="../static/image/2.png" class="img-fluid" alt="Image par défaut" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">
+            {% endif %}
+                <div class="ripple-cont"></div>
+            </div>
+            <div class="blog-table">
+                    <h6 class="blog-category blog-text-success">{{ event.type_ev }}</h6>
+                    <h4 class="blog-card-caption">
+                        <a data-toggle="tooltip" data-placement="top" title="{{ event.description }}">{{ event.Nom }}</a>
+                        <p class="hidden-description" style="display: none;"  data-toggle="tooltip" data-placement="top" title="{{ event.description }}">
+                          {{ event.description }}
+                        </p>
+                      </h4>
+                    <div class="blog-card-description">
+                      <p><i class="far fa-calendar-alt"></i> <strong><span style="color: red;">{{event.date}}</span></strong></p>
+
+                        {% if event.live == "Oui" %}
+                          <p><i class="fas fa-globe"></i> En ligne</p>
+                        {% else %}
+                          <p><i class="fas fa-map-marker-alt"></i> <strong>{{event.pays}}, {{event.ville}}</strong></p>
+                        {% endif %}
+
+                        <p><i class="far fa-eye"></i> <strong>{{event.vue}}</strong></p>
+
+                  </div>
+            
+              <div class="ftr">
+                  <div class="author">
+                      <a style="text-decoration: none;"> <img src="{{ event.organizer.photo }}"  class="avatar img-raised"> <span class="organizer-name">{{ event.organizer.nom }} {{ event.organizer.prenom }}</span> </a>
+                  </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        {% endif %}    
+        {% endfor %}
+      </div>
+     </div>
+     <div class="content-section" id="content-cours">
+      <div class="row">
+        {% for event in events %}
+        {% if event.type_ev == "Cours" %}
+        <div class="col-md-4" style=" cursor: pointer;" onclick="redirectToDetailPage('{{ event.id_evenement }}')"> 
+          <div>
+          <div class="blog-card blog-card-blog">
+            <div class="blog-card-image">
+              {% if event.photo != "" %}
+              {% if event.photo.endswith(".mp4") or event.photo.endswith(".avi") or event.photo.endswith(".mov") %}
+                <video class="img-fluid" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;" controls>
+                  <source src="{{ event.photo }}" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              {% else %}
+                <img src="{{ event.photo }}" class="img-fluid" alt="Media de l'événement" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">
+              {% endif %}
+            {% else %}
+              <img src="../static/image/2.png" class="img-fluid" alt="Image par défaut" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">
+            {% endif %}
+                <div class="ripple-cont"></div>
+            </div>
+            <div class="blog-table">
+                    <h6 class="blog-category blog-text-success">{{ event.type_ev }}</h6>
+                    <h4 class="blog-card-caption">
+                        <a data-toggle="tooltip" data-placement="top" title="{{ event.description }}">{{ event.Nom }}</a>
+                        <p class="hidden-description" style="display: none;"  data-toggle="tooltip" data-placement="top" title="{{ event.description }}">
+                          {{ event.description }}
+                        </p>
+                      </h4>
+                    <div class="blog-card-description">
+                      <p><i class="far fa-calendar-alt"></i> <strong><span style="color: red;">{{event.date}}</span></strong></p>
+
+                        {% if event.live == "Oui" %}
+                          <p><i class="fas fa-globe"></i> En ligne</p>
+                        {% else %}
+                          <p><i class="fas fa-map-marker-alt"></i> <strong>{{event.pays}}, {{event.ville}}</strong></p>
+                        {% endif %}
+
+                        <p><i class="far fa-eye"></i> <strong>{{event.vue}}</strong></p>
+
+                  </div>
+            
+              <div class="ftr">
+                  <div class="author">
+                      <a style="text-decoration: none;"> <img src="{{ event.organizer.photo }}"  class="avatar img-raised"> <span class="organizer-name">{{ event.organizer.nom }} {{ event.organizer.prenom }}</span> </a>
+                  </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        {% endif %}    
+        {% endfor %}
+      </div>
+      </div>
+      <div class="content-section" id="content-projet">
+        <div class="row">
+          {% for event in events %}
+          {% if event.type_ev == "Presentation" %}
+          <div class="col-md-4" style=" cursor: pointer;" onclick="redirectToDetailPage('{{ event.id_evenement }}')"> 
+            <div>
+            <div class="blog-card blog-card-blog">
+              <div class="blog-card-image">
+                {% if event.photo != "" %}
+                {% if event.photo.endswith(".mp4") or event.photo.endswith(".avi") or event.photo.endswith(".mov") %}
+                  <video class="img-fluid" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;" controls>
+                    <source src="{{ event.photo }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+                {% else %}
+                  <img src="{{ event.photo }}" class="img-fluid" alt="Media de l'événement" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">
+                {% endif %}
+              {% else %}
+                <img src="../static/image/2.png" class="img-fluid" alt="Image par défaut" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">
+              {% endif %}
+                  <div class="ripple-cont"></div>
+              </div>
+              <div class="blog-table">
+                      <h6 class="blog-category blog-text-success">{{ event.type_ev }}</h6>
+                      <h4 class="blog-card-caption">
+                          <a data-toggle="tooltip" data-placement="top" title="{{ event.description }}">{{ event.Nom }}</a>
+                          <p class="hidden-description" style="display: none;"  data-toggle="tooltip" data-placement="top" title="{{ event.description }}">
+                            {{ event.description }}
+                          </p>
+                        </h4>
+                      <div class="blog-card-description">
+                        <p><i class="far fa-calendar-alt"></i> <strong><span style="color: red;">{{event.date}}</span></strong></p>
+  
+                          {% if event.live == "Oui" %}
+                            <p><i class="fas fa-globe"></i> En ligne</p>
+                          {% else %}
+                            <p><i class="fas fa-map-marker-alt"></i> <strong>{{event.pays}}, {{event.ville}}</strong></p>
+                          {% endif %}
+  
+                          <p><i class="far fa-eye"></i> <strong>{{event.vue}}</strong></p>
+  
+                    </div>
+              
+                <div class="ftr">
+                    <div class="author">
+                        <a style="text-decoration: none;"> <img src="{{ event.organizer.photo }}"  class="avatar img-raised"> <span class="organizer-name">{{ event.organizer.nom }} {{ event.organizer.prenom }}</span> </a>
+                    </div>
+  
+  
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          {% endif %}    
+          {% endfor %}
+        </div>
+      </div>
+      <div class="content-section" id="content-essai">
+        <div class="row">
+          {% for event in events %}
+          {% if event.type_ev == "Essai de soutenance" %}
+          <div class="col-md-4" style=" cursor: pointer;" onclick="redirectToDetailPage('{{ event.id_evenement }}')"> 
+            <div>
+            <div class="blog-card blog-card-blog">
+              <div class="blog-card-image">
+                {% if event.photo != "" %}
+                {% if event.photo.endswith(".mp4") or event.photo.endswith(".avi") or event.photo.endswith(".mov") %}
+                  <video class="img-fluid" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;" controls>
+                    <source src="{{ event.photo }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+                {% else %}
+                  <img src="{{ event.photo }}" class="img-fluid" alt="Media de l'événement" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">
+                {% endif %}
+              {% else %}
+                <img src="../static/image/2.png" class="img-fluid" alt="Image par défaut" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">
+              {% endif %}
+                  <div class="ripple-cont"></div>
+              </div>
+              <div class="blog-table">
+                      <h6 class="blog-category blog-text-success">{{ event.type_ev }}</h6>
+                      <h4 class="blog-card-caption">
+                          <a data-toggle="tooltip" data-placement="top" title="{{ event.description }}">{{ event.Nom }}</a>
+                          <p class="hidden-description" style="display: none;"  data-toggle="tooltip" data-placement="top" title="{{ event.description }}">
+                            {{ event.description }}
+                          </p>
+                        </h4>
+                      <div class="blog-card-description">
+                        <p><i class="far fa-calendar-alt"></i> <strong><span style="color: red;">{{event.date}}</span></strong></p>
+  
+                          {% if event.live == "Oui" %}
+                            <p><i class="fas fa-globe"></i> En ligne</p>
+                          {% else %}
+                            <p><i class="fas fa-map-marker-alt"></i> <strong>{{event.pays}}, {{event.ville}}</strong></p>
+                          {% endif %}
+  
+                          <p><i class="far fa-eye"></i> <strong>{{event.vue}}</strong></p>
+  
+                    </div>
+              
+                <div class="ftr">
+                    <div class="author">
+                        <a style="text-decoration: none;"> <img src="{{ event.organizer.photo }}"  class="avatar img-raised"> <span class="organizer-name">{{ event.organizer.nom }} {{ event.organizer.prenom }}</span> </a>
+                    </div>
+  
+  
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          {% endif %}    
+          {% endfor %}
+        </div>
+      </div>
+      <div class="content-section" id="content-competition">
+        <div class="row">
+          {% for event in events %}
+          {% if event.type_ev == "Competition" %}
+          <div class="col-md-4" style=" cursor: pointer;" onclick="redirectToDetailPage('{{ event.id_evenement }}')"> 
+            <div>
+            <div class="blog-card blog-card-blog">
+              <div class="blog-card-image">
+                {% if event.photo != "" %}
+                {% if event.photo.endswith(".mp4") or event.photo.endswith(".avi") or event.photo.endswith(".mov") %}
+                  <video class="img-fluid" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;" controls>
+                    <source src="{{ event.photo }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+                {% else %}
+                  <img src="{{ event.photo }}" class="img-fluid" alt="Media de l'événement" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">
+                {% endif %}
+              {% else %}
+                <img src="../static/image/2.png" class="img-fluid" alt="Image par défaut" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">
+              {% endif %}
+                  <div class="ripple-cont"></div>
+              </div>
+              <div class="blog-table">
+                      <h6 class="blog-category blog-text-success">{{ event.type_ev }}</h6>
+                      <h4 class="blog-card-caption">
+                          <a data-toggle="tooltip" data-placement="top" title="{{ event.description }}">{{ event.Nom }}</a>
+                          <p class="hidden-description" style="display: none;"  data-toggle="tooltip" data-placement="top" title="{{ event.description }}">
+                            {{ event.description }}
+                          </p>
+                        </h4>
+                      <div class="blog-card-description">
+                        <p><i class="far fa-calendar-alt"></i> <strong><span style="color: red;">{{event.date}}</span></strong></p>
+  
+                          {% if event.live == "Oui" %}
+                            <p><i class="fas fa-globe"></i> En ligne</p>
+                          {% else %}
+                            <p><i class="fas fa-map-marker-alt"></i> <strong>{{event.pays}}, {{event.ville}}</strong></p>
+                          {% endif %}
+  
+                          <p><i class="far fa-eye"></i> <strong>{{event.vue}}</strong></p>
+  
+                    </div>
+              
+                <div class="ftr">
+                    <div class="author">
+                        <a style="text-decoration: none;"> <img src="{{ event.organizer.photo }}"  class="avatar img-raised"> <span class="organizer-name">{{ event.organizer.nom }} {{ event.organizer.prenom }}</span> </a>
+                    </div>
+  
+  
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          {% endif %}    
+          {% endfor %}
+        </div>
+      </div>
+      <div class="content-section" id="content-genie">
+        <div class="row">
+          {% for event in events %}
+          {% if event.type_ev == "Genie en Herbe" %}
+          <div class="col-md-4" style=" cursor: pointer;" onclick="redirectToDetailPage('{{ event.id_evenement }}')"> 
+            <div>
+            <div class="blog-card blog-card-blog">
+              <div class="blog-card-image">
+                {% if event.photo != "" %}
+                {% if event.photo.endswith(".mp4") or event.photo.endswith(".avi") or event.photo.endswith(".mov") %}
+                  <video class="img-fluid" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;" controls>
+                    <source src="{{ event.photo }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+                {% else %}
+                  <img src="{{ event.photo }}" class="img-fluid" alt="Media de l'événement" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">
+                {% endif %}
+              {% else %}
+                <img src="../static/image/2.png" class="img-fluid" alt="Image par défaut" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">
+              {% endif %}
+                  <div class="ripple-cont"></div>
+              </div>
+              <div class="blog-table">
+                      <h6 class="blog-category blog-text-success">{{ event.type_ev }}</h6>
+                      <h4 class="blog-card-caption">
+                          <a data-toggle="tooltip" data-placement="top" title="{{ event.description }}">{{ event.Nom }}</a>
+                          <p class="hidden-description" style="display: none;"  data-toggle="tooltip" data-placement="top" title="{{ event.description }}">
+                            {{ event.description }}
+                          </p>
+                        </h4>
+                      <div class="blog-card-description">
+                        <p><i class="far fa-calendar-alt"></i> <strong><span style="color: red;">{{event.date}}</span></strong></p>
+  
+                          {% if event.live == "Oui" %}
+                            <p><i class="fas fa-globe"></i> En ligne</p>
+                          {% else %}
+                            <p><i class="fas fa-map-marker-alt"></i> <strong>{{event.pays}}, {{event.ville}}</strong></p>
+                          {% endif %}
+  
+                          <p><i class="far fa-eye"></i> <strong>{{event.vue}}</strong></p>
+  
+                    </div>
+              
+                <div class="ftr">
+                    <div class="author">
+                        <a style="text-decoration: none;"> <img src="{{ event.organizer.photo }}"  class="avatar img-raised"> <span class="organizer-name">{{ event.organizer.nom }} {{ event.organizer.prenom }}</span> </a>
+                    </div>
+  
+  
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          {% endif %}    
+          {% endfor %}
+        </div>
+      </div>
+      <div class="content-section" id="content-football">
+        <div class="row">
+          {% for event in events %}
+          {% if event.type_ev == "Football" %}
+          <div class="col-md-4" style=" cursor: pointer;" onclick="redirectToDetailPage('{{ event.id_evenement }}')"> 
+            <div>
+            <div class="blog-card blog-card-blog">
+              <div class="blog-card-image">
+                {% if event.photo != "" %}
+                {% if event.photo.endswith(".mp4") or event.photo.endswith(".avi") or event.photo.endswith(".mov") %}
+                  <video class="img-fluid" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;" controls>
+                    <source src="{{ event.photo }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+                {% else %}
+                  <img src="{{ event.photo }}" class="img-fluid" alt="Media de l'événement" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">
+                {% endif %}
+              {% else %}
+                <img src="../static/image/2.png" class="img-fluid" alt="Image par défaut" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">
+              {% endif %}
+                  <div class="ripple-cont"></div>
+              </div>
+              <div class="blog-table">
+                      <h6 class="blog-category blog-text-success">{{ event.type_ev }}</h6>
+                      <h4 class="blog-card-caption">
+                          <a data-toggle="tooltip" data-placement="top" title="{{ event.description }}">{{ event.Nom }}</a>
+                          <p class="hidden-description" style="display: none;"  data-toggle="tooltip" data-placement="top" title="{{ event.description }}">
+                            {{ event.description }}
+                          </p>
+                        </h4>
+                      <div class="blog-card-description">
+                        <p><i class="far fa-calendar-alt"></i> <strong><span style="color: red;">{{event.date}}</span></strong></p>
+  
+                          {% if event.live == "Oui" %}
+                            <p><i class="fas fa-globe"></i> En ligne</p>
+                          {% else %}
+                            <p><i class="fas fa-map-marker-alt"></i> <strong>{{event.pays}}, {{event.ville}}</strong></p>
+                          {% endif %}
+  
+                          <p><i class="far fa-eye"></i> <strong>{{event.vue}}</strong></p>
+  
+                    </div>
+              
+                <div class="ftr">
+                    <div class="author">
+                        <a style="text-decoration: none;"> <img src="{{ event.organizer.photo }}"  class="avatar img-raised"> <span class="organizer-name">{{ event.organizer.nom }} {{ event.organizer.prenom }}</span> </a>
+                    </div>
+  
+  
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          {% endif %}    
+          {% endfor %}
+        </div>
+      </div>
+      <div class="content-section" id="content-party">
+        <div class="row">
+          {% for event in events %}
+          {% if event.type_ev == "Party" %}
+          <div class="col-md-4" style=" cursor: pointer;" onclick="redirectToDetailPage('{{ event.id_evenement }}')"> 
+            <div>
+            <div class="blog-card blog-card-blog">
+              <div class="blog-card-image">
+                {% if event.photo != "" %}
+                {% if event.photo.endswith(".mp4") or event.photo.endswith(".avi") or event.photo.endswith(".mov") %}
+                  <video class="img-fluid" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;" controls>
+                    <source src="{{ event.photo }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+                {% else %}
+                  <img src="{{ event.photo }}" class="img-fluid" alt="Media de l'événement" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">
+                {% endif %}
+              {% else %}
+                <img src="../static/image/2.png" class="img-fluid" alt="Image par défaut" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">
+              {% endif %}
+                  <div class="ripple-cont"></div>
+              </div>
+              <div class="blog-table">
+                      <h6 class="blog-category blog-text-success">{{ event.type_ev }}</h6>
+                      <h4 class="blog-card-caption">
+                          <a data-toggle="tooltip" data-placement="top" title="{{ event.description }}">{{ event.Nom }}</a>
+                          <p class="hidden-description" style="display: none;"  data-toggle="tooltip" data-placement="top" title="{{ event.description }}">
+                            {{ event.description }}
+                          </p>
+                        </h4>
+                      <div class="blog-card-description">
+                        <p><i class="far fa-calendar-alt"></i> <strong><span style="color: red;">{{event.date}}</span></strong></p>
+  
+                          {% if event.live == "Oui" %}
+                            <p><i class="fas fa-globe"></i> En ligne</p>
+                          {% else %}
+                            <p><i class="fas fa-map-marker-alt"></i> <strong>{{event.pays}}, {{event.ville}}</strong></p>
+                          {% endif %}
+  
+                          <p><i class="far fa-eye"></i> <strong>{{event.vue}}</strong></p>
+  
+                    </div>
+              
+                <div class="ftr">
+                    <div class="author">
+                        <a style="text-decoration: none;"> <img src="{{ event.organizer.photo }}"  class="avatar img-raised"> <span class="organizer-name">{{ event.organizer.nom }} {{ event.organizer.prenom }}</span> </a>
+                    </div>
+  
+  
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          {% endif %}    
+          {% endfor %}
+        </div>
+      </div>
+      <div class="content-section" id="content-autre">
+        <div class="row">
+          {% for event in events %}
+          {% if event.type_ev == "Autre" %}
+          <div class="col-md-4" style=" cursor: pointer;" onclick="redirectToDetailPage('{{ event.id_evenement }}')"> 
+            <div>
+            <div class="blog-card blog-card-blog">
+              <div class="blog-card-image">
+                {% if event.photo != "" %}
+                {% if event.photo.endswith(".mp4") or event.photo.endswith(".avi") or event.photo.endswith(".mov") %}
+                  <video class="img-fluid" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;" controls>
+                    <source src="{{ event.photo }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+                {% else %}
+                  <img src="{{ event.photo }}" class="img-fluid" alt="Media de l'événement" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">
+                {% endif %}
+              {% else %}
+                <img src="../static/image/2.png" class="img-fluid" alt="Image par défaut" style="border-top-left-radius: 10px; border-top-right-radius: 10px; height: 200px; object-fit: cover;">
+              {% endif %}
+                  <div class="ripple-cont"></div>
+              </div>
+              <div class="blog-table">
+                      <h6 class="blog-category blog-text-success">{{ event.type_ev }}</h6>
+                      <h4 class="blog-card-caption">
+                          <a data-toggle="tooltip" data-placement="top" title="{{ event.description }}">{{ event.Nom }}</a>
+                          <p class="hidden-description" style="display: none;"  data-toggle="tooltip" data-placement="top" title="{{ event.description }}">
+                            {{ event.description }}
+                          </p>
+                        </h4>
+                      <div class="blog-card-description">
+                        <p><i class="far fa-calendar-alt"></i> <strong><span style="color: red;">{{event.date}}</span></strong></p>
+  
+                          {% if event.live == "Oui" %}
+                            <p><i class="fas fa-globe"></i> En ligne</p>
+                          {% else %}
+                            <p><i class="fas fa-map-marker-alt"></i> <strong>{{event.pays}}, {{event.ville}}</strong></p>
+                          {% endif %}
+  
+                          <p><i class="far fa-eye"></i> <strong>{{event.vue}}</strong></p>
+  
+                    </div>
+              
+                <div class="ftr">
+                    <div class="author">
+                        <a style="text-decoration: none;"> <img src="{{ event.organizer.photo }}"  class="avatar img-raised"> <span class="organizer-name">{{ event.organizer.nom }} {{ event.organizer.prenom }}</span> </a>
+                    </div>
+  
+  
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          {% endif %}    
+          {% endfor %}
+        </div>
+      </div>
+      </div>
+    
+  </div>
+    <!-- Add content sections for other categories similarly -->
+  </div>
+
+  <script>
+    // Add this code to initialize Bootstrap tooltips
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
+function calculateLevenshteinDistance(a, b) {
+  if (a.length === 0) return b.length;
+  if (b.length === 0) return a.length;
+
+  var matrix = [];
+
+  // Initialize the matrix
+  for (var i = 0; i <= b.length; i++) {
+    matrix[i] = [i];
+  }
+
+  for (var j = 0; j <= a.length; j++) {
+    matrix[0][j] = j;
+  }
+
+  // Fill in the matrix
+  for (var i = 1; i <= b.length; i++) {
+    for (var j = 1; j <= a.length; j++) {
+      if (b.charAt(i - 1) === a.charAt(j - 1)) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j - 1], // Substitution
+          matrix[i][j - 1] + 1, // Insertion
+          matrix[i - 1][j] + 1  // Deletion
+        );
+      }
+    }
+  }
+
+  return matrix[b.length][a.length];
+}
+
+function searchEvents() {
+  var searchTerm = document.getElementById("searchInput").value.toLowerCase();
+  var events = document.querySelectorAll(".col-md-4");
+
+  events.forEach(function (event) {
+    var eventName = event.querySelector("h4 a").innerText.toLowerCase();
+    var organizerName = event.querySelector(".organizer-name").innerText.toLowerCase();
+
+    // Retrieve the content of the hidden description paragraph using the added class
+    var hiddenDescriptionElement = event.querySelector(".hidden-description");
+    var description = hiddenDescriptionElement ? hiddenDescriptionElement.innerText.toLowerCase() : '';
+
+    // Check if the event name, organizer name, or description contains the search term or is similar within two letters
+    if (
+      eventName.includes(searchTerm) ||
+      organizerName.includes(searchTerm) ||
+      description.includes(searchTerm) ||
+      calculateLevenshteinDistance(eventName, searchTerm) <= 2 ||
+      calculateLevenshteinDistance(organizerName, searchTerm) <= 2 ||
+      calculateLevenshteinDistance(description, searchTerm) <= 2
+    ) {
+      event.style.display = "block";
+    } else {
+      event.style.display = "none";
+    }
+  });
+}
+
+
+
+// Fonction pour afficher ou masquer les sections en fonction de la catégorie sélectionnée
+function showContent(button) {
+  var category = button.getAttribute("data-category");
+  var contentSections = document.querySelectorAll(".content-section");
+  
+  contentSections.forEach(function(section) {
+    section.style.display = "none";
+  });
+
+  var selectedSection = document.getElementById("content-" + category);
+  selectedSection.style.display = "block";
+
+  var buttons = document.querySelectorAll(".btn");
+  buttons.forEach(function(btn) {
+    btn.classList.remove("active");
+  });
+
+  button.classList.add("active");
+}
+
+function redirectToDetailPage(eventId) {
+    // Construct the URL for the detail page using the event ID
+    var detailPageUrl = "/details_evenements/" + eventId;
+
+    // Redirect to the detail page
+    window.location.href = detailPageUrl;
+}
+
+
+// Définir l'état initial pour afficher la catégorie "Tous"
+document.getElementById("content-all").style.display = "block";
+document.querySelector(".btn[data-category='all']").classList.add("active");
+
+
+
+  </script>
+{% endblock %}

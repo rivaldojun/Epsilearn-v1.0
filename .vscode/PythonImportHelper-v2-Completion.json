@@ -3733,11 +3733,20 @@
         "documentation": {}
     },
     {
+        "label": "reclamations_list",
+        "kind": 2,
+        "importPath": "App.Admin.routes_reclamations",
+        "description": "App.Admin.routes_reclamations",
+        "peekOfCode": "def reclamations_list():\n    if session.get('admin')=='connect':\n        reclamations = Reclamation.query.filter_by().all()\n        n=vue()\n        return render_template('reclamations_list.html', reclamations=reclamations,n=n)\n    else:\n        return redirect(url_for('Main.connexion'))\n@AdminBp.route('/traiter_reclamation/<int:reclamation_id>', methods=['GET'])\ndef traiter_reclamation(reclamation_id):\n    if session.get('admin')=='connect':",
+        "detail": "App.Admin.routes_reclamations",
+        "documentation": {}
+    },
+    {
         "label": "traiter_reclamation",
         "kind": 2,
         "importPath": "App.Admin.routes_reclamations",
         "description": "App.Admin.routes_reclamations",
-        "peekOfCode": "def traiter_reclamation(reclamation_id):\n    if session.get('admin')=='connect':\n        reclamation = Reclamation.query.get_or_404(reclamation_id)\n        reclamation.traite = 'oui'\n        db.session.commit()\n        return redirect(url_for('Main.reclamations_non_traitees'))\n    else:\n        return redirect(url_for('Main.connexion'))\n@AdminBp.route('/other')\ndef other():",
+        "peekOfCode": "def traiter_reclamation(reclamation_id):\n    if session.get('admin')=='connect':\n        reclamation = Reclamation.query.get_or_404(reclamation_id)\n        reclamation.traite = 'oui'\n        db.session.commit()\n        return redirect(url_for('Admin.reclamations_non_traitees'))\n    else:\n        return redirect(url_for('Main.connexion'))\n@AdminBp.route('/other')\ndef other():",
         "detail": "App.Admin.routes_reclamations",
         "documentation": {}
     },
@@ -3800,7 +3809,7 @@
         "kind": 2,
         "importPath": "App.Admin.routes_tableau_de_bord",
         "description": "App.Admin.routes_tableau_de_bord",
-        "peekOfCode": "def dashboard():\n    if session.get('admin')=='connect':\n        nbuser=User.query.count()\n        prix_total = db.session.query(db.func.sum(Demande.prix)).filter(Demande.statut_payement.in_([\"payer\"])).scalar()\n        # nombre_demandes = db.session.query(Demande).filter(Demande.statut_demande.in_([\"accepte\", \"report_accepte\"])).count()\n        demande=Demande.query.count()\n        event=Evenement.query.count()\n        langue=AbonnementLangue.query.count()\n        nationalities_with_users = db.session.query(User.nationalite).distinct().all()\n        nationalities_list = [nationality[0] for nationality in nationalities_with_users]",
+        "peekOfCode": "def dashboard():\n    if session.get('admin')=='connect':\n        nbuser=User.query.count()\n        prix_total = db.session.query(db.func.sum(Demande.prix)).filter(Demande.statut_payement.in_([\"payer\"])).scalar()\n        if prix_total==None:\n            prix_total=0\n        # nombre_demandes = db.session.query(Demande).filter(Demande.statut_demande.in_([\"accepte\", \"report_accepte\"])).count()\n        demande=Demande.query.count()\n        event=Evenement.query.count()\n        langue=AbonnementLangue.query.count()",
         "detail": "App.Admin.routes_tableau_de_bord",
         "documentation": {}
     },
@@ -4511,7 +4520,7 @@
         "kind": 2,
         "importPath": "App.Cours.routes_cours",
         "description": "App.Cours.routes_cours",
-        "peekOfCode": "def accepte_demande1(demande_id,cd):\n    if request.method == 'DELETE':\n        demande = Demande.query.filter_by(id_demande=demande_id).first()\n        id_etud=demande.id_etudiant\n        etud=Etudiant.query.filter_by(id=id_etud).first()\n        etudiant=User.query.filter_by(id=etud.id_user_e).first()\n        if demande:\n            try:\n                demande.statut_demande=\"accepte\"\n                live=Live(date=demande.date1,id_moderateur=session.get(\"userid\"),id_demande=demande_id)",
+        "peekOfCode": "def accepte_demande1(demande_id,cd):\n    if request.method == 'DELETE':\n        demande = Demande.query.filter_by(id_demande=demande_id).first()\n        id_etud=demande.id_etudiant\n        print(id_etud)\n        etudiant=User.query.filter_by(id=id_etud).first()\n        if demande:\n            try:\n                demande.statut_demande=\"accepte\"\n                live=Live(date=demande.date1,id_moderateur=session.get(\"userid\"),id_demande=demande_id)",
         "detail": "App.Cours.routes_cours",
         "documentation": {}
     },
@@ -4943,7 +4952,16 @@
         "kind": 2,
         "importPath": "App.Main.routes_connexion",
         "description": "App.Main.routes_connexion",
-        "peekOfCode": "def connexion():\n    existing_admin = Admin.query.filter_by(mail=\"mohammedia14@casa.rabat\").first()\n    if not existing_admin:\n        a = Admin(mail=os.getenv(\"ADMIN_MAIL\"), mdp=os.getenv(\"ADMIN_PASS\"), superadmin=\"Oui\")\n        db.session.add(a)\n        db.session.commit()\n    # session.clear()\n    text=\"\"\n    if request.method == 'POST':\n        email = request.form['email']",
+        "peekOfCode": "def connexion():\n    existing_admin = Admin.query.filter_by(mail=os.getenv('ADMIN_MAIL')).first()\n    #Uniquement dans la phase de deve\n    if not existing_admin:\n        a = Admin(mail=os.getenv(\"ADMIN_MAIL\"), mdp=os.getenv(\"ADMIN_PASS\"), superadmin=\"Oui\")\n        db.session.add(a)\n        db.session.commit()\n    #end\n    text=\"\"\n    if request.method == 'POST':",
+        "detail": "App.Main.routes_connexion",
+        "documentation": {}
+    },
+    {
+        "label": "deconnexion",
+        "kind": 2,
+        "importPath": "App.Main.routes_connexion",
+        "description": "App.Main.routes_connexion",
+        "peekOfCode": "def deconnexion():\n    session.clear()\n    return redirect(url_for('Main.connexion'))\n#END CONNEXION PART",
         "detail": "App.Main.routes_connexion",
         "documentation": {}
     },
@@ -5015,7 +5033,7 @@
         "kind": 2,
         "importPath": "App.Main.routes_inscription",
         "description": "App.Main.routes_inscription",
-        "peekOfCode": "def role():\n    return render_template('role.html')\n@MainBp.route('/enregistrerprof', methods=['POST','GET'])\n@prof_login_required_AI\ndef enregistrerprof():\n    if request.method == 'POST':\n        try:\n            formation=request.form['formation']\n            niveau=request.form[\"Nvdetud\"]\n            filiere=request.form['filiere']",
+        "peekOfCode": "def role():\n    return render_template('role.html')\n@MainBp.route('/enregistrerprof', methods=['POST','GET'])\ndef enregistrerprof():\n    if request.method == 'POST':\n        try:\n            formation=request.form['formation']\n            niveau=request.form[\"Nvdetud\"]\n            filiere=request.form['filiere']\n            ecole=request.form['ecole']",
         "detail": "App.Main.routes_inscription",
         "documentation": {}
     },
@@ -5069,7 +5087,7 @@
         "kind": 2,
         "importPath": "App.Main.routes_meet",
         "description": "App.Main.routes_meet",
-        "peekOfCode": "def room(cd) :\n    groupe=None\n    demande=None\n    live=None\n    est_participant_ou_organisateur=None\n    st=None\n    warning_threshold = timedelta(minutes=15)\n    user_id=session.get('userid')\n    cours=Offre.query.filter_by(meet=cd).first()\n    souscriptions = SubscriptionOffre.query.filter_by(id_offre=cours.id,id_participant=user_id).first()",
+        "peekOfCode": "def room(cd) :\n    groupe=None\n    demande=None\n    live=None\n    est_participant_ou_organisateur=None\n    st=None\n    warning_threshold = timedelta(minutes=15)\n    user_id=session.get('userid')\n    cours=Offre.query.filter_by(meet=cd).first()\n    if cours:",
         "detail": "App.Main.routes_meet",
         "documentation": {}
     },
@@ -5407,6 +5425,15 @@
         "documentation": {}
     },
     {
+        "label": "submit_rating",
+        "kind": 2,
+        "importPath": "App.Main.routes_profil",
+        "description": "App.Main.routes_profil",
+        "peekOfCode": "def submit_rating(id_user,id_prof):\n    rating = request.json.get('rating')\n    print('ds',rating)\n    prof = Prof.query.filter_by(id=id_prof,valider=\"oui\").first()\n    try:\n        deja=NoteProf.query.filter_by(id_user_noteur=session.get('userid')).first() \n        if deja is None:\n            note=NoteProf(id_user_noteur=id_user,id_prof=id_prof,numbre_etoile=int(rating))\n            db.session.add(note)\n            prof.etoile=round(db.session.query(func.avg(NoteProf.numbre_etoile)).filter_by(id_prof=id_prof).scalar())",
+        "detail": "App.Main.routes_profil",
+        "documentation": {}
+    },
+    {
         "label": "listeprof",
         "kind": 2,
         "importPath": "App.Main.routes_profil",
@@ -5420,7 +5447,7 @@
         "kind": 2,
         "importPath": "App.Main.routes_reclamation",
         "description": "App.Main.routes_reclamation",
-        "peekOfCode": "def reclamation():  \n    user_id = session.get(\"userid\")\n    if request.method == \"POST\":\n        try:\n            contenu = request.form['contenu'] \n            # Créer une nouvelle réclamation dans la base de données\n            reclamation = Reclamation(user_id=user_id, contenu=contenu)\n            db.session.add(reclamation)\n            db.session.commit()\n            # Rediriger l'utilisateur vers une page de confirmation ou une autre page appropriée",
+        "peekOfCode": "def reclamation():  \n    user_id = session.get(\"userid\")\n    if request.method == \"POST\":\n        try:\n            contenu = request.form['contenu'] \n            reclamation = Reclamation(user_id=user_id, contenu=contenu)\n            db.session.add(reclamation)\n            db.session.commit()\n            return redirect(url_for('Main.confirmation_reclamation'))\n        except Exception as e:",
         "detail": "App.Main.routes_reclamation",
         "documentation": {}
     },
@@ -5456,7 +5483,7 @@
         "kind": 2,
         "importPath": "App.Main.routes_retrait",
         "description": "App.Main.routes_retrait",
-        "peekOfCode": "def tvaliderretrait(id):\n    if session.get('admin')=='connect':\n        dem = Retrait.query.get_or_404(id)\n        dem.statut = 'valide'\n        db.session.commit()\n        prof=Prof.query.filter_by(id=dem.id_demandeur).first()\n        prof.solde=prof.solde-dem.montant_retrait\n        db.session.commit()\n        return redirect(url_for('Main.demanderetrait'))\n    else:",
+        "peekOfCode": "def tvaliderretrait(id):\n    if session.get('admin')=='connect':\n        dem = Retrait.query.get_or_404(id)\n        dem.statut = 'valide'\n        db.session.commit()\n        prof=Prof.query.filter_by(id=dem.id_demandeur).first()\n        prof.solde=float(prof.solde)-float(dem.montant_retrait)\n        db.session.commit()\n        return redirect(url_for('Main.demanderetrait'))\n    else:",
         "detail": "App.Main.routes_retrait",
         "documentation": {}
     },
@@ -5501,7 +5528,7 @@
         "kind": 2,
         "importPath": "App.Main.routes_users",
         "description": "App.Main.routes_users",
-        "peekOfCode": "def get_professeurs():\n    if session.get('admin')=='connect':\n        try:\n            # Perform a join between the User and Prof tables to retrieve the data\n            joined_data = db.session.query(User.id,User.nom,User.mail, User.prenom,User.nationalite, Prof.discipline, Prof.formation, Prof.Nvdetud, Prof.Diplome, Prof.etoile,Prof.photo,Prof.valider,Prof.cv).\\\n                join(Prof, User.id == Prof.id_user_p,Prof.valider==\"oui\").all()\n            # Convert the data to a list of dictionaries\n            professeurs_list = []\n            for data in joined_data:\n                prof_dict = {",
+        "peekOfCode": "def get_professeurs():\n    if session.get('admin')=='connect':\n        try:\n            # Perform a join between the User and Prof tables to retrieve the data\n            joined_data = db.session.query(User.id,User.nom,User.mail, User.prenom,User.nationalite, Prof.discipline, Prof.formation, Prof.Nvdetud, Prof.Diplome, Prof.etoile,Prof.photo,Prof.valider,Prof.cv).\\\n                join(Prof, User.id == Prof.id_user_p).all()\n            # Convert the data to a list of dictionaries\n            professeurs_list = []\n            for data in joined_data:\n                prof_dict = {",
         "detail": "App.Main.routes_users",
         "documentation": {}
     },
@@ -5848,6 +5875,15 @@
         "documentation": {}
     },
     {
+        "label": "NoteProf",
+        "kind": 6,
+        "importPath": "App.Models.model_User",
+        "description": "App.Models.model_User",
+        "peekOfCode": "class NoteProf(db.Model):\n    id = db.Column(db.Integer, primary_key=True)\n    id_user= db.Column(db.Integer, db.ForeignKey('user.id'))\n    numbre_etoile=db.Column(db.Integer)\n@login_manager.user_loader\ndef load_user(user_id):\n    return User.get(user_id)",
+        "detail": "App.Models.model_User",
+        "documentation": {}
+    },
+    {
         "label": "load_user",
         "kind": 2,
         "importPath": "App.Models.model_User",
@@ -5970,6 +6006,15 @@
         "importPath": "App.Models.models",
         "description": "App.Models.models",
         "peekOfCode": "class Prof(db.Model):\n    id = db.Column(db.Integer, primary_key=True)\n    id_user_p = db.Column(db.Integer, db.ForeignKey('user.id'))\n    formation=db.Column(db.String(50))\n    Nvdetud=db.Column(db.String(50))\n    filiere=db.Column(db.String(50))\n    age=db.Column(db.Integer)\n    Diplome=db.Column(db.String(50))\n    discipline=db.Column(db.String(500))\n    valider=db.Column(db.String(50),default=\"non\")",
+        "detail": "App.Models.models",
+        "documentation": {}
+    },
+    {
+        "label": "NoteProf",
+        "kind": 6,
+        "importPath": "App.Models.models",
+        "description": "App.Models.models",
+        "peekOfCode": "class NoteProf(db.Model):\n    id = db.Column(db.Integer, primary_key=True)\n    id_user_noteur= db.Column(db.Integer, db.ForeignKey('user.id'))\n    id_prof= db.Column(db.Integer, db.ForeignKey('user.id'))\n    numbre_etoile=db.Column(db.Integer)\n# Table Demande\nclass Demande(db.Model):\n    id_demande = db.Column(db.Integer, primary_key=True)\n    id_prof = db.Column(db.Integer, db.ForeignKey('prof.id'))\n    id_live=db.Column(db.Integer, db.ForeignKey('live.id'))",
         "detail": "App.Models.models",
         "documentation": {}
     },

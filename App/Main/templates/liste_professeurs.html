@@ -126,49 +126,31 @@
     <div class="container row animate-element justify-content-center" data-animation="fadeInUp" style="animation-duration: 2s;scale: 1;" id="userCards" >
       <!-- Blocs des informations d'utilisateur seront insérés ici dynamiquement -->
       <div class="container">
+      <div class="row pb-5 mb-4">
       {% for user,users in professeurs %}
-      <div class="card col-md-3 user-card">
-      <div class="d-flex align-items-start mb-4">
-        <div class="flex-shrink-0">
-          <img src="{{user.photo}}"
-            alt="Generic placeholder image" class="img-fluid rounded-circle border border-dark border-3"
-            style="width: 70px;">
-        </div>
-        <div class="flex-grow-1 ms-3">
-          <p class="mb-0">{{users.nom}} {{users.prenom}}</p>
-          <ul class="mb-2 list-unstyled">
-            <li>
+      <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+        <!-- Card-->
+        <div class="card shadow-sm border-0 rounded">
+          <div class="card-body p-0"><img src="{{user.photo}}" alt="" class="w-100 card-img-top">
+            <div class="p-2">
+              <h5 class="mb-0">{{users.nom}} {{users.prenom}}</h5>
+              <p class="small text-muted">{{ user.nationalite }}</p>
+              <p class="mb-0" style="margin-bottom: 20px;">Discipline - {{user.discipline}}</p>
+              <p class="mb-0" style="margin-bottom: 20px;">Discipline - {{user.formation}}</p>
+              <p style="margin-bottom: 20px;"> {{user.vendervous[:50]}}...</p>
               <span class="stars">
                 {% for _ in range(user.etoile) %}
                   <i class="fas fa-star" style="color: gold;"></i>
                 {% endfor %}
               </span>
-            </li> 
-            <li class="ms-2">{{ user.nationalite }}</li>
-          </ul>
+              <br>
+              <button class="btn btn-outline-primary " onclick="window.location.href='/profilprof/{{user.id}}'">Voir profil</button>
+            </div>
+          </div>
         </div>
       </div>
-      <hr>
-      <div>
-
-        <p style="margin-bottom: 20px;"> {{user.vendervous}}</p>
-        
-    
-        <p class="mb-0" style="margin-bottom: 20px;">
-            <i class="fas fa-book discipline-icon"></i> Discipline :
-            {{user.discipline}}
-        </p>
-
-        <p class="mb-0">
-            <i class="fas fa-graduation-cap formation-icon"></i>
-            {{user.formation}}
-        </p>
-      <button class="choose-button" onclick="window.location.href='/profilprof/{{user.id}}'" style="background-color:blue">Voir profil</button>
-    </div>
-  </div>
-</div>
-
 {% endfor %}
+</div>
 </div>
     </div>
     <div class="navigation-buttons fixed-bottom" style="text-align: center; margin-top: 20px;bottom: 0px;">
@@ -185,7 +167,7 @@
   <script>
      let currentPage = 0;
     const panels = document.querySelectorAll('.card');
-    const panelsPerPage = 9;
+    const panelsPerPage = 3;
     const totalPages = Math.ceil(panels.length / panelsPerPage);
     const pageNumberElement = document.getElementById('pageNumber');
 
